@@ -1,2 +1,2 @@
 # ibcs
-Intelex Billiards Championship Series website d
+Intelex Billiards Championship Series website
