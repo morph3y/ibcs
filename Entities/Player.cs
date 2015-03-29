@@ -1,9 +1,7 @@
 ﻿namespace Entities
 {
-    public class User
+    public class Player : Subject
     {
-        public virtual int Id { get; set; }
-
         public virtual string UserName { get; set; }
         public virtual string Passsword { get; set; }
 

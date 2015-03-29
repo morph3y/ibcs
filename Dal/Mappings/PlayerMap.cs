@@ -3,13 +3,14 @@ using FluentNHibernate.Mapping;
 
 namespace Dal.Mappings
 {
-    internal sealed class UserMap : ClassMap<User>
+    internal sealed class PlayerMap : SubclassMap<Player>
     {
-        public UserMap()
+        public PlayerMap()
         {
-            Id(x => x.Id);
+            KeyColumn("Id");
+
             Map(x => x.UserName);
-            Map(x => x.Passsword);
+            Map(x => x.Passsword).Length(4001);
             Map(x => x.FirstName);
             Map(x => x.LastName);
         }

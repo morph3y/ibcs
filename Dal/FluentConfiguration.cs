@@ -2,30 +2,44 @@
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using NHibernate;
-using NHibernate.Cfg;
 using NHibernate.Tool.hbm2ddl;
 
 namespace Dal
 {
-    public static class FluentConfiguration
+    public class FluentConfiguration
     {
-        public static ISessionFactory GetSessionFactory()
+        private FluentConfiguration() { }
+
+        private static FluentConfiguration _instance;
+        public static FluentConfiguration Instance
+        {
+            get { return _instance ?? (_instance = new FluentConfiguration()); }
+        }
+
+
+        public FluentNHibernate.Cfg.FluentConfiguration GetConfiguration()
         {
             return Fluently.Configure()
                 .Database(
-                    MsSqlConfiguration.MsSql2008.ConnectionString(x=>x
+                    MsSqlConfiguration.MsSql2008.ConnectionString(x => x
                         .Server("LOCALHOST")
                         .Database("ibcs")
                         .Username("sa")
                         .Password("sa")))
-                .Mappings(x=>x.FluentMappings.AddFromAssembly(Assembly.GetExecutingAssembly()))
-                .ExposeConfiguration(GenerateSchema)
-                .BuildSessionFactory();
+                .Mappings(x => x.FluentMappings.AddFromAssembly(Assembly.GetExecutingAssembly()));
         }
 
-        private static void GenerateSchema(Configuration obj)
+        public ISessionFactory GetSessionFactory()
         {
-            new SchemaUpdate(obj).Execute(false, true);
+            return GetConfiguration().BuildSessionFactory();
+        }
+
+        private void ValidateOrCreateSchema()
+        {
+            GetConfiguration().ExposeConfiguration((config) =>
+            {
+                new SchemaUpdate(config).Execute(false, true);
+            });
         }
     }
 }
