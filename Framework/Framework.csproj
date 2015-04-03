@@ -55,6 +55,10 @@
       <Project>{25449F34-68E3-476A-B571-9F8889B6764C}</Project>
       <Name>Contracts</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Dal\Dal.csproj">
+      <Project>{253C4C01-F7CD-44BB-88E2-87867EA6F8A4}</Project>
+      <Name>Dal</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

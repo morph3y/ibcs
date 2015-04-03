@@ -12,8 +12,8 @@ namespace Dal.Mappings
                 .GeneratedBy.Identity();
 
             Map(x => x.Name);
-            Map(x => x.DateCreated);
-            Map(x => x.Deleted);
+            Map(x => x.DateCreated).Not.Nullable().Not.Insert().Not.Update().Default("getdate()");
+            Map(x => x.Deleted).Default("0");
         }
     }
 }

@@ -1,23 +1,13 @@
 ﻿using System.Reflection;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
-using NHibernate;
 using NHibernate.Tool.hbm2ddl;
 
 namespace Dal
 {
     public class FluentConfiguration
     {
-        private FluentConfiguration() { }
-
-        private static FluentConfiguration _instance;
-        public static FluentConfiguration Instance
-        {
-            get { return _instance ?? (_instance = new FluentConfiguration()); }
-        }
-
-
-        public FluentNHibernate.Cfg.FluentConfiguration GetConfiguration()
+        public static FluentNHibernate.Cfg.FluentConfiguration GetConfiguration()
         {
             return Fluently.Configure()
                 .Database(
@@ -26,20 +16,11 @@ namespace Dal
                         .Database("ibcs")
                         .Username("sa")
                         .Password("sa")))
-                .Mappings(x => x.FluentMappings.AddFromAssembly(Assembly.GetExecutingAssembly()));
-        }
-
-        public ISessionFactory GetSessionFactory()
-        {
-            return GetConfiguration().BuildSessionFactory();
-        }
-
-        private void ValidateOrCreateSchema()
-        {
-            GetConfiguration().ExposeConfiguration((config) =>
-            {
-                new SchemaUpdate(config).Execute(false, true);
-            });
+                .Mappings(x => x.FluentMappings.AddFromAssembly(Assembly.GetExecutingAssembly()))
+#if DEBUG
+                .ExposeConfiguration((config) => { new SchemaExport(config).Create(false, true); })
+#endif
+                ;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Business.IoC;
+using Dal.IoC;
 using Ninject;
 using Ninject.Modules;
 
@@ -16,8 +17,10 @@ namespace Framework
         public override void Load()
         {
             var businessResolver = new BusinessDependencyResolver(new DependencyBinder(_kernel));
+            var dalResolver = new DalDependencyResolver(new DependencyBinder(_kernel));
 
             businessResolver.Resolve();
+            dalResolver.Resolve();
         }
     }
 }

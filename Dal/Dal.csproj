@@ -42,6 +42,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -50,8 +51,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataAccess\DataAccessAdapter.cs" />
-    <Compile Include="DataAccess\NHibernateSession.cs" />
+    <Compile Include="DataAccess\DbSessionManager.cs" />
     <Compile Include="FluentConfiguration.cs" />
+    <Compile Include="IoC\DalDependencyResolver.cs" />
     <Compile Include="Mappings\PlayerMap.cs" />
     <Compile Include="Mappings\SubjectMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

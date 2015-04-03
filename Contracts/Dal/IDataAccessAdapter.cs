@@ -1,7 +1,15 @@
-﻿namespace Contracts.Dal
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+
+namespace Contracts.Dal
 {
     public interface IDataAccessAdapter
     {
-        IDatabaseSession GetSession();
+        void Save(object entity);
+
+        T Get<T>(object id) where T : class;
+        IEnumerable<T> Get<T>(Expression<Func<T, bool>> where) where T : class;
+        void Delete(object entity);
     }
 }

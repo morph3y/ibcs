@@ -41,8 +41,7 @@
   <ItemGroup>
     <Compile Include="Dal\IDataAccessAdapter.cs" />
     <Compile Include="Business\IObjectService.cs" />
-    <Compile Include="Dal\IDatabaseSession.cs" />
-    <Compile Include="Dal\IDatabaseTransaction.cs" />
+    <Compile Include="Dal\IDbSessionManager.cs" />
     <Compile Include="IoC\IDependencyBinder.cs" />
     <Compile Include="IoC\IDependencyResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
