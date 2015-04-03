@@ -16,7 +16,7 @@ namespace Dal
                         .Database("ibcs")
                         .Username("sa")
                         .Password("sa")))
-                .Mappings(x => x.FluentMappings.AddFromAssembly(Assembly.GetExecutingAssembly()))
+                .Mappings(x => x.FluentMappings.Conventions.AddAssembly(Assembly.GetExecutingAssembly()).AddFromAssembly(Assembly.GetExecutingAssembly()))
 #if DEBUG
                 .ExposeConfiguration((config) => { new SchemaExport(config).Create(false, true); })
 #endif
