@@ -5,16 +5,9 @@ namespace Web
 {
     public class CurrentSessionHttpModule : IHttpModule
     {
-        private readonly IDbSessionManager _sessionManager;
-
-        public CurrentSessionHttpModule(IDbSessionManager sessionManager)
-        {
-            _sessionManager = sessionManager;
-        }
-
         public void Init(HttpApplication context)
         {
-            context.EndRequest += (sesnder, e) => _sessionManager.Close();
+            context.EndRequest += (sesnder, e) => ((IDbSessionManager)(NinjectWebCommon.GetKernel().GetService(typeof(IDbSessionManager)))).Close();
         }
 
         public void Dispose()

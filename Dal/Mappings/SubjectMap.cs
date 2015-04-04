@@ -7,9 +7,7 @@ namespace Dal.Mappings
     {
         public SubjectMap()
         {
-            Id(x => x.Id)
-                .Not.Nullable()
-                .GeneratedBy.Identity();
+            Id(x => x.Id);
 
             Map(x => x.Name);
             Map(x => x.DateCreated).Not.Nullable().Not.Insert().Not.Update().Default("getdate()");
@@ -17,8 +15,6 @@ namespace Dal.Mappings
             HasManyToMany(x => x.ContestantIn).Cascade.All();
             HasMany(x => x.WinnerOf).Inverse().Cascade.AllDeleteOrphan();
             HasMany(x => x.ParticipantIn).Inverse().Cascade.AllDeleteOrphan();
-
-            UseUnionSubclassForInheritanceMapping();
         }
     }
 }

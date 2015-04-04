@@ -7,8 +7,6 @@ namespace Dal.Mappings
     {
         public PlayerMap()
         {
-            KeyColumn("Id");
-
             Map(x => x.UserName);
             Map(x => x.Passsword).Length(4001);
             Map(x => x.FirstName);

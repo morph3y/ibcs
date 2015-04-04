@@ -9,7 +9,7 @@ namespace Dal.Mappings
         {
             Id(x => x.Id);
             Map(x => x.Name);
-            Map(x => x.Order);
+            Map(x => x.Order).Column("[Order]");
 
             References(x => x.Tournament);
             HasMany(x => x.Games).Inverse().Cascade.AllDeleteOrphan();

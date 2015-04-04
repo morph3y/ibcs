@@ -15,6 +15,7 @@ namespace Web
     public static class NinjectWebCommon
     {
         private static readonly Bootstrapper Bootstrapper = new Bootstrapper();
+        private static IKernel _kernel;
 
         public static void Start()
         {
@@ -28,27 +29,36 @@ namespace Web
             Bootstrapper.ShutDown();
         }
 
+        public static IKernel GetKernel()
+        {
+            return _kernel;
+        }
+
         private static IKernel CreateKernel()
         {
-            var kernel = new StandardKernel();
+            if (_kernel == null)
+            {
+                _kernel = new StandardKernel();
+            }
+
             try
             {
-                kernel.Bind<Func<IKernel>>().ToMethod(ctx => () => new Bootstrapper().Kernel);
-                kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
+                _kernel.Bind<Func<IKernel>>().ToMethod(ctx => () => new Bootstrapper().Kernel);
+                _kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
 
-                RegisterServices(kernel);
-                return kernel;
+                RegisterServices();
+                return _kernel;
             }
             catch
             {
-                kernel.Dispose();
+                _kernel.Dispose();
                 throw;
             }
         }
 
-        private static void RegisterServices(IKernel kernel)
+        private static void RegisterServices()
         {
-            kernel.Load(new FrameworkInjectionModule(kernel));
+            _kernel.Load(new FrameworkInjectionModule(_kernel));
         }
     }
 }

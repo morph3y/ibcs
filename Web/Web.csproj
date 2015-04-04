@@ -132,17 +132,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\images\back.png" />
-    <Content Include="Content\images\bullet.png" />
     <Content Include="Content\images\footer.png" />
-    <Content Include="Content\images\graphic.png" />
-    <Content Include="Content\images\link.png" />
-    <Content Include="Content\images\search.png" />
-    <Content Include="Content\images\side_back.png" />
     <Content Include="Content\images\side_base.png" />
     <Content Include="Content\images\side_top.png" />
-    <Content Include="Content\images\tab.png" />
-    <Content Include="Content\images\tab_selected.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
