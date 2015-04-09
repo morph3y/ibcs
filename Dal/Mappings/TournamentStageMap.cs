@@ -11,7 +11,7 @@ namespace Dal.Mappings
             Map(x => x.Name);
             Map(x => x.Order).Column("[Order]");
 
-            References(x => x.Tournament);
+            References(x => x.Tournament).Nullable();
             HasMany(x => x.Games).Inverse().Cascade.AllDeleteOrphan();
         }
     }

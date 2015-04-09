@@ -1,0 +1,7 @@
+﻿.tournaments {
+    
+}
+
+    .tournaments .tournament {
+        border: 1px dashed red;
+    }

@@ -12,6 +12,6 @@ namespace Entities
 
         public virtual IList<Tournament> ContestantIn { get; set; }
         public virtual IList<Game> WinnerOf { get; set; }
-        public virtual IList<Game> ParticipantIn { get; set; } 
+        public virtual IList<Game> ParticipantIn { get; set; }
     }
 }

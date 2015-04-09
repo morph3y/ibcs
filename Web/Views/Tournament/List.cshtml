@@ -1,0 +1,17 @@
+﻿@model IEnumerable<Entities.Tournament>
+
+@section styles
+{
+    <link rel="stylesheet" type="text/css" href="~/Content/Tournament.css">
+}
+
+<div class="tournaments">
+    @foreach (var tournament in Model)
+    {
+        <div class="tournament">
+            <div class="header">
+                @tournament.Name
+            </div>
+        </div>
+    }
+</div>

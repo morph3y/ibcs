@@ -18,7 +18,7 @@ namespace Dal
                         .Password("sa")))
                 .Mappings(x => x.FluentMappings.Conventions.AddAssembly(Assembly.GetExecutingAssembly()).AddFromAssembly(Assembly.GetExecutingAssembly()))
 #if DEBUG
-                .ExposeConfiguration((config) => { new SchemaExport(config).Create(false, true); })
+                .ExposeConfiguration((config) => { new SchemaUpdate(config).Execute(false, true); })
 #endif
                 ;
         }

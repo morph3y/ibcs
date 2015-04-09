@@ -12,10 +12,10 @@ namespace Dal.Mappings
             Map(x => x.Participant1Score);
             Map(x => x.Participant2Score);
 
-            References(x => x.TournamentStage);
-            References(x => x.Participant1);
-            References(x => x.Participant2);
-            References(x => x.Winner);
+            References(x => x.TournamentStage).Nullable().Column("TournamentStage_id");
+            References(x => x.Participant1).Nullable().Column("Participant1_id");
+            References(x => x.Participant2).Nullable().Column("Participant2_id");
+            References(x => x.Winner).Nullable().Column("Winner_id");
         }
     }
 }

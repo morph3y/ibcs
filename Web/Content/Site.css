@@ -70,24 +70,6 @@ blockquote {
     background: #FFF;
 }
 
-ul {
-    margin: 2px 0 22px 17px;
-}
-
-    ul li {
-        margin: 0 0 6px 0;
-        padding: 0 0 4px 5px;
-        line-height: 1.5em;
-    }
-
-ol {
-    margin: 8px 0 22px 20px;
-}
-
-    ol li {
-        margin: 0 0 11px 0;
-    }
-
 /*******************************************
     DOCUMENT
 *******************************************/

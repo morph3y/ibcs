@@ -5,13 +5,21 @@
     <meta name="description" content="" />
     <meta name="keywords" content="" />
     <link rel="stylesheet" type="text/css" href="~/Content/Site.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/themes/humanity/jquery-ui.structure.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/themes/humanity/jquery-ui.theme.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/themes/humanity/jquery-ui.css"/>
+    @RenderSection("styles", false)
+
+    <script type="text/javascript" src="~/Scripts/modernizr-2.5.3.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery-1.11.2.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery-ui.js"></script>
 </head>
 <body>
     <div class="main">
         <header>
             <div class="logo">
                 <div class="text">
-                    <a href="#">Intelex Billiard Championship Series</a>
+                    @Html.ActionLink("Intelex Billiard Championship Series", "Index", "Home")
                 </div>
             </div>
             <ul>
@@ -20,7 +28,7 @@
                 <li class="selected"><a href="#">A Page</a></li>
                 <li><a href="#">Another Page</a></li>
                 <li><a href="#">Contact Us</a></li>
-                <li><a href="#">bla</a></li>
+                <li>@Html.ActionLink("Logout", "LogOff", "Profile")</li>
             </ul>
         </header>
         <div class="content">
@@ -50,6 +58,6 @@
         </footer>
     </div>
 
-    @RenderSection("scripts", required: false)
+    @RenderSection("scripts", false)
 </body>
 </html>

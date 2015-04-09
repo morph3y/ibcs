@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using Contracts.Business;
 using Contracts.Dal;
@@ -22,6 +23,11 @@ namespace Business
         public IEnumerable<T> Get<T>(Expression<Func<T, bool>> where) where T : class
         {
             return _dataAccessAdapter.Get(where);
+        }
+        
+        public T GetFirst<T>(Expression<Func<T, bool>> where) where T : class
+        {
+            return _dataAccessAdapter.Get(where).FirstOrDefault();
         }
     }
 }

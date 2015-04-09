@@ -8,5 +8,6 @@ namespace Contracts.Business
     {
         void Save(object entity);
         IEnumerable<T> Get<T>(Expression<Func<T, bool>> where) where T : class;
+        T GetFirst<T>(Expression<Func<T, bool>> where) where T : class;
     }
 }
