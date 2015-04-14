@@ -4,6 +4,7 @@ using Entities;
 
 namespace Web.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         private readonly IObjectService _objectService;
@@ -15,13 +16,6 @@ namespace Web.Controllers
 
         public ActionResult Index()
         {
-            _objectService.Save(new Player
-            {
-                FirstName = "bla"
-            });
-
-            var bla = _objectService.Get<Player>(x => x.FirstName == "bla");
-
             return View();
         }
 

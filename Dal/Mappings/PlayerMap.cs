@@ -7,8 +7,9 @@ namespace Dal.Mappings
     {
         public PlayerMap()
         {
-            Map(x => x.UserName);
-            Map(x => x.Passsword).Length(4001);
+            Map(x => x.UserName).Not.Nullable();
+            Map(x => x.Passsword).Length(4001).Not.Nullable();
+            Map(x => x.IsAdmin).ReadOnly().Default("0").Not.Nullable();
             Map(x => x.FirstName);
             Map(x => x.LastName);
         }

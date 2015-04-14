@@ -46,7 +46,10 @@
     <Compile Include="DependencyBinder.cs" />
     <Compile Include="FrameworkInjectionModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SessionManager.cs" />
     <Compile Include="Session\HttpContextSessionStorage.cs" />
+    <Compile Include="Session\NullSession.cs" />
+    <Compile Include="Session\PlayerSession.cs" />
     <Compile Include="Session\Session.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -61,6 +64,10 @@
     <ProjectReference Include="..\Dal\Dal.csproj">
       <Project>{253C4C01-F7CD-44BB-88E2-87867EA6F8A4}</Project>
       <Name>Dal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Entities\Entities.csproj">
+      <Project>{EAE7A33B-F29C-469A-9A1F-F8CA7C6C0525}</Project>
+      <Name>Entities</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

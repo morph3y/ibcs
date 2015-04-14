@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-
+﻿using System.Diagnostics;
 using Contracts.Framework;
 
 namespace Framework.Session
@@ -11,6 +9,7 @@ namespace Framework.Session
         static Session()
         {
             SessionStorage = new HttpContextSessionStorage<ISession>("ibcsISession");
+            Current = new NullSession();
         }
 
         public static ISession Current
@@ -18,7 +17,7 @@ namespace Framework.Session
             [DebuggerStepThrough]
             get { return SessionStorage.Get(); }
             [DebuggerStepThrough]
-            set { SessionStorage.Save(value); }
+            internal set { SessionStorage.Save(value); }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Entities
 {
@@ -15,14 +16,19 @@ namespace Entities
 
     public enum TournamentType
     {
+        [Description("League")]
         League = 1,
+        [Description("Single Elimination")]
         SingleElimination = 2
     }
 
     public enum TournamentStatus
     {
+        [Description("Registration")]
         Registration = 1,
+        [Description("Active")]
         Active = 2,
+        [Description("Closed")]
         Closed = 3
     }
 }

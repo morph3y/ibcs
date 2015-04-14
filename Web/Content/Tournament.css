@@ -3,5 +3,6 @@
 }
 
     .tournaments .tournament {
-        border: 1px dashed red;
+        list-style: none;
+        margin: 10px;
     }

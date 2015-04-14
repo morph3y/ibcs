@@ -5,13 +5,14 @@
     <link rel="stylesheet" type="text/css" href="~/Content/Tournament.css">
 }
 
+Current Tournaments: 
 <div class="tournaments">
     @foreach (var tournament in Model)
     {
-        <div class="tournament">
-            <div class="header">
-                @tournament.Name
-            </div>
-        </div>
+        <ul class="tournament">
+            <li>
+                @Html.ActionLink(tournament.Name, "Detail", new { controller = "Tournament", id = tournament.Id }) - @tournament.Status.ToString()
+            </li>
+        </ul>
     }
 </div>

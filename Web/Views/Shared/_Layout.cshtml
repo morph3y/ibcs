@@ -23,12 +23,21 @@
                 </div>
             </div>
             <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Examples</a></li>
-                <li class="selected"><a href="#">A Page</a></li>
+                <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                <li>@Html.ActionLink("Tournaments", "Index", "Tournament")</li>
+                <li><a href="#">A Page</a></li>
                 <li><a href="#">Another Page</a></li>
                 <li><a href="#">Contact Us</a></li>
-                <li>@Html.ActionLink("Logout", "LogOff", "Profile")</li>
+                <li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        @Html.ActionLink("Logout", "LogOff", "Profile")
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Logon", "Logon", "Profile")
+                    }
+                </li>
             </ul>
         </header>
         <div class="content">

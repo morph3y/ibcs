@@ -42,11 +42,16 @@
     <Compile Include="IoC\BusinessDependencyResolver.cs" />
     <Compile Include="ObjectService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TournamentService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Contracts\Contracts.csproj">
       <Project>{25449F34-68E3-476A-B571-9F8889B6764C}</Project>
       <Name>Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Entities\Entities.csproj">
+      <Project>{EAE7A33B-F29C-469A-9A1F-F8CA7C6C0525}</Project>
+      <Name>Entities</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -15,6 +15,7 @@ namespace Business.IoC
         public void Resolve()
         {
             _dependencyBinder.Bind<IObjectService, ObjectService>();
+            _dependencyBinder.Bind<ITournamentService, TournamentService>();
         }
     }
 }

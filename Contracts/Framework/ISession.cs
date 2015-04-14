@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Entities;
 
 namespace Contracts.Framework
 {
     public interface ISession
     {
-        bool IsLoggedIn { get; set; }
+        bool IsNullSession { get; set; }
+        Player Player { get; set; }
         bool IsAdmin();
     }
 }

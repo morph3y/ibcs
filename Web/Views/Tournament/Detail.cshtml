@@ -1,0 +1,12 @@
+﻿@model Entities.Tournament
+
+<div class="tournament-detail">
+    @{
+        var stageName = Model.Stages.LastOrDefault() == null ? "" : Model.Stages.Last().Name;
+    }
+
+    Name : @Model.Name <br/>
+    Stage : @stageName <br />
+    Status : @Model.Status.ToString() <br />
+    Format : @Model.TournamentType.ToString() <br />
+</div>
