@@ -6,10 +6,10 @@ namespace Framework.Session
 {
     internal sealed class PlayerSession : ISession
     {
-        private readonly Player _player;
+        private readonly int _playerId;
         public PlayerSession(Player player)
         {
-            _player = player;
+            _playerId = player.Id;
         }
 
         private bool _isNullSession;
@@ -19,15 +19,10 @@ namespace Framework.Session
             set { _isNullSession = false; }
         }
 
-        public Player Player
+        public int PlayerId
         {
-            get { return _player; }
+            get { return _playerId; }
             set { throw new NotSupportedException(); }
-        }
-
-        public bool IsAdmin()
-        {
-            return _player.IsAdmin;
         }
     }
 }

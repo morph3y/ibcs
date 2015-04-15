@@ -1,5 +1,4 @@
 ﻿using System.Web;
-using System.Web.SessionState;
 
 namespace Framework.Session
 {
@@ -18,32 +17,32 @@ namespace Framework.Session
                 Clear();
                 return;
             }
-            var context = HttpContext.Current.Session;
-            if (context == null)
+            var context = HttpContext.Current;
+            if (context == null || context.Session == null)
             {
                 return;
             }
-            context.Add(_key, state);
+            context.Session.Add(_key, state);
         }
 
         public void Clear()
         {
-            var context = HttpContext.Current.Session;
-            if (context == null)
+            var context = HttpContext.Current;
+            if (context == null || context.Session == null)
             {
                 return;
             }
-            context.Remove(_key);
+            context.Session.Remove(_key);
         }
 
         public T Get()
         {
-            var context = HttpContext.Current.Session;
-            if (context == null)
+            var context = HttpContext.Current;
+            if (context == null || context.Session == null)
             {
                 return default(T);
             }
-            return context[_key] as T;
+            return context.Session[_key] as T;
         }
     }
 }

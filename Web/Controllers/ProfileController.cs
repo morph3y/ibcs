@@ -67,7 +67,7 @@ namespace Web.Controllers
 
         public new ActionResult Profile()
         {
-            return View(Framework.Session.Session.Current.Player);
+            return View(_objectService.GetFirst<Player>(x=>x.Id == Framework.Session.Session.Current.PlayerId));
         }
 
         [AllowAnonymous]

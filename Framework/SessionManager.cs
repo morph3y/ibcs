@@ -34,7 +34,7 @@ namespace Framework
 
         private bool ValidateSession(ISession session, Player player)
         {
-            return player != null && !session.IsNullSession && session.Player != null && session.Player.Id == player.Id;
+            return player != null && !session.IsNullSession && session.PlayerId == player.Id;
         }
 
         private void CreateSession(Player player)

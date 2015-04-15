@@ -1,5 +1,6 @@
-﻿using Contracts.Framework;
-using Entities;
+﻿using System;
+
+using Contracts.Framework;
 
 namespace Framework.Session
 {
@@ -12,11 +13,10 @@ namespace Framework.Session
             set { _isNullSession = true; }
         }
 
-        private Player _player;
-        public Player Player
+        public int PlayerId
         {
-            get { return _player; }
-            set { _player = null; }
+            get { throw new NotSupportedException(); }
+            set { throw new NotSupportedException(); }
         }
 
         public bool IsAdmin()
