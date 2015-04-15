@@ -9,7 +9,7 @@ namespace Framework.Session
         static Session()
         {
             SessionStorage = new HttpContextSessionStorage<ISession>("ibcsISession");
-            Current = new NullSession();
+            SessionStorage.Save(new NullSession());
         }
 
         public static ISession Current

@@ -60,6 +60,7 @@ namespace Web.Controllers
         public ActionResult LogOff()
         {
             FormsAuthentication.SignOut();
+            _sessionManager.Destroy();
 
             return RedirectToAction("Index", "Home");
         }
@@ -67,6 +68,20 @@ namespace Web.Controllers
         public new ActionResult Profile()
         {
             return View(Framework.Session.Session.Current.Player);
+        }
+
+        [AllowAnonymous]
+        public void CreateAdmin()
+        {
+            _objectService.Save(new Player
+            {
+                FirstName = "Alex",
+                LastName = "Denysenko",
+                IsAdmin = true,
+                Name = "Alex Denysenko",
+                Passsword = "admin",
+                UserName = "admin"
+            });
         }
     }
 }

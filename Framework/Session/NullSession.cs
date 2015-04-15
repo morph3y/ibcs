@@ -5,7 +5,7 @@ namespace Framework.Session
 {
     internal sealed class NullSession : ISession
     {
-        private bool _isNullSession;
+        private bool _isNullSession = true;
         public bool IsNullSession
         {
             get { return _isNullSession; }
