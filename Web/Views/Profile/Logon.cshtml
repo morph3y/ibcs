@@ -4,11 +4,6 @@
     ViewBag.ReturnUrl = Request["ReturnUrl"];
 }
 
-@section styles
-{
-    <link type="text/css" rel="stylesheet" href="~/Content/Profile.css"/>
-}
-
 <div class="profile">
 @using (Html.BeginForm(null, null, new { ViewBag.ReturnUrl }, FormMethod.Post))
 {

@@ -131,6 +131,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\HtmlHelperExtensions.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -138,7 +139,6 @@
     <Content Include="Content\images\footer.png" />
     <Content Include="Content\images\side_base.png" />
     <Content Include="Content\images\side_top.png" />
-    <Content Include="Content\Profile.css" />
     <Content Include="Content\themes\humanity\images\ui-bg_flat_75_aaaaaa_40x100.png" />
     <Content Include="Content\themes\humanity\images\ui-bg_glass_100_f5f0e5_1x400.png" />
     <Content Include="Content\themes\humanity\images\ui-bg_glass_25_cb842e_1x400.png" />

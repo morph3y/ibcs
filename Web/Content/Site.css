@@ -70,6 +70,18 @@ blockquote {
     background: #FFF;
 }
 
+input[type=submit] {
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    margin: 8px 0 0 8px;
+    font-weight: bold;
+}
+
+input[type=submit]:hover {
+    text-decoration: underline;
+}
+
 /*******************************************
     DOCUMENT
 *******************************************/
@@ -191,3 +203,33 @@ blockquote {
             .main footer a:hover {
                 text-decoration: underline;
             }
+
+/*******************************************
+    Wrappers
+*******************************************/
+.field {
+    padding: 5px;
+}
+
+    .field label {
+        line-height: 2em;
+    }
+
+    .field .value input {
+        line-height: 1.5em;
+        outline: none;
+    }
+/*******************************************
+    Validation
+*******************************************/
+.profile .validation {
+    padding: 10px;
+}
+
+    .profile .validation ul {
+        list-style: none;
+    }
+
+    .profile .validation li {
+        font-weight: bold;
+    }

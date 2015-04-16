@@ -1,6 +1,10 @@
-﻿@model Entities.Player
+﻿@using Entities;
+@using Web.Infrastructure
+@model Player
 
 <div>
-    <label>First name:</label>
-    <span>@Model.FirstName</span>
+    @Html.FieldFor((Player x) => x.FirstName)
+    @Html.FieldFor((Player x) => x.LastName)
+    @Html.FieldFor((Player x) => x.Name)
+    @Html.FieldFor((Player x) => x.UserName)
 </div>
