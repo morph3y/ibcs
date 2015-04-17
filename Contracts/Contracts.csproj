@@ -43,8 +43,6 @@
     <Compile Include="Dal\IDataAccessAdapter.cs" />
     <Compile Include="Business\IObjectService.cs" />
     <Compile Include="Dal\IDbSessionManager.cs" />
-    <Compile Include="Framework\ISession.cs" />
-    <Compile Include="Framework\ISessionManager.cs" />
     <Compile Include="IoC\IDependencyBinder.cs" />
     <Compile Include="IoC\IDependencyResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,8 +1,9 @@
 ﻿using System.Web.Mvc;
 using System.Web.Security;
 using Contracts.Business;
-using Contracts.Framework;
 using Entities;
+using Framework.Session;
+using Web.Infrastructure;
 using Web.Models;
 
 namespace Web.Controllers
@@ -11,11 +12,9 @@ namespace Web.Controllers
     public class ProfileController : Controller
     {
         private readonly IObjectService _objectService;
-        private readonly ISessionManager _sessionManager;
-        public ProfileController(IObjectService objectService, ISessionManager sessionManager)
+        public ProfileController(IObjectService objectService)
         {
             _objectService = objectService;
-            _sessionManager = sessionManager;
         }
 
         [AllowAnonymous]
@@ -43,8 +42,7 @@ namespace Web.Controllers
                     return View(model);
                 }
 
-                _sessionManager.CreateOrValidate(player);
-                FormsAuthentication.SetAuthCookie(model.UserName, true);
+                Response.Cookies.Add(CookieManager.CreateCookie(new PlayerPrincipal(player.UserName) { Id = player.Id }));
                 if (Url.IsLocalUrl(returnUrl))
                 {
                     return Redirect(returnUrl);
@@ -60,14 +58,12 @@ namespace Web.Controllers
         public ActionResult LogOff()
         {
             FormsAuthentication.SignOut();
-            _sessionManager.Destroy();
-
             return RedirectToAction("Index", "Home");
         }
 
         public new ActionResult Profile()
         {
-            return View(_objectService.GetFirst<Player>(x=>x.Id == Framework.Session.Session.Current.PlayerId));
+            return View(_objectService.GetFirst<Player>(x => x.Id == Framework.Session.Session.Current.Id));
         }
 
         [AllowAnonymous]

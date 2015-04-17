@@ -1,23 +1,16 @@
 ﻿using System.Diagnostics;
-using Contracts.Framework;
+using System.Web;
 
 namespace Framework.Session
 {
     public static class Session
     {
-        private static readonly HttpContextSessionStorage<ISession> SessionStorage;
-        static Session()
-        {
-            SessionStorage = new HttpContextSessionStorage<ISession>("ibcsISession");
-            SessionStorage.Save(new NullSession());
-        }
-
-        public static ISession Current
+        public static PlayerPrincipal Current
         {
             [DebuggerStepThrough]
-            get { return SessionStorage.Get(); }
+            get { return (PlayerPrincipal) HttpContext.Current.User; }
             [DebuggerStepThrough]
-            internal set { SessionStorage.Save(value); }
+            internal set { HttpContext.Current.User = value; }
         }
     }
 }

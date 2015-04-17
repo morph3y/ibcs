@@ -7,13 +7,6 @@ namespace Web.Controllers
     [AllowAnonymous]
     public class HomeController : Controller
     {
-        private readonly IObjectService _objectService;
-
-        public HomeController(IObjectService objectService)
-        {
-            _objectService = objectService;
-        }
-
         public ActionResult Index()
         {
             return View();

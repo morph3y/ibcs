@@ -1,5 +1,4 @@
 ﻿using Business.IoC;
-using Contracts.Framework;
 using Dal.IoC;
 using Ninject;
 using Ninject.Modules;
@@ -17,8 +16,6 @@ namespace Framework
 
         public override void Load()
         {
-            _kernel.Bind<ISessionManager>().To<SessionManager>();
-
             var businessResolver = new BusinessDependencyResolver(new DependencyBinder(_kernel));
             var dalResolver = new DalDependencyResolver(new DependencyBinder(_kernel));
 
