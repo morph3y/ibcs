@@ -2,9 +2,11 @@
 @using Web.Infrastructure
 @model Player
 
-<div>
+@using (Html.BeginForm())
+{
     @Html.FieldFor((Player x) => x.FirstName)
     @Html.FieldFor((Player x) => x.LastName)
     @Html.FieldFor((Player x) => x.Name)
-    @Html.FieldFor((Player x) => x.UserName)
-</div>
+
+    <input type="submit" value="Save" />
+}

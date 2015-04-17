@@ -10,5 +10,10 @@ namespace Entities
 
         public virtual Tournament Tournament { get; set; }
         public virtual IList<Game> Games { get; set; }
+
+        public TournamentStage()
+        {
+            Games = new List<Game>();
+        }
     }
 }

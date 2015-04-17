@@ -27,7 +27,7 @@
                 <li>@Html.ActionLink("Tournaments", "Index", "Tournament")</li>
                 <li><a href="#">A Page</a></li>
                 <li><a href="#">Another Page</a></li>
-                <li><a href="#">Contact Us</a></li>
+                <li>@Html.ActionLink("Profile", "Profile", "Profile")</li>
                 <li>
                     @if (User.Identity.IsAuthenticated)
                     {

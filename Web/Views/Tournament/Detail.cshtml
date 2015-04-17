@@ -5,8 +5,29 @@
         var stageName = Model.Stages.LastOrDefault() == null ? "" : Model.Stages.Last().Name;
     }
 
-    Name : @Model.Name <br/>
+    Name : @Model.Name <br />
     Stage : @stageName <br />
     Status : @Model.Status.ToString() <br />
     Format : @Model.TournamentType.ToString() <br />
+    
+    @{
+        if (!User.Identity.IsAuthenticated)
+        {
+            @Html.Raw("</div>");
+            return;
+        }
+    }
+    
+    @{
+        var currentUserId = Framework.Session.Session.Current.Id;
+        var inTournament = Model.Contestants.Any(x => x.Id == currentUserId);
+    }
+
+    You are @((inTournament) ? "" : "not ") registered.
+    @{
+        if (!inTournament)
+        {
+            @Html.ActionLink("Register", "Register", new { tournamentId = Model.Id, contestantId = currentUserId });
+        }
+    }
 </div>

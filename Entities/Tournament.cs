@@ -12,6 +12,12 @@ namespace Entities
 
         public virtual IList<Subject> Contestants { get; set; }
         public virtual IList<TournamentStage> Stages { get; set; }
+
+        public Tournament()
+        {
+            Stages = new List<TournamentStage>();
+            Contestants = new List<Subject>();
+        }
     }
 
     public enum TournamentType

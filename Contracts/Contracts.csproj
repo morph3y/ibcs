@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Business\ITournamentService.cs" />
+    <Compile Include="Business\ITournamentStageService.cs" />
     <Compile Include="Dal\IDataAccessAdapter.cs" />
     <Compile Include="Business\IObjectService.cs" />
     <Compile Include="Dal\IDbSessionManager.cs" />

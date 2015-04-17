@@ -7,5 +7,8 @@ namespace Contracts.Business
     {
         IEnumerable<Tournament> GetList();
         Tournament Get(int id);
+        void Save(Tournament tournament);
+        void Create(Tournament entity);
+        void AddContestant(Subject contestant, Tournament tournament);
     }
 }

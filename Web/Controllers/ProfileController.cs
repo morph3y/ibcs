@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using System.Web.Routing;
 using System.Web.Security;
 using Contracts.Business;
 using Entities;
@@ -64,6 +65,15 @@ namespace Web.Controllers
         public new ActionResult Profile()
         {
             return View(_objectService.GetFirst<Player>(x => x.Id == Framework.Session.Session.Current.Id));
+        }
+
+        [HttpPost]
+        public ActionResult Profile(Player player)
+        {
+            player = _objectService.GetFirst<Player>(x => x.Id == Framework.Session.Session.Current.Id);
+            TryUpdateModel(player);
+            _objectService.Save(player);
+            return RedirectToAction("Profile");
         }
 
         [AllowAnonymous]

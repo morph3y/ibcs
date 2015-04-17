@@ -13,7 +13,7 @@ namespace Dal.Mappings
             Map(x => x.Status);
 
             HasMany(x => x.Stages).Cascade.AllDeleteOrphan();
-            HasManyToMany(x => x.Contestants).Inverse().Cascade.AllDeleteOrphan();
+            HasManyToMany(x => x.Contestants).Cascade.AllDeleteOrphan();
         }
     }
 }

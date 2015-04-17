@@ -12,7 +12,7 @@ namespace Dal.Mappings
             Map(x => x.Name);
             Map(x => x.DateCreated).Not.Nullable().Not.Insert().Not.Update().Default("getdate()");
             Map(x => x.Deleted).Default("0");
-            HasManyToMany(x => x.ContestantIn).Cascade.All();
+            HasManyToMany(x => x.ContestantIn).Inverse().Cascade.All();
         }
     }
 }
