@@ -133,6 +133,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\CookieManager.cs" />
+    <Compile Include="Infrastructure\GenericDataContractJsonSerializer.cs" />
     <Compile Include="Infrastructure\HtmlHelperExtensions.cs" />
     <Compile Include="Infrastructure\PrincipalModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
@@ -165,6 +166,8 @@
     <Content Include="Scripts\jquery-1.11.2.js" />
     <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
+    <Content Include="Scripts\System\Bracket\System.Bracket.js" />
+    <Content Include="Scripts\System\System.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -229,6 +232,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Profile\Profile.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Tournament\Bracket.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

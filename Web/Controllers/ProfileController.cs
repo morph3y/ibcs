@@ -67,7 +67,7 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Profile(Player player)
+        public new ActionResult Profile(Player player)
         {
             player = _objectService.GetFirst<Player>(x => x.Id == Framework.Session.Session.Current.Id);
             TryUpdateModel(player);

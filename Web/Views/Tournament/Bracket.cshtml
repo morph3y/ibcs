@@ -1,0 +1,13 @@
+﻿@using Entities
+@using Web.Infrastructure
+@model Tournament
+
+@section scripts
+{
+    <script type="text/javascript" src="~/Scripts/System/Bracket/System.Bracket.js"></script>
+}
+
+@section onReady
+{
+    (new System.Bracket(@{ new GenericDataContractJsonSerializer<Tournament>().Serialize(Model); })).init();
+}

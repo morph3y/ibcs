@@ -31,6 +31,11 @@ namespace Web.Controllers
             return View(_tournamentService.Get(id));
         }
 
+        public ActionResult Bracket(int id)
+        {
+            return View(_tournamentService.Get(id));
+        }
+
         public ActionResult Register(int tournamentId, int contestantId)
         {
             var tournament = _tournamentService.Get(tournamentId);
