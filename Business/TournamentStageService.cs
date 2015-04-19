@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Contracts.Business;
@@ -17,10 +18,11 @@ namespace Business
                 // for now just the league
                 var stage = new TournamentStage
                 {
-                    Tournament = tournament,
-                    Name = "Round robin",
+                    Tournament = tournament, 
+                    Name = "Round robin", 
                     Order = 1
                 };
+
                 GenerateGames(stage);
                 return stage;
             }

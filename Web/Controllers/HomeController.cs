@@ -1,6 +1,4 @@
 ﻿using System.Web.Mvc;
-using Contracts.Business;
-using Entities;
 
 namespace Web.Controllers
 {

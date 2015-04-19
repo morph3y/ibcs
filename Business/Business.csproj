@@ -39,7 +39,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CartesianProduct.cs" />
     <Compile Include="IoC\BusinessDependencyResolver.cs" />
     <Compile Include="ObjectService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
