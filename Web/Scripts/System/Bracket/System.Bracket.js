@@ -3,8 +3,8 @@
 System.Bracket = function(model) {
     var self = this;
 
-    self.init = function() {
-        alert(model.bla);
+    self.init = function () {
+        debugger;
     };
 
     return self;

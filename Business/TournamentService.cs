@@ -34,7 +34,7 @@ namespace Business
         public void Create(Tournament entity)
         {
             entity.Status = TournamentStatus.Registration;
-            entity.Stages.Add(_stageService.CreateFirstStage(entity));
+            entity.Stages.Add(_stageService.CreateStages(entity));
         }
 
         public void AddContestant(Subject contestant, Tournament tournament)
@@ -42,7 +42,7 @@ namespace Business
             // if tournament is new add a stage first
 
             tournament.Contestants.Add(contestant);
-            _stageService.GenerateGames(tournament.Stages.OrderBy(x=>x.Order).Last());
+            _stageService.GenerateGames(tournament);
         }
     }
 }

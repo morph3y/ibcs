@@ -136,6 +136,13 @@
     <Compile Include="Infrastructure\GenericDataContractJsonSerializer.cs" />
     <Compile Include="Infrastructure\HtmlHelperExtensions.cs" />
     <Compile Include="Infrastructure\PrincipalModel.cs" />
+    <Compile Include="Models\Dto\DtoBuilder.cs" />
+    <Compile Include="Models\Dto\GameDto.cs" />
+    <Compile Include="Models\Dto\PlayerDto.cs" />
+    <Compile Include="Models\Dto\SubjectDto.cs" />
+    <Compile Include="Models\Dto\TeamDto.cs" />
+    <Compile Include="Models\Dto\TournamentDto.cs" />
+    <Compile Include="Models\Dto\TournamentStageDto.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -1,5 +1,6 @@
 ﻿@using Entities
 @using Web.Infrastructure
+@using Web.Models.Dto
 @model Tournament
 
 @section scripts
@@ -9,5 +10,5 @@
 
 @section onReady
 {
-    (new System.Bracket(@{ new GenericDataContractJsonSerializer<Tournament>().Serialize(Model); })).init();
+    (new System.Bracket(@Html.Raw(new GenericDataContractJsonSerializer<TournamentDto>().Serialize(DtoBuilder.BuildTournament(Model))))).init();
 }
