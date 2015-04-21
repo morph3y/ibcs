@@ -16,7 +16,6 @@ namespace Business.IoC
         {
             _dependencyBinder.Bind<IObjectService, ObjectService>();
             _dependencyBinder.Bind<ITournamentService, TournamentService>();
-            _dependencyBinder.Bind<ITournamentStageService, TournamentStageService>();
         }
     }
 }

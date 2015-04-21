@@ -14,6 +14,28 @@ namespace Entities
         public virtual IList<Game> WinnerOf { get; set; }
         public virtual IList<Game> ParticipantIn { get; set; }
 
+        [Obsolete("Do not use this its hacky")]
         public virtual Subject Self { get { return this; } }
+
+        public override int GetHashCode()
+        {
+            return ("" + Id.GetHashCode() + (Name ?? string.Empty).GetHashCode() + DateCreated.GetHashCode() + "").GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (this == obj)
+            {
+                return true;
+            }
+
+            var item = obj as Subject;
+            if (item == null)
+            {
+                return false;
+            }
+
+            return Id.Equals(item.Id) && (Name != null ? Name.Equals(item.Name) : item.Name == null) && DateCreated.Equals(item.DateCreated) && Deleted.Equals(item.Deleted);
+        }
     }
 }

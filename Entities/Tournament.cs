@@ -18,6 +18,27 @@ namespace Entities
             Stages = new List<TournamentStage>();
             Contestants = new List<Subject>();
         }
+
+        public override int GetHashCode()
+        {
+            return ("" + Id.GetHashCode() + (Name ?? string.Empty).GetHashCode() + Status.GetHashCode() + TournamentType.GetHashCode() + "").GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (this == obj)
+            {
+                return true;
+            }
+
+            var item = obj as Tournament;
+            if (item == null)
+            {
+                return false;
+            }
+
+            return Id.Equals(item.Id) && (Name != null ? Name.Equals(item.Name) : item.Name == null) && Status.Equals(item.Status) && TournamentType.Equals(item.TournamentType);
+        }
     }
 
     public enum TournamentType

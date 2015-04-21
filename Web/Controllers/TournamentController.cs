@@ -85,6 +85,14 @@ namespace Web.Controllers
                 Passsword = "a"
             }, trn);
 
+            _tournamentService.AddContestant(new Player
+            {
+                FirstName = "e",
+                LastName = "f",
+                UserName = "d",
+                Passsword = "a"
+            }, trn);
+
             _tournamentService.Save(trn);
         }
     }

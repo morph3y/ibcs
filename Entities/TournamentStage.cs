@@ -15,5 +15,27 @@ namespace Entities
         {
             Games = new List<Game>();
         }
+
+        public override int GetHashCode()
+        {
+            return ("" + Id.GetHashCode() + (Name ?? string.Empty).GetHashCode() + Order.GetHashCode() + (Tournament != null ? Tournament.GetHashCode() : 0) + "").GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (this == obj)
+            {
+                return true;
+            }
+
+            var item = obj as TournamentStage;
+            if (item == null)
+            {
+                return false;
+            }
+
+            return Id.Equals(item.Id) && (Name != null ? Name.Equals(item.Name) : item.Name == null) && Order.Equals(item.Order) && 
+                (Tournament != null ? Tournament.Equals(item.Tournament) : item.Tournament == null);
+        }
     }
 }
