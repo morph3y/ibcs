@@ -147,6 +147,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Bracket\Builders\System.Bracket.Builders.LeagueBuilder.css" />
     <Content Include="Content\Bracket\Builders\System.Bracket.Builders.LeagueSummary.css" />
     <Content Include="Content\Bracket\Builders\System.Bracket.Builders.StageBuilder.css" />
     <Content Include="Content\images\footer.png" />

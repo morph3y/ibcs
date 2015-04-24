@@ -89,7 +89,8 @@ namespace Business
                         stageToSubject.Add(stage, new HashSet<Subject>());
                     }
 
-                    if (!stageToSubject[stage].Contains(game.Participant1) && !stageToSubject[stage].Contains(game.Participant2))
+                    if (!stageToSubject[stage].Contains(game.Participant1) &&
+                        !stageToSubject[stage].Contains(game.Participant2))
                     {
                         stage.Games.Add(game);
                         stageToSubject[stage].Add(game.Participant1);
@@ -119,8 +120,11 @@ namespace Business
                     stageToSubject[stageInQuestion].Add(game.Participant2);
                 }
             }
-
-            tournament.Stages = stages;
+            tournament.Stages.Clear();
+            foreach (var tournamentStage in stages)
+            {
+                tournament.Stages.Add(tournamentStage);
+            }
         }
     }
 }
