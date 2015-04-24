@@ -15,6 +15,8 @@ namespace Web.Models.Dto
         public virtual TournamentStatus Status { get; set; }
         [DataMember(Name = "type")]
         public virtual TournamentType TournamentType { get; set; }
+        [DataMember(Name = "isRanked")]
+        public virtual bool IsRanked { get; set; }
 
         [DataMember(Name = "stages")]
         public virtual IList<TournamentStageDto> Stages { get; set; }

@@ -9,6 +9,7 @@ namespace Entities
         public virtual string Name { get; set; }
         public virtual TournamentStatus Status { get; set; }
         public virtual TournamentType TournamentType { get; set; }
+        public virtual bool IsRanked { get; set; }
 
         public virtual IList<Subject> Contestants { get; set; }
         public virtual IList<TournamentStage> Stages { get; set; }

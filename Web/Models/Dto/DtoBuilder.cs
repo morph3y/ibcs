@@ -14,7 +14,10 @@ namespace Web.Models.Dto
                 Name = tournament.Name,
                 Status = tournament.Status,
                 TournamentType = tournament.TournamentType,
-                Stages = new List<TournamentStageDto>()
+                Stages = new List<TournamentStageDto>(),
+                IsRanked = tournament.IsRanked,
+                PointsForTie = tournament.PointsForTie,
+                PointsForWin = tournament.PointsForWin
             };
 
             foreach (var stage in tournament.Stages)

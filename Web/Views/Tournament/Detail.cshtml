@@ -1,8 +1,9 @@
-﻿@model Entities.Tournament
+﻿@using Entities
+@model Tournament
 
 <div class="tournament-detail">
     @{
-        var stageName = Model.Stages.LastOrDefault() == null ? "" : Model.Stages.Last().Name;
+        var stageName = Model.TournamentType == TournamentType.League ? "Main" : Model.Stages.LastOrDefault() == null ? "" : Model.Stages.Last().Name;
     }
 
     Name : @Model.Name <br />
@@ -23,11 +24,13 @@
         var inTournament = Model.Contestants.Any(x => x.Id == currentUserId);
     }
 
-    You are @((inTournament) ? "" : "not ") registered.
+    You are @((inTournament) ? "" : "not") registered.
     @{
         if (!inTournament)
         {
             @Html.ActionLink("Register", "Register", new { tournamentId = Model.Id, contestantId = currentUserId });
         }
     }
+
+    @Html.ActionLink("View standings", "Bracket", new { id = Model.Id })
 </div>
