@@ -104,7 +104,7 @@ namespace Business
                     var stageInQuestion = new TournamentStage
                     {
                         Order = stages.Count,
-                        Name = "Stage " + stages.Count,
+                        Name = "Stage " + (stages.Count + 1),
                         Tournament = tournament
                     };
 

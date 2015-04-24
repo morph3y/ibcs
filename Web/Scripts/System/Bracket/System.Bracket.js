@@ -1,10 +1,13 @@
 ﻿registerNamespace("System.Bracket");
 
-System.Bracket = function(model) {
+System.Bracket = function (model) {
     var self = this;
 
-    self.init = function () {
-        debugger;
+    self.model = model;
+
+    self.init = function (wrapper) {
+        var builder = System.Bracket.BuilderFactory.get(self.model);
+        builder.render(wrapper);
     };
 
     return self;

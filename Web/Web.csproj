@@ -147,6 +147,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Bracket\Builders\System.Bracket.Builders.LeagueSummary.css" />
+    <Content Include="Content\Bracket\Builders\System.Bracket.Builders.StageBuilder.css" />
     <Content Include="Content\images\footer.png" />
     <Content Include="Content\images\side_base.png" />
     <Content Include="Content\images\side_top.png" />
@@ -173,6 +175,10 @@
     <Content Include="Scripts\jquery-1.11.2.js" />
     <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
+    <Content Include="Scripts\System\Bracket\Builders\System.Bracket.Builders.LeagueBuilder.js" />
+    <Content Include="Scripts\System\Bracket\Builders\System.Bracket.Builders.LeagueSummary.js" />
+    <Content Include="Scripts\System\Bracket\Builders\System.Bracket.Builders.StageBuilder.js" />
+    <Content Include="Scripts\System\Bracket\System.Bracket.BuilderFactory.js" />
     <Content Include="Scripts\System\Bracket\System.Bracket.js" />
     <Content Include="Scripts\System\System.js" />
     <Content Include="Web.config" />

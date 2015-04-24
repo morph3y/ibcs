@@ -64,33 +64,33 @@ namespace Web.Controllers
             _tournamentService.AddContestant(new Player
             {
                 FirstName = "a",
-                LastName = "b",
+                LastName = "a",
                 UserName = "a",
                 Passsword = "a"
             }, trn);
 
             _tournamentService.AddContestant(new Player
             {
-                FirstName = "c",
-                LastName = "d",
+                FirstName = "b",
+                LastName = "b",
                 UserName = "b",
-                Passsword = "a"
+                Passsword = "b"
             }, trn);
 
             _tournamentService.AddContestant(new Player
             {
-                FirstName = "e",
-                LastName = "f",
+                FirstName = "c",
+                LastName = "c",
                 UserName = "c",
-                Passsword = "a"
+                Passsword = "c"
             }, trn);
 
             _tournamentService.AddContestant(new Player
             {
-                FirstName = "e",
-                LastName = "f",
-                UserName = "d",
-                Passsword = "a"
+                FirstName = "c",
+                LastName = "c",
+                UserName = "c",
+                Passsword = "c"
             }, trn);
 
             _tournamentService.Save(trn);

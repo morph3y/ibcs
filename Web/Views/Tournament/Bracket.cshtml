@@ -3,12 +3,24 @@
 @using Web.Models.Dto
 @model Tournament
 
+@section styles
+{
+   <link rel="stylesheet" type="text/css" href="~/Content/Bracket/Builders/System.Bracket.Builders.LeagueBuilder.css"/>
+    <link rel="stylesheet" type="text/css" href="~/Content/Bracket/Builders/System.Bracket.Builders.LeagueSummary.css"/>
+    <link rel="stylesheet" type="text/css" href="~/Content/Bracket/Builders/System.Bracket.Builders.StageBuilder.css" />
+}
+
 @section scripts
 {
     <script type="text/javascript" src="~/Scripts/System/Bracket/System.Bracket.js"></script>
+    <script type="text/javascript" src="~/Scripts/System/Bracket/System.Bracket.BuilderFactory.js"></script>
+    <script type="text/javascript" src="~/Scripts/System/Bracket/Builders/System.Bracket.Builders.LeagueBuilder.js"></script>
+    <script type="text/javascript" src="~/Scripts/System/Bracket/Builders/System.Bracket.Builders.LeagueSummary.js"></script>
+    <script type="text/javascript" src="~/Scripts/System/Bracket/Builders/System.Bracket.Builders.StageBuilder.js"></script>
 }
 
+<div class="bracket"> </div>
 @section onReady
 {
-    (new System.Bracket(@Html.Raw(new GenericDataContractJsonSerializer<TournamentDto>().Serialize(DtoBuilder.BuildTournament(Model))))).init();
+    (new System.Bracket(@Html.Raw(new GenericDataContractJsonSerializer<TournamentDto>().Serialize(DtoBuilder.BuildTournament(Model))))).init($('.bracket'));
 }

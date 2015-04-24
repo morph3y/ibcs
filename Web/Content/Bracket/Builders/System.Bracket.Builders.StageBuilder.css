@@ -1,0 +1,32 @@
+﻿.game-wrapper {
+    display: inline-block;
+    background-color: #151D26;
+    border-radius: 5px;
+    margin: 10px 30px;
+    min-width: 250px;
+}
+
+    .game-wrapper .player-tag,
+    .game-wrapper .player-score {
+        display: inline-block;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        color: #F2F2F2;
+        padding: 8px;
+        vertical-align: top;
+    }
+
+    .game-wrapper .player-tag {
+        width: 72%;
+    }
+
+    .game-wrapper .player-score {
+        width: 15%;
+        border-left: 1px solid #F2F2F2;
+        text-align: center;
+    }
+
+    .game-wrapper .player1-wrapper .player-tag,
+    .game-wrapper .player1-wrapper .player-score {
+        border-bottom: 1px solid #F2F2F2;
+    }
