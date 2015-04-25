@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Contracts.Business;
 using Entities;
@@ -31,6 +32,11 @@ namespace Business
 
         public void Create(Tournament entity)
         {
+            if (entity == null || string.IsNullOrWhiteSpace(entity.Name))
+            {
+                throw new Exception("Tournament name is empty");
+            }
+
             entity.Status = TournamentStatus.Registration;
             if (entity.TournamentType == TournamentType.League)
             {
@@ -40,8 +46,43 @@ namespace Business
 
         public void AddContestant(Subject contestant, Tournament tournament)
         {
+            if (contestant == null || tournament == null)
+            {
+                return;
+            }
+
             tournament.Contestants.Add(contestant);
             GenerateGames(tournament);
+        }
+
+        public void RemoveContestant(Subject contestant, Tournament tournament)
+        {
+            if (tournament.Status == TournamentStatus.Closed
+                // temp until we figure out BYE player 
+                || tournament.Status == TournamentStatus.Active)
+            {
+                return;
+            }
+
+            tournament.Contestants.Remove(contestant);
+            if (tournament.Status == TournamentStatus.Registration)
+            {
+                GenerateGames(tournament);
+                return;
+            }
+            
+            // do the magic
+            if (tournament.Status == TournamentStatus.Active)
+            {
+                var bye = new Player
+                {
+                    Name = "BYE",
+                    FirstName = "BYE",
+                    LastName = "",
+                    UserName = "BYE",
+                    
+                };
+            }
         }
 
         private void GenerateGames(Tournament tournament)

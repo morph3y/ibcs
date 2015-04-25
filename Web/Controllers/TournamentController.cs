@@ -38,6 +38,11 @@ namespace Web.Controllers
 
         public ActionResult Register(int tournamentId, int contestantId)
         {
+            if (Framework.Session.Session.Current.Id != contestantId)
+            {
+                throw new Exception("Not you =)");
+            }
+
             var tournament = _tournamentService.Get(tournamentId);
             if (tournament == null)
             {
@@ -48,6 +53,25 @@ namespace Web.Controllers
             _tournamentService.Save(tournament);
 
             return RedirectToAction("Detail", new { id = tournament.Id});
+        }
+
+        public ActionResult Unregister(int tournamentId, int contestantId)
+        {
+            if (Framework.Session.Session.Current.Id != contestantId)
+            {
+                throw new Exception("Not you =)");
+            }
+
+            var tournament = _tournamentService.Get(tournamentId);
+            if (tournament == null)
+            {
+                throw new Exception("Tournament was not found");
+            }
+
+            _tournamentService.RemoveContestant(_objectService.GetFirst<Subject>(x => x.Id == contestantId), tournament);
+            _tournamentService.Save(tournament);
+
+            return RedirectToAction("Detail", new { id = tournament.Id });
         }
 
         public void cr()

@@ -16,7 +16,7 @@ namespace Dal.Mappings
             Map(x => x.IsRanked).Default("0");
 
             HasMany(x => x.Stages).Cascade.AllDeleteOrphan();
-            HasManyToMany(x => x.Contestants).Cascade.AllDeleteOrphan();
+            HasManyToMany(x => x.Contestants).Cascade.SaveUpdate();
         }
     }
 }
