@@ -59,7 +59,7 @@ namespace Web.Controllers
                 UserName = model.UserEmail
             });
 
-            return Logon(new LoginViewModel {UserName = model.UserEmail, Password = model.UserPassword },"", true);
+            return Logon(new LoginViewModel { UserName = model.UserEmail, Password = model.UserPassword }, "/ibcs/Profile/Profile");
         }
 
         [AllowAnonymous]
@@ -73,7 +73,7 @@ namespace Web.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult Logon(LoginViewModel model, string returnUrl, bool fromSignUp)
+        public ActionResult Logon(LoginViewModel model, string returnUrl)
         {
             if (ModelState.IsValid)
             {
@@ -96,10 +96,7 @@ namespace Web.Controllers
                     return Redirect(returnUrl);
                 }
 
-                if (fromSignUp) 
-                {
-                    return RedirectToAction("Profile", "Profile");
-                }
+         
                 return RedirectToAction("Index", "Home");
             }
 
