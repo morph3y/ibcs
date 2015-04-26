@@ -5,6 +5,7 @@ using Entities;
 using Framework.Session;
 using Web.Infrastructure;
 using Web.Models;
+using System.Collections.Generic;
 
 namespace Web.Controllers
 {
@@ -18,14 +19,61 @@ namespace Web.Controllers
         }
 
         [AllowAnonymous]
+        public ActionResult SignUp()
+        {
+            return View(new SignUpViewModel());
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult SignUp(SignUpViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var player = _objectService.GetFirst<Player>(x => x.UserName == model.UserEmail);
+                if (player != null)
+                {
+                    ModelState.AddModelError("", "Such email already in use");
+                    return View(model);
+                }
+
+                if (!model.ConfirmPassword.Equals(model.UserPassword)) 
+                {
+                    ModelState.AddModelError("", "Passwords must match");
+                    return View(model);
+                }
+            }
+            else
+            {
+                
+                return View(model);
+            }
+
+            _objectService.Save(new Player 
+            {
+                FirstName = "",
+                LastName = "",
+                IsAdmin = false,
+                Name = "",
+                Passsword = model.UserPassword,
+                UserName = model.UserEmail
+            });
+
+            return Logon(new LoginViewModel {UserName = model.UserEmail, Password = model.UserPassword },"", true);
+        }
+
+        [AllowAnonymous]
         public ActionResult Logon()
         {
             return View(new LoginViewModel());
         }
 
+
+
+
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult Logon(LoginViewModel model, string returnUrl)
+        public ActionResult Logon(LoginViewModel model, string returnUrl, bool fromSignUp)
         {
             if (ModelState.IsValid)
             {
@@ -48,6 +96,10 @@ namespace Web.Controllers
                     return Redirect(returnUrl);
                 }
 
+                if (fromSignUp) 
+                {
+                    return RedirectToAction("Profile", "Profile");
+                }
                 return RedirectToAction("Index", "Home");
             }
 

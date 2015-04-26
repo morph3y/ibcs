@@ -28,7 +28,7 @@
                 <li><a href="#">A Page</a></li>
                 <li><a href="#">Another Page</a></li>
                 <li>@Html.ActionLink("Profile", "Profile", new { controller = "Profile", area = "" })</li>
-                <li>
+                
                     @if (User.Identity.IsAuthenticated)
                     {
                         @Html.ActionLink("Logout", "LogOff", new { controller = "Profile", area = "" })
@@ -37,7 +37,7 @@
                     {
                         @Html.ActionLink("Logon", "Logon", new { controller = "Profile", area = "" })
                     }
-                </li>
+                
             </ul>
         </header>
         <div class="content">

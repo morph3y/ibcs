@@ -13,7 +13,7 @@ namespace Web.Models.Dto
         [DataMember(Name = "name")]
         public virtual string Name { get; set; }
         [DataMember(Name = "dataCreated")]
-        public virtual DateTime DateCreated { get; protected set; }
+        public virtual DateTime DateCreated { get; set; }
         [DataMember(Name = "deleted")]
         public virtual bool Deleted { get; set; }
     }

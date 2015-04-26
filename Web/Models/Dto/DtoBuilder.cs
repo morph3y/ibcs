@@ -83,6 +83,7 @@ namespace Web.Models.Dto
             resultDto.Id = subject.Id;
             resultDto.Deleted = subject.Deleted;
             resultDto.Name = subject.Name;
+            resultDto.DateCreated = subject.DateCreated;
 
             return resultDto;
         }

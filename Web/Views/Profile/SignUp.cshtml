@@ -1,0 +1,44 @@
+﻿@model Web.Models.SignUpViewModel
+
+@{
+    ViewBag.ReturnUrl = Request["ReturnUrl"];
+}
+
+<div class="signup">
+@using (Html.BeginForm(null, null, new { ViewBag.ReturnUrl }, FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="validation @(ViewData.ModelState.IsValid ? " " : "ui-state-error")">
+        @Html.ValidationSummary(false)   
+
+    </div>
+    <div class="field">
+        <div class="label">
+            @Html.LabelFor(x => x.UserEmail)
+        </div>
+        <div class="value">
+            @Html.TextBoxFor(x => x.UserEmail)
+        </div>
+    </div>
+    <div class="field">
+        <div class="label">
+            @Html.LabelFor(x => x.UserPassword)
+        </div>
+        <div class="value">
+            @Html.PasswordFor(x => x.UserPassword)
+        </div>
+    </div>
+
+    <div class="field">
+        <div class="label">
+            @Html.LabelFor(x => x.ConfirmPassword)
+        </div>
+        <div class="value">
+            @Html.PasswordFor(x => x.ConfirmPassword)
+        </div>
+    </div>
+
+    <input type="submit" value="Sign Up" />
+}
+
+</div>

@@ -222,14 +222,20 @@ input[type=submit]:hover {
 /*******************************************
     Validation
 *******************************************/
-.profile .validation {
+.profile .validation,
+.signup .validation
+{
     padding: 10px;
 }
 
-    .profile .validation ul {
+    .profile .validation ul, 
+    .signup .validation ul
+    {
         list-style: none;
     }
 
-    .profile .validation li {
+    .profile .validation li,
+    .signup .validation li 
+    {
         font-weight: bold;
     }
