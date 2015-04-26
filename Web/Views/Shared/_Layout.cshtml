@@ -23,19 +23,19 @@
                 </div>
             </div>
             <ul>
-                <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                <li>@Html.ActionLink("Tournaments", "Index", "Tournament")</li>
+                <li>@Html.ActionLink("Home", "Index", new { controller = "Home", area = "" })</li>
+                <li>@Html.ActionLink("Tournaments", "Index", new { controller = "Tournament", area = "" })</li>
                 <li><a href="#">A Page</a></li>
                 <li><a href="#">Another Page</a></li>
-                <li>@Html.ActionLink("Profile", "Profile", "Profile")</li>
+                <li>@Html.ActionLink("Profile", "Profile", new { controller = "Profile", area = "" })</li>
                 <li>
                     @if (User.Identity.IsAuthenticated)
                     {
-                        @Html.ActionLink("Logout", "LogOff", "Profile")
+                        @Html.ActionLink("Logout", "LogOff", new { controller = "Profile", area = "" })
                     }
                     else
                     {
-                        @Html.ActionLink("Logon", "Logon", "Profile")
+                        @Html.ActionLink("Logon", "Logon", new { controller = "Profile", area = "" })
                     }
                 </li>
             </ul>
