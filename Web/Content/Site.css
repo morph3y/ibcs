@@ -179,7 +179,14 @@ input[type=submit]:hover {
 
                 .main .content .right .sidebar .item {
                     padding: 0 15px;
-                    width: 192px;
+                    width: 190px;
+                    background-color: #FFF;
+                    border-left: 1px solid #E0E0E0;
+                    border-right: 1px solid #E0E0E0;
+                }
+
+                .main .content .right .sidebar .item ul {
+                    list-style: none;
                 }
 
     .main footer {

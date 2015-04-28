@@ -18,12 +18,12 @@ namespace Web.Controllers
 
         public ActionResult Index()
         {
-            return RedirectToAction("List");
+            return View();
         }
 
         public ActionResult List()
         {
-            return View(_tournamentService.GetList());
+            return PartialView(_tournamentService.GetList());
         }
 
         public ActionResult Detail(int id)
