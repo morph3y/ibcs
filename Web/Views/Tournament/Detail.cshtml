@@ -26,14 +26,18 @@
 
     You are @((inTournament) ? "" : "not") registered.
     @{
-        if (!inTournament)
+        if (Model.Status != TournamentStatus.Closed)
         {
-            @Html.ActionLink("Register", "Register", new { tournamentId = Model.Id, contestantId = currentUserId })
+            if (!inTournament)
+            {
+                @Html.ActionLink("Register", "Register", new { tournamentId = Model.Id, contestantId = currentUserId })
+            }
+            else
+            {
+                @Html.ActionLink("Unregister", "Unregister", new { tournamentId = Model.Id, contestantId = currentUserId })
+            }
         }
-        else
-        {
-            @Html.ActionLink("Unregister", "Unregister", new { tournamentId = Model.Id, contestantId = currentUserId })
-        }
+
     }
 
     @Html.ActionLink("View standings", "Bracket", new { id = Model.Id })

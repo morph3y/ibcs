@@ -1,3 +1,21 @@
 ﻿.league-wrapper .games-list {
     margin-top: 10px;
 }
+
+    .league-wrapper .games-list .stage-container .header {
+        border-bottom: 1px solid #151D26;
+        padding: 10px;
+    }
+
+        .league-wrapper .games-list .stage-container .header span {
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+    .league-wrapper .games-list .stage-container .games {
+        display: none;
+    }
+
+    .league-wrapper .games-list .stage-container .games.active {
+        display: block;
+    }

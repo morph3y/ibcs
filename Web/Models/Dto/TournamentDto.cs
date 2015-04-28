@@ -21,10 +21,10 @@ namespace Web.Models.Dto
         [DataMember(Name = "stages")]
         public virtual IList<TournamentStageDto> Stages { get; set; }
 
-        [DataMember(Name = "pointForWin")]
+        [DataMember(Name = "pointsForWin")]
         public virtual int PointsForWin { get; set; }
         
-        [DataMember(Name = "pointForTie")]
+        [DataMember(Name = "pointsForTie")]
         public virtual int PointsForTie { get; set; }
     }
 }

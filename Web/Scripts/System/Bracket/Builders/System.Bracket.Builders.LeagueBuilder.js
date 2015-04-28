@@ -6,6 +6,7 @@ System.Bracket.Builders.LeagueBuilder = function(tournament) {
             '<div class="league-wrapper">' +
             '   <div class="summary-wrapper">' +
             '   </div>' +
+            '   <br />Click stage name to expand:' +
             '   <div class="games-list">' +
             '   </div>' +
             '</div>'),
@@ -23,12 +24,17 @@ System.Bracket.Builders.LeagueBuilder = function(tournament) {
     // ctor
     self.leagueSummary = new System.Bracket.Builders.LeagueSummary(tournament);
 
+    // init events
+    stageTemplate.find('.header span').click(function() {
+        $(this).closest('.stage-container').find('.games').toggleClass('active');
+    });
+
     self.render = function(wrapper) {
         self.leagueSummary.render(summaryWrapper);
 
         // render all games
         for (var i = 0, il = tournament.stages.length; i < il; i++) {
-            var templateForStage = stageTemplate.clone();
+            var templateForStage = stageTemplate.clone(true);
 
             var stageBuilder = new System.Bracket.Builders.StageBuilder(tournament.stages[i]);
             stageBuilder.render(templateForStage.find('.games'));

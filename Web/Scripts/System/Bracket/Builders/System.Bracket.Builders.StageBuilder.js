@@ -23,7 +23,7 @@ System.Bracket.Builders.StageBuilder = function (stage) {
             var game = stage.games[j],
                 currentTemplate = gameTemplate.clone();
 
-            currentTemplate.find('.player1-wrapper .player-tag').text(game.participant1.name + "adsfasdfdasfdasfdasfdasfasfasfasd");
+            currentTemplate.find('.player1-wrapper .player-tag').text(game.participant1.name);
             currentTemplate.find('.player1-wrapper .player-score').text(game.participant1Score);
 
             currentTemplate.find('.player2-wrapper .player-tag').text(game.participant2.name);

@@ -145,6 +145,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\TournamentController.cs" />
+    <Compile Include="Areas\Admin\Models\UpdateGameViewModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\TournamentController.cs" />
@@ -233,7 +234,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\Shared\" />
     <Folder Include="Filters\" />
   </ItemGroup>
@@ -279,7 +279,7 @@
     <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Admin\Views\Tournament\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Tournament\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Profile\SignUp.cshtml" />

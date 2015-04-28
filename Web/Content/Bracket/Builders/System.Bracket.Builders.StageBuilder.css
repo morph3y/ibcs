@@ -17,13 +17,19 @@
     }
 
     .game-wrapper .player-tag {
-        width: 72%;
+        width: 71%;
+        white-space: nowrap;
     }
 
     .game-wrapper .player-score {
         width: 15%;
         border-left: 1px solid #F2F2F2;
         text-align: center;
+    }
+
+    .game-wrapper .player1-wrapper,
+    .game-wrapper .player2-wrapper {
+        width: 250px;
     }
 
     .game-wrapper .player1-wrapper .player-tag,

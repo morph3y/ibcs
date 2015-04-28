@@ -219,23 +219,34 @@ input[type=submit]:hover {
         line-height: 1.5em;
         outline: none;
     }
+
 /*******************************************
     Validation
 *******************************************/
-.profile .validation,
-.signup .validation
+.validation
 {
     padding: 10px;
 }
 
-    .profile .validation ul, 
-    .signup .validation ul
+    .validation ul
     {
         list-style: none;
     }
 
-    .profile .validation li,
-    .signup .validation li 
+    .validation li
     {
         font-weight: bold;
+    }
+
+/*******************************************
+    Admin
+*******************************************/
+.update-games input {
+    width: 50px;
+}
+
+    .update-games .header div,
+    .update-games .game-edit-mode div {
+        width: 50px;
+        display: inline-block;
     }

@@ -50,15 +50,14 @@ System.Bracket.Builders.LeagueSummary = function (tournament) {
                 continue;
             }
 
-            var tie = game.winner.id == null;
-            if (tie) {
+            if (game.winner.id == null) {
                 playerMap[game.participant2.id].ties += 1;
                 playerMap[game.participant1.id].ties += 1;
 
-                playerMap[game.participant2.id].points += tournament.pointForTie;
-                playerMap[game.participant1.id].points += tournament.pointForTie;
+                playerMap[game.participant2.id].points += tournament.pointsForTie;
+                playerMap[game.participant1.id].points += tournament.pointsForTie;
             } else {
-                var loserId = game.participant1.id == game.winner.id ? game.participant2.id : game.participant1.id;
+                var loserId = game.participant1.id === game.winner.id ? game.participant2.id : game.participant1.id;
                 playerMap[game.winner.id].wins += 1;
                 playerMap[loserId].losses += 1;
 
@@ -88,7 +87,7 @@ System.Bracket.Builders.LeagueSummary = function (tournament) {
                 '<tr>' +
                 '   <td>' + rank + '</td>' +
                 '   <td class="participant-name">' + sorted[u][1].player.name + '</td>' +
-                '   <td>' + sorted[u][1].played + '</td>' +
+                '   <td>' + sorted[u][1].played + ' / ' + (sorted[u][1].leftToPlay + sorted[u][1].played) + '</td>' +
                 '   <td>' + sorted[u][1].wins + '</td>' +
                 '   <td>' + sorted[u][1].losses + '</td>' +
                 '   <td>' + sorted[u][1].ties + '</td>' +
