@@ -17,12 +17,12 @@ namespace Business
 
         public IEnumerable<Tournament> GetList()
         {
-            return _objectService.Get<Tournament>(x => x.Status != TournamentStatus.Closed);
+            return _objectService.GetCollection<Tournament>(x => x.Status != TournamentStatus.Closed);
         }
 
         public Tournament Get(int id)
         {
-            return _objectService.Get<Tournament>(x => x.Id == id).FirstOrDefault();
+            return _objectService.Get<Tournament>(x => x.Id == id);
         }
 
         public void Save(Tournament tournament)

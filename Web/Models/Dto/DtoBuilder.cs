@@ -8,6 +8,11 @@ namespace Web.Models.Dto
     {
         public static TournamentDto BuildTournament(Tournament tournament)
         {
+            if (tournament == null)
+            {
+                return new TournamentDto();
+            }
+
             var resultDto = new TournamentDto
             {
                 Id = tournament.Id,

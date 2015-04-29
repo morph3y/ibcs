@@ -50,7 +50,7 @@ namespace Web.Controllers
                 throw new Exception("Tournament was not found");
             }
 
-            _tournamentService.AddContestant(_objectService.GetFirst<Subject>(x => x.Id == contestantId), tournament);
+            _tournamentService.AddContestant(_objectService.Get<Subject>(x => x.Id == contestantId), tournament);
             _tournamentService.Save(tournament);
 
             return RedirectToAction("Detail", new { id = tournament.Id});
@@ -70,7 +70,7 @@ namespace Web.Controllers
                 throw new Exception("Tournament was not found");
             }
 
-            _tournamentService.RemoveContestant(_objectService.GetFirst<Subject>(x => x.Id == contestantId), tournament);
+            _tournamentService.RemoveContestant(_objectService.Get<Subject>(x => x.Id == contestantId), tournament);
             _tournamentService.Save(tournament);
 
             return RedirectToAction("Detail", new { id = tournament.Id });

@@ -25,7 +25,7 @@ namespace Web.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Edit(TournamentDto model)
         {
-            var loggedInUser = _objectService.GetFirst<Player>(x => x.Id == Framework.Session.Session.Current.Id);
+            var loggedInUser = _objectService.Get<Player>(x => x.Id == Framework.Session.Session.Current.Id);
             if (model == null || !loggedInUser.IsAdmin)
             {
                 return RedirectToAction("Index", "Tournament", new { area = "" });
@@ -45,22 +45,22 @@ namespace Web.Areas.Admin.Controllers
 
         public ActionResult EditGames(int id)
         {
-            return View(_objectService.GetFirst<Tournament>(x=>x.Id == id));
+            return View(_objectService.Get<Tournament>(x=>x.Id == id));
         }
 
         public ActionResult UpdateGame(UpdateGameViewModel updateModel)
         {
-            var loggedInUser = _objectService.GetFirst<Player>(x => x.Id == Framework.Session.Session.Current.Id);
+            var loggedInUser = _objectService.Get<Player>(x => x.Id == Framework.Session.Session.Current.Id);
             if (updateModel == null || !loggedInUser.IsAdmin)
             {
                 return RedirectToAction("Index", "Tournament", new { area="" });
             }
 
-            var game = _objectService.GetFirst<Game>(x => x.Id == updateModel.GameId);
+            var game = _objectService.Get<Game>(x => x.Id == updateModel.GameId);
             game.Status = GameStatus.Finished;
             game.Participant1Score = updateModel.Participant1Score;
             game.Participant2Score = updateModel.Participant2Score;
-            game.Winner = _objectService.GetFirst<Player>(x => x.Id == updateModel.WinnerId);
+            game.Winner = _objectService.Get<Player>(x => x.Id == updateModel.WinnerId);
             _tournamentService.Save(game.TournamentStage.Tournament);
 
             return RedirectToAction("Edit", new { id = game.TournamentStage.Tournament.Id });

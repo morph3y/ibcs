@@ -20,8 +20,13 @@ namespace Dal.DataAccess
         {
             return DbSessionManager.CurrentSession.Get<T>(id);
         }
-    
-        public IEnumerable<T> Get<T>(Expression<Func<T, bool>> where) where T : class
+
+        public IEnumerable<T> GetCollection<T>() where T : class
+        {
+            return DbSessionManager.CurrentSession.QueryOver<T>().List<T>();
+        }
+
+        public IEnumerable<T> GetCollection<T>(Expression<Func<T, bool>> where) where T : class
         {
             return DbSessionManager.CurrentSession.QueryOver<T>().Where(where).List<T>();
         }

@@ -20,14 +20,19 @@ namespace Business
             _dataAccessAdapter.Save(entity);
         }
 
-        public IEnumerable<T> Get<T>(Expression<Func<T, bool>> where) where T : class
+        public IEnumerable<T> GetCollection<T>() where T : class
         {
-            return _dataAccessAdapter.Get(where);
+            return _dataAccessAdapter.GetCollection<T>();
+        }
+
+        public IEnumerable<T> GetCollection<T>(Expression<Func<T, bool>> where) where T : class
+        {
+            return _dataAccessAdapter.GetCollection(where);
         }
         
-        public T GetFirst<T>(Expression<Func<T, bool>> where) where T : class
+        public T Get<T>(Expression<Func<T, bool>> where) where T : class
         {
-            return _dataAccessAdapter.Get(where).FirstOrDefault();
+            return _dataAccessAdapter.GetCollection(where).FirstOrDefault();
         }
     }
 }

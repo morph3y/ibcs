@@ -1,0 +1,14 @@
+﻿@using Entities;
+@model IEnumerable<Team>
+
+<div class="teams-list">
+    @if (User.Identity.IsAuthenticated)
+    {
+        // create team link
+    }
+
+    @foreach (var team in Model)
+    {
+        @Html.ActionLink(team.Name, "Edit", new {controller = "Team", area = "", id = team.Id})
+    }
+</div>

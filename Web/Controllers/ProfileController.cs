@@ -29,7 +29,7 @@ namespace Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var player = _objectService.GetFirst<Player>(x => x.UserName == model.UserEmail);
+                var player = _objectService.Get<Player>(x => x.UserName == model.UserEmail);
                 if (player != null)
                 {
                     ModelState.AddModelError("", "Such email already in use");
@@ -72,7 +72,7 @@ namespace Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var player = _objectService.GetFirst<Player>(x => x.UserName == model.UserName);
+                var player = _objectService.Get<Player>(x => x.UserName == model.UserName);
                 if (player == null)
                 {
                     ModelState.AddModelError("", "Such user does not exist!");
@@ -107,7 +107,7 @@ namespace Web.Controllers
 
         public new ActionResult Profile()
         {
-            var user = _objectService.GetFirst<Player>(x => x.Id == Framework.Session.Session.Current.Id);
+            var user = _objectService.Get<Player>(x => x.Id == Framework.Session.Session.Current.Id);
             return View(new PlayerViewModel
             {
                 DisplayName =  user.Name,
@@ -119,7 +119,7 @@ namespace Web.Controllers
         [HttpPost]
         public ActionResult Profile(PlayerViewModel player)
         {
-            var user = _objectService.GetFirst<Player>(x => x.Id == Framework.Session.Session.Current.Id);
+            var user = _objectService.Get<Player>(x => x.Id == Framework.Session.Session.Current.Id);
             if (ModelState.IsValid)
             {
                 user.FirstName = player.FirstName;
