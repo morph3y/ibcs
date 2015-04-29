@@ -156,6 +156,7 @@
     <Compile Include="Infrastructure\GenericDataContractJsonSerializer.cs" />
     <Compile Include="Infrastructure\HtmlHelperExtensions.cs" />
     <Compile Include="Infrastructure\PrincipalModel.cs" />
+    <Compile Include="Models\PlayerViewModel.cs" />
     <Compile Include="Models\SignUpViewModel.cs" />
     <Compile Include="Models\Dto\DtoBuilder.cs" />
     <Compile Include="Models\Dto\GameDto.cs" />
@@ -289,6 +290,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Tournament\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Tournament\EditGames.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

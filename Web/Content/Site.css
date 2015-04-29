@@ -252,6 +252,10 @@ input[type=submit]:hover {
     width: 50px;
 }
 
+    .update-tournament input {
+        margin: 10px 0;
+    }
+
     .update-games .header div,
     .update-games .game-edit-mode div {
         width: 50px;

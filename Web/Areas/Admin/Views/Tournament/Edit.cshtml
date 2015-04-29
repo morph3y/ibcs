@@ -1,40 +1,35 @@
 ﻿@using Entities
 @model Tournament
 
-<div class="update-games">
-    <div>
-        <div class="header">
-            <div>Stage name</div>
-            <div>Player 1</div>
-            <div>Winner?</div>
-            <div>Score player 1</div>
-            <div>Score player 2</div>
-            <div>Winner?</div>
-            <div>Player 2</div>
-            <div>Action</div>
-        </div>
-    </div>
-    <div>
-        @foreach (var stage in Model.Stages)
-        {
-            foreach (var game in stage.Games.Where(x=>x.Status != GameStatus.Finished))
-            {
-                using(Html.BeginForm(new { area = "Admin", controller = "Tournament", action = "UpdateGame" }))
-                {
-                    <div class="game-edit-mode">
-                        <div>@stage.Name
-                            <input type="hidden" name="gameId" value="@game.Id" />
-                        </div>
-                        <div>@game.Participant1.Name</div>
-                        <div>@Html.RadioButton("winnerId", game.Participant1.Id, game.Winner != null && game.Winner.Id == game.Participant1.Id)</div>
-                        <div>@Html.TextBox("participant1Score", game.Participant1Score)</div>
-                        <div>@Html.TextBox("participant2Score", game.Participant2Score)</div>
-                        <div>@Html.RadioButton("winnerId", game.Participant2.Id, game.Winner != null && game.Winner.Id == game.Participant2.Id)</div>
-                        <div>@game.Participant2.Name</div>
-                        <div><input type="submit" value="Save"/></div>
-                    </div>
-                }
-            }
-        }
-    </div>
+<div class="update-tournament">
+    @Html.ActionLink("Games", "EditGames", new { id = Model.Id })
+
+    @using (Html.BeginForm())
+    {
+        @Html.LabelFor(x => x.Name)
+        <br />
+        @Html.TextBoxFor(x => x.Name)
+        <br />
+        @Html.LabelFor(x => x.PointsForTie)
+        <br />
+        @Html.TextBoxFor(x => x.PointsForTie)
+        <br />
+        @Html.LabelFor(x => x.PointsForWin)
+        <br />
+        @Html.TextBoxFor(x => x.PointsForWin)
+        <br />
+        @Html.LabelFor(x => x.IsRanked)
+        <br />
+        @Html.CheckBoxFor(x => x.IsRanked)
+        <br />
+        @Html.LabelFor(x => x.Status)
+        <br />
+        @Html.DropDownListFor(x => x.Status, new SelectList(Enum.GetValues(typeof(TournamentStatus))))
+        <br />
+        @Html.LabelFor(x => x.TournamentType)
+        <br />
+        @Html.DropDownListFor(x => x.TournamentType, new SelectList(Enum.GetValues(typeof(TournamentType))))
+
+        <input type="submit" value="Save" />
+    }
 </div>

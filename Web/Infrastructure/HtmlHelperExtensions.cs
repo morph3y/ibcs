@@ -7,11 +7,12 @@ namespace Web.Infrastructure
 {
     public static class HtmlHelperExtensions
     {
-        public static MvcHtmlString FieldFor<TModel, TType>(this HtmlHelper helper, Expression<Func<TModel, TType>> @for) where TModel : class
+        // TODO: OMG! Refactor
+        public static MvcHtmlString FieldFor<TModel, TType>(this HtmlHelper<TModel> helper, Expression<Func<TModel, TType>> @for) where TModel : class
         {
             var expression = (MemberExpression)@for.Body;
             string name = expression.Member.Name;
-            var modelInstance = helper.ViewData.Model as TModel;
+            var modelInstance = helper.ViewData.Model;
             if (modelInstance != null)
             {
                 helper.ViewContext.Writer.Write("<div class=\"field\">");

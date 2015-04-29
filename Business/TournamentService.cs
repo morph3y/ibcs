@@ -34,27 +34,7 @@ namespace Business
             }
             else if (tournament.TournamentType == TournamentType.League)
             {
-                var stillInProgress = false;
-                foreach (var tournamentStage in tournament.Stages)
-                {
-                    if (stillInProgress)
-                    {
-                        break;
-                    }
-                    foreach (var game in tournamentStage.Games)
-                    {
-                        if (game.Status != GameStatus.Finished)
-                        {
-                            stillInProgress = true;
-                            break;
-                        }
-                    }
-                }
-
-                if (!stillInProgress)
-                {
-                    tournament.Status = TournamentStatus.Closed;
-                }
+                // nothing for now
             }
 
             _objectService.Save(tournament);

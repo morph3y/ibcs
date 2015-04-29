@@ -1,12 +1,23 @@
-﻿@using Entities;
-@using Web.Infrastructure
-@model Player
+﻿@model Web.Models.PlayerViewModel
 
-@using (Html.BeginForm())
+@using (Html.BeginForm(null, null, null, FormMethod.Post))
 {
-    @Html.FieldFor((Player x) => x.FirstName)
-    @Html.FieldFor((Player x) => x.LastName)
-    @Html.FieldFor((Player x) => x.Name)
-    
+    @Html.AntiForgeryToken()
+    <div class="validation @(ViewData.ModelState.IsValid ? " " : "ui-state-error")">
+        @Html.ValidationSummary(false)
+    </div>
+
+    @Html.LabelFor(x => x.FirstName)
+    <br />
+    @Html.TextBoxFor(x => x.FirstName)
+    <br />
+    @Html.LabelFor(x => x.LastName)
+    <br />
+    @Html.TextBoxFor(x => x.LastName)
+    <br />
+    @Html.LabelFor(x => x.DisplayName)
+    <br />
+    @Html.TextBoxFor(x => x.DisplayName)
+
     <input type="submit" value="Save" />
 }

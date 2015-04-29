@@ -36,6 +36,7 @@ namespace Web.Controllers
             return View(_tournamentService.Get(id));
         }
 
+        [Authorize]
         public ActionResult Register(int tournamentId, int contestantId)
         {
             if (Framework.Session.Session.Current.Id != contestantId)
@@ -55,6 +56,7 @@ namespace Web.Controllers
             return RedirectToAction("Detail", new { id = tournament.Id});
         }
 
+        [Authorize]
         public ActionResult Unregister(int tournamentId, int contestantId)
         {
             if (Framework.Session.Session.Current.Id != contestantId)
@@ -84,39 +86,6 @@ namespace Web.Controllers
             };
 
             _tournamentService.Create(trn);
-
-            _tournamentService.AddContestant(new Player
-            {
-                FirstName = "a",
-                LastName = "a",
-                UserName = "a",
-                Passsword = "a"
-            }, trn);
-
-            _tournamentService.AddContestant(new Player
-            {
-                FirstName = "b",
-                LastName = "b",
-                UserName = "b",
-                Passsword = "b"
-            }, trn);
-
-            _tournamentService.AddContestant(new Player
-            {
-                FirstName = "c",
-                LastName = "c",
-                UserName = "c",
-                Passsword = "c"
-            }, trn);
-
-            _tournamentService.AddContestant(new Player
-            {
-                FirstName = "c",
-                LastName = "c",
-                UserName = "c",
-                Passsword = "c"
-            }, trn);
-
             _tournamentService.Save(trn);
         }
     }

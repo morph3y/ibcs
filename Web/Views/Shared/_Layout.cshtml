@@ -36,8 +36,12 @@
                     }
                     else
                     {
-                        <li>@Html.ActionLink("Logon", "Logon", new { controller = "Profile", area = "" })</li>
-                        <li>@Html.ActionLink("SignUp", "SignUp", new { controller = "Profile", area = "" })</li>
+                        <li>@Html.ActionLink("Logon", "Logon", new {controller = "Profile", area = ""})</li>
+                        // remove once we have something for user to logon into
+                        if (false)
+                        {
+                            <li>@Html.ActionLink("SignUp", "SignUp", new { controller = "Profile", area = "" })</li>
+                        }
                     }      
             </ul>
         </header>
@@ -51,7 +55,7 @@
                     </div>
                     <div class="item">
                         @{
-                            Html.RenderAction("List", new { controller = "Tournament" });
+                            Html.RenderAction("List", new { controller = "Tournament", area = "" });
                         }
                     </div>
                     <div class="bottom">

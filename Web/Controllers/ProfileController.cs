@@ -5,7 +5,6 @@ using Entities;
 using Framework.Session;
 using Web.Infrastructure;
 using Web.Models;
-using System.Collections.Generic;
 
 namespace Web.Controllers
 {
@@ -45,7 +44,6 @@ namespace Web.Controllers
             }
             else
             {
-                
                 return View(model);
             }
 
@@ -59,7 +57,7 @@ namespace Web.Controllers
                 UserName = model.UserEmail
             });
 
-            return Logon(new LoginViewModel { UserName = model.UserEmail, Password = model.UserPassword }, "/ibcs/Profile/Profile");
+            return Logon(new LoginViewModel { UserName = model.UserEmail, Password = model.UserPassword }, string.Empty);
         }
 
         [AllowAnonymous]
@@ -67,9 +65,6 @@ namespace Web.Controllers
         {
             return View(new LoginViewModel());
         }
-
-
-
 
         [HttpPost]
         [AllowAnonymous]
@@ -112,15 +107,32 @@ namespace Web.Controllers
 
         public new ActionResult Profile()
         {
-            return View(_objectService.GetFirst<Player>(x => x.Id == Framework.Session.Session.Current.Id));
+            var user = _objectService.GetFirst<Player>(x => x.Id == Framework.Session.Session.Current.Id);
+            return View(new PlayerViewModel
+            {
+                DisplayName =  user.Name,
+                FirstName =  user.FirstName,
+                LastName =  user.LastName
+            });
         }
 
         [HttpPost]
-        public new ActionResult Profile(Player player)
+        public ActionResult Profile(PlayerViewModel player)
         {
-            player = _objectService.GetFirst<Player>(x => x.Id == Framework.Session.Session.Current.Id);
-            TryUpdateModel(player);
-            _objectService.Save(player);
+            var user = _objectService.GetFirst<Player>(x => x.Id == Framework.Session.Session.Current.Id);
+            if (ModelState.IsValid)
+            {
+                user.FirstName = player.FirstName;
+                user.LastName = player.LastName;
+                user.Name = player.DisplayName;
+
+                _objectService.Save(user);
+            }
+            else
+            {
+                return View(player);
+            }
+
             return RedirectToAction("Profile");
         }
 

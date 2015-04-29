@@ -12,29 +12,30 @@
     Format : @Model.TournamentType.ToString() <br />
 
     @{
-        if (!User.Identity.IsAuthenticated)
+        var inTournament = false;
+        if (User.Identity.IsAuthenticated)
         {
-            @Html.Raw("</div>");
-                               return;
+            inTournament = Model.Contestants.Any(x => x.Id == Framework.Session.Session.Current.Id);
         }
     }
 
     @{
-        var currentUserId = Framework.Session.Session.Current.Id;
-        var inTournament = Model.Contestants.Any(x => x.Id == currentUserId);
+        if (User.Identity.IsAuthenticated)
+        {
+            @Html.Raw("You are " + ((inTournament) ? "" : "not") + " registered.");
+        }
     }
-
-    You are @((inTournament) ? "" : "not") registered.
+    
     @{
-        if (Model.Status != TournamentStatus.Closed)
+        if (Model.Status == TournamentStatus.Registration && User.Identity.IsAuthenticated)
         {
             if (!inTournament)
             {
-                @Html.ActionLink("Register", "Register", new { tournamentId = Model.Id, contestantId = currentUserId })
+                @Html.ActionLink("Register", "Register", new { tournamentId = Model.Id, contestantId = Framework.Session.Session.Current.Id })
             }
             else
             {
-                @Html.ActionLink("Unregister", "Unregister", new { tournamentId = Model.Id, contestantId = currentUserId })
+                @Html.ActionLink("Unregister", "Unregister", new { tournamentId = Model.Id, contestantId = Framework.Session.Session.Current.Id })
             }
         }
 

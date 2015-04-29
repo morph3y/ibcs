@@ -8,7 +8,7 @@ namespace Framework.Session
         public static PlayerPrincipal Current
         {
             [DebuggerStepThrough]
-            get { return (PlayerPrincipal) HttpContext.Current.User; }
+            get { return HttpContext.Current.User as PlayerPrincipal; }
             [DebuggerStepThrough]
             internal set { HttpContext.Current.User = value; }
         }
