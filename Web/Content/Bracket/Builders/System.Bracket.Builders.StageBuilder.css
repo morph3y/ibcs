@@ -21,6 +21,13 @@
         white-space: nowrap;
     }
 
+        .game-wrapper .player-tag.winner {
+            background-color: green;
+            -webkit-background-clip: padding-box;
+            -moz-background-clip: padding;
+            background-clip: padding-box;
+        }
+
     .game-wrapper .player-score {
         width: 15%;
         border-left: 1px solid #F2F2F2;
@@ -32,7 +39,7 @@
         width: 250px;
     }
 
-    .game-wrapper .player1-wrapper .player-tag,
-    .game-wrapper .player1-wrapper .player-score {
-        border-bottom: 1px solid #F2F2F2;
-    }
+        .game-wrapper .player1-wrapper .player-tag,
+        .game-wrapper .player1-wrapper .player-score {
+            border-bottom: 1px solid #F2F2F2;
+        }

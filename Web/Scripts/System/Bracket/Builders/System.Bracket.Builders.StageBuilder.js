@@ -23,10 +23,10 @@ System.Bracket.Builders.StageBuilder = function (stage) {
             var game = stage.games[j],
                 currentTemplate = gameTemplate.clone();
 
-            currentTemplate.find('.player1-wrapper .player-tag').text(game.participant1.name);
+            currentTemplate.find('.player1-wrapper .player-tag').toggleClass('winner', game.winner != null && game.winner.id == game.participant1.id).text(game.participant1.name);
             currentTemplate.find('.player1-wrapper .player-score').text(game.participant1Score);
 
-            currentTemplate.find('.player2-wrapper .player-tag').text(game.participant2.name);
+            currentTemplate.find('.player2-wrapper .player-tag').toggleClass('winner', game.winner != null && game.winner.id == game.participant2.id).text(game.participant2.name);
             currentTemplate.find('.player2-wrapper .player-score').text(game.participant2Score);
             template.append(currentTemplate);
         }
