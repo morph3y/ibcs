@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -39,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Business\ITeamService.cs" />
     <Compile Include="Business\ITournamentService.cs" />
     <Compile Include="Dal\IDataAccessAdapter.cs" />
     <Compile Include="Business\IObjectService.cs" />
@@ -46,6 +48,8 @@
     <Compile Include="IoC\IDependencyBinder.cs" />
     <Compile Include="IoC\IDependencyResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Session\PlayerPrincipal.cs" />
+    <Compile Include="Session\Session.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Entities\Entities.csproj">

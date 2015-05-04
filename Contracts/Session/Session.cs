@@ -1,7 +1,8 @@
 ﻿using System.Diagnostics;
 using System.Web;
+using Framework.Session;
 
-namespace Framework.Session
+namespace Contracts.Session
 {
     public static class Session
     {
