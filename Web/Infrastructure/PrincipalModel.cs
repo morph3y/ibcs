@@ -7,5 +7,6 @@ namespace Web.Infrastructure
     {
         public string UserName { get; set; }
         public int Id { get; set; }
+        public bool IsAdmin { get; set; }
     }
 }

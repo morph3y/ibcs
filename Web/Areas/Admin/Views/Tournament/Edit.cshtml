@@ -22,6 +22,10 @@
         <br />
         @Html.CheckBoxFor(x => x.IsRanked)
         <br />
+        @Html.LabelFor(x => x.IsTeamEvent)
+        <br />
+        @Html.CheckBoxFor(x => x.IsTeamEvent)
+        <br />
         @Html.LabelFor(x => x.Status)
         <br />
         @Html.DropDownListFor(x => x.Status, new SelectList(Enum.GetValues(typeof(TournamentStatus))))

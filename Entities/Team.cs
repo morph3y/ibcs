@@ -7,6 +7,11 @@ namespace Entities
         public virtual Player Captain { get; set; }
         public virtual IList<Player> Members { get; set; }
 
+        public Team()
+        {
+            Members = new List<Player>();
+        }
+
         public override int GetHashCode()
         {
             return ("" + base.GetHashCode() + (Captain != null ? Captain.GetHashCode() : 0) + "").GetHashCode();

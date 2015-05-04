@@ -12,6 +12,8 @@ namespace Dal.Mappings
             Map(x => x.IsAdmin).ReadOnly().Default("0").Not.Nullable();
             Map(x => x.FirstName);
             Map(x => x.LastName);
+
+            HasManyToMany(x => x.Teams).Inverse().Cascade.SaveUpdate();
         }
     }
 }

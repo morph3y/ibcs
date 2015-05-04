@@ -78,9 +78,9 @@ input[type=submit] {
     font-weight: bold;
 }
 
-input[type=submit]:hover {
-    text-decoration: underline;
-}
+    input[type=submit]:hover {
+        text-decoration: underline;
+    }
 
 /*******************************************
     DOCUMENT
@@ -144,7 +144,7 @@ input[type=submit]:hover {
     .main .content {
         margin-top: 20px;
     }
-    
+
         .main .content .left {
             text-align: left;
             width: 69%;
@@ -185,9 +185,9 @@ input[type=submit]:hover {
                     border-right: 1px solid #E0E0E0;
                 }
 
-                .main .content .right .sidebar .item ul {
-                    list-style: none;
-                }
+                    .main .content .right .sidebar .item ul {
+                        list-style: none;
+                    }
 
     .main footer {
         height: 80px;
@@ -230,21 +230,48 @@ input[type=submit]:hover {
 /*******************************************
     Validation
 *******************************************/
-.validation
-{
+.validation {
     padding: 10px;
 }
 
-    .validation ul
-    {
+    .validation ul {
         list-style: none;
     }
 
-    .validation li
-    {
+    .validation li {
         font-weight: bold;
     }
 
+
+table {
+    border: 1px solid #151D26;
+    border-radius: 5px;
+    border-spacing: 0;
+}
+
+    table tr,
+    table td,
+    table th {
+        border-collapse: collapse;
+    }
+
+    table thead {
+        background-color: #A69D8D;
+    }
+
+        table thead th {
+            padding: 8px 14px;
+            text-align: center;
+        }
+
+    table tbody td {
+        padding: 4px;
+        text-align: center;
+    }
+
+    table tbody tr:nth-child(even) {
+        background: #D9D9D9;
+    }
 /*******************************************
     Admin
 *******************************************/
@@ -252,12 +279,12 @@ input[type=submit]:hover {
     width: 50px;
 }
 
-    .update-tournament input {
-        margin: 10px 0;
-    }
+.update-tournament input {
+    margin: 10px 0;
+}
 
-    .update-games .header div,
-    .update-games .game-edit-mode div {
-        width: 50px;
-        display: inline-block;
-    }
+.update-games .header div,
+.update-games .game-edit-mode div {
+    width: 50px;
+    display: inline-block;
+}

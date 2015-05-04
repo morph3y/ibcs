@@ -14,10 +14,9 @@ namespace Entities
         public virtual IList<Subject> Contestants { get; set; }
         public virtual IList<TournamentStage> Stages { get; set; }
 
-        // TODO: move if grows 
-        // Settings
         public virtual int PointsForWin { get; set; }
         public virtual int PointsForTie { get; set; }
+        public virtual bool IsTeamEvent { get; set; }
 
         public Tournament()
         {

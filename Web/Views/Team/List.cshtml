@@ -1,14 +1,22 @@
 ﻿@using Entities;
 @model IEnumerable<Team>
 
+@section styles
+{
+    <link rel="stylesheet" type="text/css" href="~/Content/Team.css"/>
+}
+
 <div class="teams-list">
     @if (User.Identity.IsAuthenticated)
     {
-        // create team link
+        @Html.ActionLink("Create New Team", "Edit", new { controller = "Team", area = "" })
     }
+    <br/>
 
+    List of teams:<br/>
     @foreach (var team in Model)
     {
+        <br />
         @Html.ActionLink(team.Name, "Edit", new {controller = "Team", area = "", id = team.Id})
     }
 </div>

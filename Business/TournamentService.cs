@@ -25,8 +25,15 @@ namespace Business
             return _objectService.Get<Tournament>(x => x.Id == id);
         }
 
+        public bool IsInTournament(int tournamentId, int memberId)
+        {
+            var teams = _objectService.GetColectionJoin<Team, Tournament>(x => x.ContestantIn, null, x => x.Id == tournamentId);
+            return teams.Any(team => team.Captain.Id == memberId || team.Members.Any(x => x.Id == memberId));
+        }
+
         public void Save(Tournament tournament)
         {
+            var oldTournament = _objectService.Get<Tournament>(x => x.Id == tournament.Id) ?? new Tournament();
             // TODO: Move this somewhere else
             if (tournament.TournamentType == TournamentType.SingleElimination)
             {
@@ -37,7 +44,21 @@ namespace Business
                 // nothing for now
             }
 
-            _objectService.Save(tournament);
+            if (oldTournament.IsTeamEvent != tournament.IsTeamEvent)
+            {
+                oldTournament.Contestants.Clear();
+                oldTournament.Stages.Clear();
+            }
+
+            oldTournament.IsRanked = tournament.IsRanked;
+            oldTournament.IsTeamEvent = tournament.IsTeamEvent;
+            oldTournament.Name = tournament.Name;
+            oldTournament.PointsForTie = tournament.PointsForTie;
+            oldTournament.PointsForWin = tournament.PointsForWin;
+            oldTournament.Status = tournament.Status;
+            oldTournament.TournamentType = tournament.TournamentType;
+
+            _objectService.Save(oldTournament);
         }
 
         public void Create(Tournament entity)
@@ -67,11 +88,23 @@ namespace Business
 
         public void RemoveContestant(Subject contestant, Tournament tournament)
         {
-            if (tournament.Status == TournamentStatus.Closed
+            if (Contracts.Session.Session.Current == null || tournament.Status == TournamentStatus.Closed
                 // temp until we figure out BYE player 
                 || tournament.Status == TournamentStatus.Active)
             {
                 return;
+            }
+
+            if (tournament.IsTeamEvent)
+            {
+                contestant = _objectService.GetColectionJoin<Team, Tournament>(
+                    x => x.ContestantIn, 
+                    x=>x.Captain.Id == Contracts.Session.Session.Current.Id, 
+                    y => y.Id == tournament.Id).FirstOrDefault();
+                if (contestant == null)
+                {
+                    return;
+                }
             }
 
             tournament.Contestants.Remove(contestant);
@@ -80,8 +113,8 @@ namespace Business
                 GenerateGames(tournament);
                 return;
             }
-            
-            // do the magic
+
+            // do the magic / or team
             if (tournament.Status == TournamentStatus.Active)
             {
                 var bye = new Player
@@ -90,16 +123,21 @@ namespace Business
                     FirstName = "BYE",
                     LastName = "",
                     UserName = "BYE",
-                    
+
                 };
             }
         }
 
         private void GenerateGames(Tournament tournament)
         {
-            if (tournament.Status != TournamentStatus.Registration || tournament.Contestants.Count < 2)
+            if (tournament.Status != TournamentStatus.Registration)
             {
                 return;
+            }
+
+            if (tournament.Contestants.Count < 2)
+            {
+                tournament.Stages.Clear();
             }
 
             var games = new List<Game>();

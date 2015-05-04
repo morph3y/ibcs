@@ -29,6 +29,12 @@ namespace Business
         {
             return _dataAccessAdapter.GetCollection(where);
         }
+
+        public IEnumerable<TRoot> GetColectionJoin<TRoot, TSubType>(Expression<Func<TRoot, IEnumerable<TSubType>>> on,
+            Expression<Func<TRoot, bool>> whereTRoot, Expression<Func<TSubType, bool>> whereTSubType) where TRoot : class where TSubType : class
+        {
+            return _dataAccessAdapter.GetCollectionJoin(on, whereTRoot, whereTSubType);
+        } 
         
         public T Get<T>(Expression<Func<T, bool>> where) where T : class
         {

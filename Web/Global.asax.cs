@@ -27,7 +27,7 @@ namespace Web
                 var authTicket = FormsAuthentication.Decrypt(authCookie.Value);
                 var pricipal = new JavaScriptSerializer().Deserialize<PrincipalModel>(authTicket.UserData);
 
-                HttpContext.Current.User = new PlayerPrincipal(pricipal.UserName) { Id = pricipal.Id };
+                HttpContext.Current.User = new PlayerPrincipal(pricipal.UserName) { Id = pricipal.Id, IsAdmin = pricipal.IsAdmin };
             }
         }
     }

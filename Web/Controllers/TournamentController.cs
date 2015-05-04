@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using Contracts.Business;
 using Entities;
+using Web.Models;
 
 namespace Web.Controllers
 {
@@ -28,7 +31,16 @@ namespace Web.Controllers
 
         public ActionResult Detail(int id)
         {
-            return View(_tournamentService.Get(id));
+            var tournament = _tournamentService.Get(id);
+            var viewModel = new TournamentDetailViewModel
+            {
+                UserInTournament = User.Identity.IsAuthenticated && (tournament.Contestants.Any(x => x.Id == Contracts.Session.Session.Current.Id)
+                    || _tournamentService.IsInTournament(tournament.Id, Contracts.Session.Session.Current.Id)),
+                Tournament = tournament,
+                MyTeams = User.Identity.IsAuthenticated && tournament.IsTeamEvent ? _objectService.GetCollection<Team>(x => x.Captain.Id == Contracts.Session.Session.Current.Id) : new List<Team>()
+            };
+
+            return View(viewModel);
         }
 
         public ActionResult Bracket(int id)
@@ -39,11 +51,6 @@ namespace Web.Controllers
         [Authorize]
         public ActionResult Register(int tournamentId, int contestantId)
         {
-            if (Framework.Session.Session.Current.Id != contestantId)
-            {
-                throw new Exception("Not you =)");
-            }
-
             var tournament = _tournamentService.Get(tournamentId);
             if (tournament == null)
             {
@@ -59,11 +66,6 @@ namespace Web.Controllers
         [Authorize]
         public ActionResult Unregister(int tournamentId, int contestantId)
         {
-            if (Framework.Session.Session.Current.Id != contestantId)
-            {
-                throw new Exception("Not you =)");
-            }
-
             var tournament = _tournamentService.Get(tournamentId);
             if (tournament == null)
             {

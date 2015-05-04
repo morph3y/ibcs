@@ -1,0 +1,34 @@
+﻿.members-grid table tr td,
+.members-grid table tr th {
+    padding: 10px 2px;
+}
+
+.members-grid table tr th {
+    border: 1px solid #E0E0E0;
+}
+
+.members-grid .add-member {
+    cursor: pointer;
+}
+
+.members-grid .remove-member {
+    cursor: pointer;
+}
+
+.team-wrapper div {
+    margin: 3px 0px;
+    font-weight: bold;
+}
+
+.team-wrapper ul {
+    list-style: none;
+}
+
+    .team-wrapper ul li {
+        margin: 4px 0px;
+    }
+
+.teams-list a {
+    display: inline-block;
+    margin: 5px 0px;
+}

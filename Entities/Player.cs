@@ -1,4 +1,6 @@
-﻿namespace Entities
+﻿using System.Collections.Generic;
+
+namespace Entities
 {
     public class Player : Subject
     {
@@ -8,6 +10,13 @@
 
         public virtual string FirstName { get; set; }
         public virtual string LastName { get; set; }
+
+        public virtual IList<Team> Teams { get; set; }
+
+        public Player()
+        {
+            Teams = new List<Team>();
+        }
 
         public override int GetHashCode()
         {

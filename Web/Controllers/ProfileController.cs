@@ -36,7 +36,7 @@ namespace Web.Controllers
                     return View(model);
                 }
 
-                if (!model.ConfirmPassword.Equals(model.UserPassword)) 
+                if (!model.ConfirmPassword.Equals(model.UserPassword))
                 {
                     ModelState.AddModelError("", "Passwords must match");
                     return View(model);
@@ -47,7 +47,7 @@ namespace Web.Controllers
                 return View(model);
             }
 
-            _objectService.Save(new Player 
+            _objectService.Save(new Player
             {
                 FirstName = "",
                 LastName = "",
@@ -85,13 +85,13 @@ namespace Web.Controllers
                     return View(model);
                 }
 
-                Response.Cookies.Add(CookieManager.CreateCookie(new PlayerPrincipal(player.UserName) { Id = player.Id }));
+                Response.Cookies.Add(CookieManager.CreateCookie(new PlayerPrincipal(player.UserName) { Id = player.Id, IsAdmin = player.IsAdmin }));
                 if (Url.IsLocalUrl(returnUrl))
                 {
                     return Redirect(returnUrl);
                 }
 
-         
+
                 return RedirectToAction("Index", "Home");
             }
 
@@ -107,19 +107,19 @@ namespace Web.Controllers
 
         public new ActionResult Profile()
         {
-            var user = _objectService.Get<Player>(x => x.Id == Framework.Session.Session.Current.Id);
+            var user = _objectService.Get<Player>(x => x.Id == Contracts.Session.Session.Current.Id);
             return View(new PlayerViewModel
             {
-                DisplayName =  user.Name,
-                FirstName =  user.FirstName,
-                LastName =  user.LastName
+                DisplayName = user.Name,
+                FirstName = user.FirstName,
+                LastName = user.LastName
             });
         }
 
         [HttpPost]
         public ActionResult Profile(PlayerViewModel player)
         {
-            var user = _objectService.Get<Player>(x => x.Id == Framework.Session.Session.Current.Id);
+            var user = _objectService.Get<Player>(x => x.Id == Contracts.Session.Session.Current.Id);
             if (ModelState.IsValid)
             {
                 user.FirstName = player.FirstName;

@@ -1,45 +1,49 @@
 ﻿@using Entities
-@model Tournament
+@model Web.Models.TournamentDetailViewModel
 
 <div class="tournament-detail">
     @{
-        var stageName = Model.TournamentType == TournamentType.League ? "Main" : Model.Stages.LastOrDefault() == null ? "" : Model.Stages.Last().Name;
+        var stageName = Model.Tournament.TournamentType == TournamentType.League ? "Main" : Model.Tournament.Stages.LastOrDefault() == null ? "" : Model.Tournament.Stages.Last().Name;
     }
 
-    Name : @Model.Name <br />
+    Name : @Model.Tournament.Name <br />
     Stage : @stageName <br />
-    Status : @Model.Status.ToString() <br />
-    Format : @Model.TournamentType.ToString() <br />
+    Status : @Model.Tournament.Status.ToString() <br />
+    Format : @Model.Tournament.TournamentType.ToString() <br />
+    Team Event : @(Model.Tournament.IsTeamEvent ? "Yes" : "No") <br />
 
     @{
-        var inTournament = false;
+        var inTournament = Model.UserInTournament;
         if (User.Identity.IsAuthenticated)
         {
-            inTournament = Model.Contestants.Any(x => x.Id == Framework.Session.Session.Current.Id);
+            @Html.Raw((Model.Tournament.IsTeamEvent ? "Your team is " : "You are ") + ((inTournament) ? "" : "not") + " registered.");
+        <br />
         }
     }
-
     @{
-        if (User.Identity.IsAuthenticated)
-        {
-            @Html.Raw("You are " + ((inTournament) ? "" : "not") + " registered.");
-        }
-    }
-    
-    @{
-        if (Model.Status == TournamentStatus.Registration && User.Identity.IsAuthenticated)
+        if (Model.Tournament.Status == TournamentStatus.Registration && User.Identity.IsAuthenticated)
         {
             if (!inTournament)
             {
-                @Html.ActionLink("Register", "Register", new { tournamentId = Model.Id, contestantId = Framework.Session.Session.Current.Id })
+                if (Model.Tournament.IsTeamEvent)
+                {
+                    foreach (var team in Model.MyTeams)
+                    {
+                        @Html.ActionLink("Register > \" " + team.Name + " \"", "Register", new { tournamentId = Model.Tournament.Id, contestantId = team.Id })
+                        <br />
+                    }
+                }
+                else
+                {
+                    @Html.ActionLink("Register", "Register", new { tournamentId = Model.Tournament.Id, contestantId = Contracts.Session.Session.Current.Id })
+                }
             }
             else
             {
-                @Html.ActionLink("Unregister", "Unregister", new { tournamentId = Model.Id, contestantId = Framework.Session.Session.Current.Id })
+                @Html.ActionLink("Unregister", "Unregister", new { tournamentId = Model.Tournament.Id, contestantId = Contracts.Session.Session.Current.Id })
             }
+            <br />
         }
-
     }
-
-    @Html.ActionLink("View standings", "Bracket", new { id = Model.Id })
+    @Html.ActionLink("View standings", "Bracket", new { id = Model.Tournament.Id })
 </div>

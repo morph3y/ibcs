@@ -65,7 +65,7 @@ namespace Web.Models.Dto
             };
         }
 
-        private static SubjectDto BuildSubject(Subject subject)
+        public static SubjectDto BuildSubject(Subject subject)
         {
             SubjectDto resultDto;
             if (subject == null)

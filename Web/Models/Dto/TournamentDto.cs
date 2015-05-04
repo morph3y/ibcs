@@ -26,5 +26,7 @@ namespace Web.Models.Dto
         
         [DataMember(Name = "pointsForTie")]
         public virtual int PointsForTie { get; set; }
+        [DataMember(Name = "isTeamEvent")]
+        public bool IsTeamEvent { get; set; }
     }
 }

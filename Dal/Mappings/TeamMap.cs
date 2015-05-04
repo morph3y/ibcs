@@ -8,7 +8,7 @@ namespace Dal.Mappings
         public TeamMap()
         {
             References(x => x.Captain);
-            HasMany(x => x.Members).Inverse().Cascade.All();
+            HasManyToMany(x => x.Members).Cascade.All();
         }
     }
 }

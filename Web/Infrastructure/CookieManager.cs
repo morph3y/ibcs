@@ -13,7 +13,8 @@ namespace Web.Infrastructure
             var serializableModel = new PrincipalModel
             {
                 Id = principal.Id,
-                UserName = principal.Identity.Name
+                UserName = principal.Identity.Name,
+                IsAdmin = principal.IsAdmin
             };
 
             var authTicket = new FormsAuthenticationTicket(1, serializableModel.UserName, DateTime.Now, DateTime.Now.AddMinutes(15), false, new JavaScriptSerializer().Serialize(serializableModel));

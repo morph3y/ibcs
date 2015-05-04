@@ -167,6 +167,7 @@
     <Compile Include="Models\Dto\TournamentDto.cs" />
     <Compile Include="Models\Dto\TournamentStageDto.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
+    <Compile Include="Models\TournamentDetailViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -176,6 +177,7 @@
     <Content Include="Content\images\footer.png" />
     <Content Include="Content\images\side_base.png" />
     <Content Include="Content\images\side_top.png" />
+    <Content Include="Content\Team.css" />
     <Content Include="Content\themes\humanity\images\ui-bg_flat_75_aaaaaa_40x100.png" />
     <Content Include="Content\themes\humanity\images\ui-bg_glass_100_f5f0e5_1x400.png" />
     <Content Include="Content\themes\humanity\images\ui-bg_glass_25_cb842e_1x400.png" />
@@ -204,7 +206,10 @@
     <Content Include="Scripts\System\Bracket\Builders\System.Bracket.Builders.StageBuilder.js" />
     <Content Include="Scripts\System\Bracket\System.Bracket.BuilderFactory.js" />
     <Content Include="Scripts\System\Bracket\System.Bracket.js" />
+    <Content Include="Scripts\System\System.Dialog.js" />
     <Content Include="Scripts\System\System.js" />
+    <Content Include="Scripts\System\Team\System.Team.TeamBuilder.js" />
+    <Content Include="Scripts\System\Team\System.Team.Urls.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
