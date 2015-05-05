@@ -29,7 +29,7 @@
                 {
                     foreach (var team in Model.MyTeams)
                     {
-                        @Html.ActionLink("Register > \" " + team.Name + " \"", "Register", new { tournamentId = Model.Tournament.Id, contestantId = team.Id })
+                        @Html.ActionLink("Register \"" + team.Name + "\"", "Register", new { tournamentId = Model.Tournament.Id, contestantId = team.Id })
                         <br />
                     }
                 }
@@ -40,7 +40,18 @@
             }
             else
             {
-                @Html.ActionLink("Unregister", "Unregister", new { tournamentId = Model.Tournament.Id, contestantId = Contracts.Session.Session.Current.Id })
+                if (Model.Tournament.IsTeamEvent)
+                {
+                    var registeredTeam = Model.Tournament.Contestants.Intersect(Model.MyTeams);
+                    if (registeredTeam.Any() && registeredTeam.Count() == 1)
+                    {
+                        @Html.ActionLink("Unregister", "Unregister", new {tournamentId = Model.Tournament.Id, contestantId = registeredTeam.First().Id})
+                    }
+                }
+                else
+                {
+                    @Html.ActionLink("Unregister", "Unregister", new { tournamentId = Model.Tournament.Id, contestantId = Contracts.Session.Session.Current.Id })
+                }
             }
             <br />
         }
