@@ -1,39 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+
 using Contracts.Business;
+using Contracts.Business.Dal;
+
 using Entities;
 
 namespace Business
 {
     internal sealed class TournamentService : ITournamentService
     {
-        private readonly IObjectService _objectService;
-
-        public TournamentService(IObjectService objectService)
+        private readonly ITournamentDataAdapter _tournamentDataAdapter;
+        private readonly ITeamDataAdapter _teamDataAdapter;
+        public TournamentService(ITournamentDataAdapter tournamentDataAdapter, ITeamDataAdapter teamDataAdapter)
         {
-            _objectService = objectService;
+            _tournamentDataAdapter = tournamentDataAdapter;
+            _teamDataAdapter = teamDataAdapter;
         }
 
         public IEnumerable<Tournament> GetList()
         {
-            return _objectService.GetCollection<Tournament>(x => x.Status != TournamentStatus.Closed);
+            return _tournamentDataAdapter.GetCollection(x => x.Status != TournamentStatus.Closed);
         }
 
         public Tournament Get(int id)
         {
-            return _objectService.Get<Tournament>(x => x.Id == id);
+            return _tournamentDataAdapter.Get(x => x.Id == id);
         }
 
         public bool IsInTournament(int tournamentId, int memberId)
         {
-            var teams = _objectService.GetColectionJoin<Team, Tournament>(x => x.ContestantIn, null, x => x.Id == tournamentId);
-            return teams.Any(team => team.Captain.Id == memberId || team.Members.Any(x => x.Id == memberId));
+            return _tournamentDataAdapter.IsInTournament(memberId, tournamentId);
         }
 
         public void Save(Tournament tournament)
         {
-            var oldTournament = _objectService.Get<Tournament>(x => x.Id == tournament.Id) ?? new Tournament();
+            var oldTournament = _tournamentDataAdapter.Get(x => x.Id == tournament.Id) ?? new Tournament();
             // TODO: Move this somewhere else
             if (tournament.TournamentType == TournamentType.SingleElimination)
             {
@@ -58,7 +60,7 @@ namespace Business
             oldTournament.Status = tournament.Status;
             oldTournament.TournamentType = tournament.TournamentType;
 
-            _objectService.Save(oldTournament);
+            _tournamentDataAdapter.Save(oldTournament);
         }
 
         public void Create(Tournament entity)
@@ -97,10 +99,8 @@ namespace Business
 
             if (tournament.IsTeamEvent)
             {
-                contestant = _objectService.GetColectionJoin<Team, Tournament>(
-                    x => x.ContestantIn, 
-                    x=>x.Captain.Id == Contracts.Session.Session.Current.Id, 
-                    y => y.Id == tournament.Id).FirstOrDefault();
+                var contestantId = contestant.Id;
+                contestant = _teamDataAdapter.Get(x => x.Id == contestantId);
                 if (contestant == null)
                 {
                     return;

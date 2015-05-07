@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contracts\IDataAccessAdapter.cs" />
     <Compile Include="Conventions\EnumConvention.cs" />
     <Compile Include="DataAccess\DataAccessAdapter.cs" />
     <Compile Include="DataAccess\DbSessionManager.cs" />

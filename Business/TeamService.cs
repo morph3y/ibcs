@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+
 using Contracts.Business;
+using Contracts.Business.Dal;
 using Contracts.Session;
 using Entities;
 
@@ -9,43 +12,55 @@ namespace Business
 {
     internal sealed class TeamService : ITeamService
     {
-        private readonly IObjectService _objectService;
-        public TeamService(IObjectService objectService)
+        private readonly ITeamDataAdapter _teamDataAdapter;
+        private readonly IPlayerDataAdapter _playerDataAdapter;
+        public TeamService(ITeamDataAdapter teamDataAdapter, IPlayerDataAdapter playerDataAdapter)
         {
-            _objectService = objectService;
+            _teamDataAdapter = teamDataAdapter;
+            _playerDataAdapter = playerDataAdapter;
+        }
+
+        public IEnumerable<Team> GetCollection(Expression<Func<Team, bool>> where)
+        {
+            return _teamDataAdapter.GetCollection(where);
+        } 
+
+        public void Save(Team entity)
+        {
+            _teamDataAdapter.Save(entity);
+        }
+
+        public Team Get(Expression<Func<Team, bool>> where)
+        {
+            return _teamDataAdapter.GetCollection(where).FirstOrDefault();
+        }
+
+        public IEnumerable<Team> GetList()
+        {
+            return _teamDataAdapter.GetCollection();
         }
 
         public IEnumerable<Player> GetAvailableMembers(int teamId)
         {
-            var team = _objectService.Get<Team>(x => x.Id == teamId);
-            var captainId = team == null || team.Captain == null ? -1 : team.Captain.Id;
-            
-            // TODO (CRAP): Need to build join API
-            var members = _objectService.GetCollection<Player>(x => x.Id != captainId);
-            if (team != null && team.Captain != null)
-            {
-                members = members.Where(x => !team.Members.Contains(x));
-            }
-
-            return members;
+            return _teamDataAdapter.GetAvailableMembers(teamId);
         }
 
         public void AddMember(int teamId, int memberId)
         {
-            AddMember(teamId, _objectService.Get<Player>(x => x.Id == memberId));
+            AddMember(teamId, _playerDataAdapter.Get(x => x.Id == memberId));
         }
 
         public void AddMember(int teamId, Player member)
         {
-            var team = _objectService.Get<Team>(x => x.Id == teamId);
+            var team = _teamDataAdapter.Get(x => x.Id == teamId);
             team.Members.Add(member);
-            _objectService.Save(team);
+            _teamDataAdapter.Save(team);
         }
 
         public void RemoveMember(int teamId, int memberId)
         {
-            var team = _objectService.Get<Team>(x => x.Id == teamId);
-            var memberToRemove = _objectService.Get<Player>(x => x.Id == memberId);
+            var team = _teamDataAdapter.Get(x => x.Id == teamId);
+            var memberToRemove = _playerDataAdapter.Get(x => x.Id == memberId);
             if (Session.Current.IsAdmin || team.Captain.Id == Session.Current.Id)
             {
                 if (team.ContestantIn.Any(x => x.IsRanked && x.Status == TournamentStatus.Active))
@@ -54,7 +69,7 @@ namespace Business
                 }
 
                 team.Members.Remove(memberToRemove);
-                _objectService.Save(team);
+                _teamDataAdapter.Save(team);
             }
             else
             {

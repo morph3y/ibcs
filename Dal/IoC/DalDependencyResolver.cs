@@ -1,5 +1,7 @@
 ﻿using Contracts.Dal;
 using Contracts.IoC;
+
+using Dal.Contracts;
 using Dal.DataAccess;
 
 namespace Dal.IoC

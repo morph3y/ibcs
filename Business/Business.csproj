@@ -39,9 +39,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameService.cs" />
     <Compile Include="IoC\BusinessDependencyResolver.cs" />
-    <Compile Include="ObjectService.cs" />
+    <Compile Include="PlayerService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SubjectService.cs" />
     <Compile Include="TeamService.cs" />
     <Compile Include="TournamentService.cs" />
   </ItemGroup>

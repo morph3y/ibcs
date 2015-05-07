@@ -11,10 +11,10 @@ namespace Web.Controllers
     [Authorize]
     public class ProfileController : Controller
     {
-        private readonly IObjectService _objectService;
-        public ProfileController(IObjectService objectService)
+        private readonly IPlayerService _playerService;
+        public ProfileController(IPlayerService playerService)
         {
-            _objectService = objectService;
+            _playerService = playerService;
         }
 
         [AllowAnonymous]
@@ -29,7 +29,7 @@ namespace Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var player = _objectService.Get<Player>(x => x.UserName == model.UserEmail);
+                var player = _playerService.Get(x => x.UserName == model.UserEmail);
                 if (player != null)
                 {
                     ModelState.AddModelError("", "Such email already in use");
@@ -47,7 +47,7 @@ namespace Web.Controllers
                 return View(model);
             }
 
-            _objectService.Save(new Player
+            _playerService.Save(new Player
             {
                 FirstName = "",
                 LastName = "",
@@ -72,7 +72,7 @@ namespace Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var player = _objectService.Get<Player>(x => x.UserName == model.UserName);
+                var player = _playerService.Get(x => x.UserName == model.UserName);
                 if (player == null)
                 {
                     ModelState.AddModelError("", "Such user does not exist!");
@@ -107,7 +107,7 @@ namespace Web.Controllers
 
         public new ActionResult Profile()
         {
-            var user = _objectService.Get<Player>(x => x.Id == Contracts.Session.Session.Current.Id);
+            var user = _playerService.Get(x => x.Id == Contracts.Session.Session.Current.Id);
             return View(new PlayerViewModel
             {
                 DisplayName = user.Name,
@@ -119,14 +119,14 @@ namespace Web.Controllers
         [HttpPost]
         public ActionResult Profile(PlayerViewModel player)
         {
-            var user = _objectService.Get<Player>(x => x.Id == Contracts.Session.Session.Current.Id);
+            var user = _playerService.Get(x => x.Id == Contracts.Session.Session.Current.Id);
             if (ModelState.IsValid)
             {
                 user.FirstName = player.FirstName;
                 user.LastName = player.LastName;
                 user.Name = player.DisplayName;
 
-                _objectService.Save(user);
+                _playerService.Save(user);
             }
             else
             {
@@ -139,7 +139,7 @@ namespace Web.Controllers
         [AllowAnonymous]
         public void CreateAdmin()
         {
-            _objectService.Save(new Player
+            _playerService.Save(new Player
             {
                 FirstName = "Alex",
                 LastName = "Denysenko",

@@ -11,12 +11,12 @@ namespace Web.Controllers
     [Authorize]
     public class TeamController : Controller
     {
-        private readonly IObjectService _objectService;
         private readonly ITeamService _teamService;
-        public TeamController(IObjectService objectService, ITeamService teamService)
+        private readonly IPlayerService _playerService;
+        public TeamController(ITeamService teamService, IPlayerService playerService)
         {
-            _objectService = objectService;
             _teamService = teamService;
+            _playerService = playerService;
         }
 
         [AllowAnonymous]
@@ -28,18 +28,18 @@ namespace Web.Controllers
         [AllowAnonymous]
         public ActionResult List()
         {
-            return View(_objectService.GetCollection<Team>());
+            return View(_teamService.GetList());
         }
 
         [HttpPost]
         public ActionResult Edit(TeamDto teamModel)
         {
-            var team = _objectService.Get<Team>(x => x.Id == teamModel.Id);
+            var team = _teamService.Get(x => x.Id == teamModel.Id);
             if (team == null)
             {
                 team = new Team
                 {
-                    Captain = _objectService.Get<Player>(x => x.Id == Contracts.Session.Session.Current.Id),
+                    Captain = _playerService.Get(x => x.Id == Contracts.Session.Session.Current.Id),
                     Name = teamModel.Name
                 };
             }
@@ -47,7 +47,7 @@ namespace Web.Controllers
             {
                 team.Name = teamModel.Name;
             }
-            _objectService.Save(team);
+            _teamService.Save(team);
 
             return RedirectToAction("Edit", new { id = team.Id });
         }
@@ -56,15 +56,15 @@ namespace Web.Controllers
         [HttpGet]
         public ActionResult Edit(int? id)
         {
-            return View(id.HasValue ? _objectService.Get<Team>(x => x.Id == id) : new Team()
+            return View(id.HasValue ? _teamService.Get(x => x.Id == id) : new Team()
             {
-                Captain = _objectService.Get<Player>(x=>x.Id == Contracts.Session.Session.Current.Id)
+                Captain = _playerService.Get(x=>x.Id == Contracts.Session.Session.Current.Id)
             });
         }
 
         public JsonResult AddMember(int teamId, int memberId)
         {
-            var member = _objectService.Get<Player>(x => x.Id == memberId);
+            var member = _playerService.Get(x => x.Id == memberId);
             _teamService.AddMember(teamId, member);
             return Json(new GenericDataContractJsonSerializer<SubjectDto>().Serialize(DtoBuilder.BuildSubject(member)));
         }

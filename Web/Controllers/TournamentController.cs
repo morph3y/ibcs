@@ -12,11 +12,13 @@ namespace Web.Controllers
     public class TournamentController : Controller
     {
         private readonly ITournamentService _tournamentService;
-        private readonly IObjectService _objectService;
-        public TournamentController(ITournamentService tournamentService, IObjectService objectService)
+        private readonly ITeamService _teamService;
+        private readonly ISubjectService _subjectService;
+        public TournamentController(ITournamentService tournamentService, ITeamService teamService, ISubjectService subjectService)
         {
             _tournamentService = tournamentService;
-            _objectService = objectService;
+            _teamService = teamService;
+            _subjectService = subjectService;
         }
 
         public ActionResult Index()
@@ -37,7 +39,7 @@ namespace Web.Controllers
                 UserInTournament = User.Identity.IsAuthenticated && (tournament.Contestants.Any(x => x.Id == Contracts.Session.Session.Current.Id)
                     || _tournamentService.IsInTournament(tournament.Id, Contracts.Session.Session.Current.Id)),
                 Tournament = tournament,
-                MyTeams = User.Identity.IsAuthenticated && tournament.IsTeamEvent ? _objectService.GetCollection<Team>(x => x.Captain.Id == Contracts.Session.Session.Current.Id) : new List<Team>()
+                MyTeams = User.Identity.IsAuthenticated && tournament.IsTeamEvent ? _teamService.GetCollection(x => x.Captain.Id == Contracts.Session.Session.Current.Id) : new List<Team>()
             };
 
             return View(viewModel);
@@ -57,7 +59,7 @@ namespace Web.Controllers
                 throw new Exception("Tournament was not found");
             }
 
-            _tournamentService.AddContestant(_objectService.Get<Subject>(x => x.Id == contestantId), tournament);
+            _tournamentService.AddContestant(_subjectService.Get(x => x.Id == contestantId), tournament);
             _tournamentService.Save(tournament);
 
             return RedirectToAction("Detail", new { id = tournament.Id});
@@ -72,7 +74,7 @@ namespace Web.Controllers
                 throw new Exception("Tournament was not found");
             }
 
-            _tournamentService.RemoveContestant(_objectService.Get<Subject>(x => x.Id == contestantId), tournament);
+            _tournamentService.RemoveContestant(_subjectService.Get(x => x.Id == contestantId), tournament);
             _tournamentService.Save(tournament);
 
             return RedirectToAction("Detail", new { id = tournament.Id });
