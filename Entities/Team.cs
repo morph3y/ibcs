@@ -6,10 +6,12 @@ namespace Entities
     {
         public virtual Player Captain { get; set; }
         public virtual IList<Player> Members { get; set; }
+        public virtual IList<TeamMemberRequest> MemberRequests { get; set; } 
 
         public Team()
         {
             Members = new List<Player>();
+            MemberRequests = new List<TeamMemberRequest>();
         }
 
         public override int GetHashCode()

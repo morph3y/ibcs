@@ -14,6 +14,7 @@ namespace Dal.Mappings
             Map(x => x.LastName);
 
             HasManyToMany(x => x.Teams).Inverse().Cascade.SaveUpdate();
+            HasMany(x => x.TeamRequests).Cascade.AllDeleteOrphan().KeyColumn("MemberId");
         }
     }
 }

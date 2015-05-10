@@ -60,6 +60,7 @@
     <Compile Include="Mappings\PlayerMap.cs" />
     <Compile Include="Mappings\SubjectMap.cs" />
     <Compile Include="Mappings\TeamMap.cs" />
+    <Compile Include="Mappings\TeamMemberRequestMap.cs" />
     <Compile Include="Mappings\TournamentMap.cs" />
     <Compile Include="Mappings\TournamentStageMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

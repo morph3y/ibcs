@@ -46,6 +46,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Subject.cs" />
     <Compile Include="Team.cs" />
+    <Compile Include="TeamMemberRequest.cs" />
     <Compile Include="Tournament.cs" />
     <Compile Include="TournamentStage.cs" />
   </ItemGroup>

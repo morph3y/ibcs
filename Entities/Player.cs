@@ -12,10 +12,12 @@ namespace Entities
         public virtual string LastName { get; set; }
 
         public virtual IList<Team> Teams { get; set; }
+        public virtual IList<TeamMemberRequest> TeamRequests { get; set; } 
 
         public Player()
         {
             Teams = new List<Team>();
+            TeamRequests = new List<TeamMemberRequest>();
         }
 
         public override int GetHashCode()
