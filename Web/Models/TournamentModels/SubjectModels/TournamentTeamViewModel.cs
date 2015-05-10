@@ -22,7 +22,7 @@ namespace Web.Models.TournamentModels.SubjectModels
 
             foreach (var member in team.Members)
             {
-                resultDto.Members.Add(TournamentPlayerViewModel.Build(member));
+                resultDto.Members.Add((TournamentPlayerViewModel)SubjectViewModel.Build(member));
             }
             return resultDto;
         }

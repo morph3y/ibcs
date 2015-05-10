@@ -56,9 +56,9 @@ namespace Web.Controllers
         [HttpGet]
         public ActionResult Edit(int? id)
         {
-            return View(id.HasValue ? TournamentTeamViewModel.Build(_teamService.Get(x => x.Id == id)) : new TournamentTeamViewModel
+            return View(id.HasValue ? (TournamentTeamViewModel)SubjectViewModel.Build(_teamService.Get(x => x.Id == id)) : new TournamentTeamViewModel
             {
-                Captain = TournamentPlayerViewModel.Build(_playerService.Get(x=>x.Id == Contracts.Session.Session.Current.Id))
+                Captain = (TournamentPlayerViewModel)SubjectViewModel.Build(_playerService.Get(x => x.Id == Contracts.Session.Session.Current.Id))
             });
         }
 
