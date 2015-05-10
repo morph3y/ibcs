@@ -160,7 +160,6 @@
     <Compile Include="Models\PlayerViewModel.cs" />
     <Compile Include="Models\SignUpViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
-    <Compile Include="Models\TeamModels\TeamMemberRequestViewModel.cs" />
     <Compile Include="Models\TournamentModels\SubjectModels\TournamentPlayerViewModel.cs" />
     <Compile Include="Models\TournamentModels\SubjectModels\TournamentTeamViewModel.cs" />
     <Compile Include="Models\TournamentModels\TournamentBracketViewModel.cs" />
