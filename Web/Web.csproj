@@ -159,15 +159,15 @@
     <Compile Include="Infrastructure\PrincipalModel.cs" />
     <Compile Include="Models\PlayerViewModel.cs" />
     <Compile Include="Models\SignUpViewModel.cs" />
-    <Compile Include="Models\Dto\DtoBuilder.cs" />
-    <Compile Include="Models\Dto\GameDto.cs" />
-    <Compile Include="Models\Dto\PlayerDto.cs" />
-    <Compile Include="Models\Dto\SubjectDto.cs" />
-    <Compile Include="Models\Dto\TeamDto.cs" />
-    <Compile Include="Models\Dto\TournamentDto.cs" />
-    <Compile Include="Models\Dto\TournamentStageDto.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
-    <Compile Include="Models\TournamentDetailViewModel.cs" />
+    <Compile Include="Models\TeamModels\TeamMemberRequestViewModel.cs" />
+    <Compile Include="Models\TournamentModels\SubjectModels\TournamentPlayerViewModel.cs" />
+    <Compile Include="Models\TournamentModels\SubjectModels\TournamentTeamViewModel.cs" />
+    <Compile Include="Models\TournamentModels\TournamentBracketViewModel.cs" />
+    <Compile Include="Models\TournamentModels\GameViewModel.cs" />
+    <Compile Include="Models\TournamentModels\SubjectModels\SubjectViewModel.cs" />
+    <Compile Include="Models\TournamentModels\TournamentDetailViewModel.cs" />
+    <Compile Include="Models\TournamentModels\TournamentStageViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,7 +1,6 @@
-﻿@using Entities
-@using Web.Infrastructure
-@using Web.Models.Dto
-@model Tournament
+﻿@using Web.Infrastructure
+@using Web.Models.TournamentModels
+@model TournamentBracketViewModel
 
 @section styles
 {
@@ -22,5 +21,5 @@
 <div class="bracket"> </div>
 @section onReady
 {
-    (new System.Bracket(@Html.Raw(new GenericDataContractJsonSerializer<TournamentDto>().Serialize(DtoBuilder.BuildTournament(Model))))).init($('.bracket'));
+    (new System.Bracket(@Html.Raw(new GenericDataContractJsonSerializer<TournamentBracketViewModel>().Serialize(Model)))).init($('.bracket'));
 }

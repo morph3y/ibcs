@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using Contracts.Business;
 using Entities;
-using Web.Models;
+using Web.Models.TournamentModels;
 
 namespace Web.Controllers
 {
@@ -47,7 +47,8 @@ namespace Web.Controllers
 
         public ActionResult Bracket(int id)
         {
-            return View(_tournamentService.Get(id));
+            var viewModel = TournamentBracketViewModel.Build(_tournamentService.Get(id));
+            return View(viewModel);
         }
 
         [Authorize]

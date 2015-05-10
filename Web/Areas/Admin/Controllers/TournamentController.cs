@@ -1,8 +1,9 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Web.Mvc;
 using Contracts.Business;
 using Entities;
 using Web.Areas.Admin.Models;
-using Web.Models.Dto;
+using Web.Models.TournamentModels;
 
 namespace Web.Areas.Admin.Controllers
 {
@@ -27,11 +28,23 @@ namespace Web.Areas.Admin.Controllers
 
         public ActionResult Edit(int id)
         {
-            return View(_tournamentService.Get(id));
+            var trn = _tournamentService.Get(id);
+            return View(new TournamentBracketViewModel
+            {
+                Id = trn.Id,
+                IsRanked = trn.IsRanked,
+                IsTeamEvent = trn.IsTeamEvent,
+                Name = trn.Name,
+                PointsForTie = trn.PointsForTie,
+                PointsForWin = trn.PointsForWin,
+                Status = trn.Status,
+                TournamentType = trn.TournamentType,
+                Stages = new List<TournamentStageViewModel>()
+            });
         }
 
         [HttpPost]
-        public ActionResult Edit(TournamentDto model)
+        public ActionResult Edit(TournamentBracketViewModel model)
         {
             if (model == null || !Contracts.Session.Session.Current.IsAdmin)
             {

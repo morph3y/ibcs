@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Entities;
 
-namespace Web.Models
+namespace Web.Models.TournamentModels
 {
     public class TournamentDetailViewModel
     {

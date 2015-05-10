@@ -4,7 +4,7 @@ using System.Web.Mvc;
 using Contracts.Business;
 using Entities;
 using Web.Infrastructure;
-using Web.Models.Dto;
+using Web.Models.TournamentModels.SubjectModels;
 
 namespace Web.Controllers
 {
@@ -32,7 +32,7 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(TeamDto teamModel)
+        public ActionResult Edit(TournamentTeamViewModel teamModel)
         {
             var team = _teamService.Get(x => x.Id == teamModel.Id);
             if (team == null)
@@ -56,9 +56,9 @@ namespace Web.Controllers
         [HttpGet]
         public ActionResult Edit(int? id)
         {
-            return View(id.HasValue ? _teamService.Get(x => x.Id == id) : new Team()
+            return View(id.HasValue ? TournamentTeamViewModel.Build(_teamService.Get(x => x.Id == id)) : new TournamentTeamViewModel
             {
-                Captain = _playerService.Get(x=>x.Id == Contracts.Session.Session.Current.Id)
+                Captain = TournamentPlayerViewModel.Build(_playerService.Get(x=>x.Id == Contracts.Session.Session.Current.Id))
             });
         }
 
@@ -66,13 +66,13 @@ namespace Web.Controllers
         {
             var member = _playerService.Get(x => x.Id == memberId);
             _teamService.AddMember(teamId, member);
-            return Json(new GenericDataContractJsonSerializer<SubjectDto>().Serialize(DtoBuilder.BuildSubject(member)));
+            return Json(new GenericDataContractJsonSerializer<SubjectViewModel>().Serialize(SubjectViewModel.Build(member)));
         }
 
         public JsonResult GetAvailableMembers(int teamId)
         {
             var members = _teamService.GetAvailableMembers(teamId);
-            return Json(new GenericDataContractJsonSerializer<IList<SubjectDto>>().Serialize(members.Select(DtoBuilder.BuildSubject).ToList()));
+            return Json(new GenericDataContractJsonSerializer<IList<SubjectViewModel>>().Serialize(members.Select(SubjectViewModel.Build).ToList()));
         }
 
         public JsonResult RemoveMember(int teamId, int memberId)

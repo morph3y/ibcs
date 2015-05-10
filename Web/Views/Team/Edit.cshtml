@@ -1,6 +1,6 @@
 ﻿@using Web.Infrastructure
-@using Web.Models.Dto
-@model Entities.Team
+@using Web.Models.TournamentModels.SubjectModels
+@model TournamentTeamViewModel
 
 @section styles
 {
@@ -19,7 +19,7 @@
     System.Team.Urls.removeMemberUrl = "@Url.Action("RemoveMember", "Team", new { area = "" })";
     System.Team.Urls.getAvailableMembers = "@Url.Action("GetAvailableMembers", "Team", new { area = "" })";
     System.Team.Urls.addMember = "@Url.Action("AddMember", "Team", new { area = "" })";
-    var teamBuilder = new System.Team.TeamBuilder(@Html.Raw(new GenericDataContractJsonSerializer<SubjectDto>().Serialize(DtoBuilder.BuildSubject(Model))));
+    var teamBuilder = new System.Team.TeamBuilder(@Html.Raw(new GenericDataContractJsonSerializer<SubjectViewModel>().Serialize(Model)));
     teamBuilder.render($('.members-grid'));
 }
 
