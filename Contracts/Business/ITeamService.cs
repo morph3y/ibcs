@@ -10,12 +10,17 @@ namespace Contracts.Business
     {
         IEnumerable<Team> GetList();
         IEnumerable<Team> GetCollection(Expression<Func<Team, bool>> where);
-        IEnumerable<Player> GetAvailableMembers(int teamId);
         Team Get(Expression<Func<Team, bool>> where);
         void Save(Team entity);
 
+        IEnumerable<Player> GetAvailableMembers(int teamId);
+
+        IEnumerable<TeamMemberRequest> GetMembersRequests(int teamId);
+        IEnumerable<TeamMemberRequest> GetTeamsRequests(int memberId);
+
         void AddMember(int teamId, int memberId);
         void AddMember(int teamId, Player member);
+        void AcceptMember(int teamId, Player member);
         void RemoveMember(int teamId, int memberId);
     }
 }

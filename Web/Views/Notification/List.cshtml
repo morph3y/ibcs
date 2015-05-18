@@ -1,0 +1,19 @@
+﻿@using Web.Infrastructure
+@using Web.Models.Notifications
+@model NotificationsViewModel
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        System.Notifications.Urls.acceptRequestUrl = "@Url.Action("AcceptRequest", "Team",  new { area = "" })";
+        System.Notifications.Urls.rejectRequestUrl = "@Url.Action("RemoveMember", "Team", new { area = "" })";
+
+        var notificationsBuilder = new System.Notifications(@Html.Raw(new GenericDataContractJsonSerializer<NotificationsViewModel>().Serialize(Model)));
+        notificationsBuilder.render($('.member-requests'));
+    });
+</script>
+
+Notifications:
+
+<div class="member-requests">
+    <span class="number"></span> membership requests
+</div>

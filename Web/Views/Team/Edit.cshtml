@@ -1,6 +1,6 @@
 ﻿@using Web.Infrastructure
-@using Web.Models.TournamentModels.SubjectModels
-@model TournamentTeamViewModel
+@using Web.Models.TeamModels
+@model EditTeamViewModel
 
 @section styles
 {
@@ -9,7 +9,6 @@
 
 @section scripts
 {
-    <script type="text/javascript" src="~/Scripts/System/System.Dialog.js"></script>
     <script type="text/javascript" src="~/Scripts/System/Team/System.Team.TeamBuilder.js"></script>
     <script type="text/javascript" src="~/Scripts/System/Team/System.Team.Urls.js"></script>
 }
@@ -19,7 +18,7 @@
     System.Team.Urls.removeMemberUrl = "@Url.Action("RemoveMember", "Team", new { area = "" })";
     System.Team.Urls.getAvailableMembers = "@Url.Action("GetAvailableMembers", "Team", new { area = "" })";
     System.Team.Urls.addMember = "@Url.Action("AddMember", "Team", new { area = "" })";
-    var teamBuilder = new System.Team.TeamBuilder(@Html.Raw(new GenericDataContractJsonSerializer<SubjectViewModel>().Serialize(Model)));
+    var teamBuilder = new System.Team.TeamBuilder(@Html.Raw(new GenericDataContractJsonSerializer<EditTeamViewModel>().Serialize(Model)));
     teamBuilder.render($('.members-grid'));
 }
 
@@ -48,9 +47,7 @@
     }
     <br />
     Members:
-    @if (User.Identity.IsAuthenticated && (
-        Contracts.Session.Session.Current.IsAdmin || (
-            Model.Captain != null && Contracts.Session.Session.Current.Id == Model.Captain.Id)))
+    @if (authorized)
     {
         <div class="members-grid">
             <table>
@@ -58,7 +55,7 @@
                     <tr>
                         <th><span class="add-member">Add</span></th>
                         <th>Member name</th>
-                        <th>Team captain</th>
+                        <th>Accepted</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -70,7 +67,7 @@
         <ul>
             @foreach (var member in Model.Members)
             {
-                <li>@member.Name</li>
+                <li> @member.Name </li>
             }
         </ul>
     }

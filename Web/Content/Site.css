@@ -288,3 +288,19 @@ table {
     width: 50px;
     display: inline-block;
 }
+/*******************************************
+    Notifications
+*******************************************/
+.member-requests .number {
+    text-decoration: underline;
+    color: #F29979;
+    cursor: pointer;
+}
+
+.member-requests .number:hover {
+    text-decoration: none;
+}
+
+    .accept-request, .reject-request {
+        cursor: pointer;
+    }

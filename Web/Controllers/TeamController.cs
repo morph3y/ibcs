@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using Contracts.Business;
 using Entities;
 using Web.Infrastructure;
+using Web.Models.TeamModels;
 using Web.Models.TournamentModels.SubjectModels;
 
 namespace Web.Controllers
@@ -56,17 +57,75 @@ namespace Web.Controllers
         [HttpGet]
         public ActionResult Edit(int? id)
         {
-            return View(id.HasValue ? (TournamentTeamViewModel)SubjectViewModel.Build(_teamService.Get(x => x.Id == id)) : new TournamentTeamViewModel
+            var team = _teamService.Get(x => x.Id == id);
+            TournamentPlayerViewModel captain;
+            var viewModel = new EditTeamViewModel
             {
-                Captain = (TournamentPlayerViewModel)SubjectViewModel.Build(_playerService.Get(x => x.Id == Contracts.Session.Session.Current.Id))
-            });
+                IsAuthorized = User.Identity.IsAuthenticated && (Contracts.Session.Session.Current.IsAdmin || (team != null && team.Captain != null && Contracts.Session.Session.Current.Id == team.Captain.Id)),
+                Members = new List<TeamMemberViewModel>()
+            };
+            if (id.HasValue)
+            {
+                if (team != null)
+                {
+                    captain = (TournamentPlayerViewModel)SubjectViewModel.Build(team.Captain);
+                    viewModel.Name = team.Name;
+                    viewModel.Id = team.Id;
+                    foreach (var member in team.Members)
+                    {
+                        viewModel.Members.Add(new TeamMemberViewModel
+                        {
+                            Accepted = true,
+                            Id = member.Id,
+                            Name = member.Name
+                        });
+                    }
+                    if (viewModel.IsAuthorized)
+                    {
+                        var requests = _teamService.GetMembersRequests(id.Value);
+
+                        foreach (var memberRequest in requests)
+                        {
+                            viewModel.Members.Add(new TeamMemberViewModel
+                            {
+                                Accepted = false,
+                                Id = memberRequest.Member.Id,
+                                Name = memberRequest.Member.Name
+                            });
+                        }
+                    }
+                }
+                else
+                {
+                    captain = (TournamentPlayerViewModel)SubjectViewModel.Build(_playerService.Get(x => x.Id == Contracts.Session.Session.Current.Id));
+                }
+            }
+            else
+            {
+                captain = (TournamentPlayerViewModel)SubjectViewModel.Build(_playerService.Get(x => x.Id == Contracts.Session.Session.Current.Id));
+            }
+
+            viewModel.Captain = captain;
+
+            return View(viewModel);
         }
 
         public JsonResult AddMember(int teamId, int memberId)
         {
             var member = _playerService.Get(x => x.Id == memberId);
             _teamService.AddMember(teamId, member);
-            return Json(new GenericDataContractJsonSerializer<SubjectViewModel>().Serialize(SubjectViewModel.Build(member)));
+            return Json(new GenericDataContractJsonSerializer<TeamMemberViewModel>().Serialize(new TeamMemberViewModel
+            {
+                Accepted = false,
+                Id = member.Id,
+                Name = member.Name
+            }));
+        }
+
+        public JsonResult AcceptRequest(int teamId, int memberId)
+        {
+            _teamService.AcceptMember(teamId, _playerService.Get(x=>x.Id == memberId));
+            return Json(new { success = true });
         }
 
         public JsonResult GetAvailableMembers(int teamId)

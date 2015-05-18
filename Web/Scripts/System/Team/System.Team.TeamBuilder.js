@@ -6,7 +6,7 @@ System.Team.TeamBuilder = function (data) {
             '<tr>' +
             '   <td><span class="remove-member">Remove</span></td>' +
             '   <td class="member-name"></td>' +
-            '   <td class="is-captain"></td>' +
+            '   <td class="accepted"></td>' +
             '</tr>'),
         dialogOptions = {
             autoOpen: false,
@@ -71,7 +71,7 @@ System.Team.TeamBuilder = function (data) {
     function createMemberRow(member) {
         var newRow = rowTemplate.clone();
         newRow.find('.member-name').text(member.name);
-        newRow.find('.is-captain').text(self.team.captain.id == null || self.team.captain.id != member.id ? "No" : "Yes");
+        newRow.find('.accepted').text(member.accepted === true ? "Yes" : "No");
         newRow.find('.remove-member').click(function () {
             $.ajax({
                 method: 'POST',

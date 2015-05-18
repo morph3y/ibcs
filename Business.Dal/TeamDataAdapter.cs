@@ -41,9 +41,36 @@ namespace Business.Dal
             return _dataAccessAdapter.GetCollection<Team>();
         }
 
+        public IEnumerable<TeamMemberRequest> GetTeamRequests(int memberId)
+        {
+            return _dataAccessAdapter.GetCollection<TeamMemberRequest>(x => x.Member.Id == memberId);
+        }
+
+        public IEnumerable<TeamMemberRequest> GetMembersRequests(int teamId)
+        {
+            return _dataAccessAdapter.GetCollection<TeamMemberRequest>(x => x.Team.Id == teamId);
+        }
+
+        public TeamMemberRequest GetRequest(int teamId, int memberId)
+        {
+            return _dataAccessAdapter.GetCollection<TeamMemberRequest>(x => x.Member.Id == memberId && x.Team.Id == teamId).FirstOrDefault();
+        }
+
+        public void RemoveRequest(TeamMemberRequest request)
+        {
+            _dataAccessAdapter.Delete(request);
+        }
+
+        public void CreateRequest(TeamMemberRequest request)
+        {
+            _dataAccessAdapter.Save(request);
+        }
+
         public IEnumerable<Player> GetAvailableMembers(int teamId)
         {
             Player captainAlias = null;
+            Player requestMember = null;
+            Team requestTeam = null;
             // TODO: No support for unions
             var members = QueryOver.Of<Player>()
                 .JoinQueryOver<Team>(x => x.Teams)
@@ -52,10 +79,16 @@ namespace Business.Dal
                 .JoinAlias(x => x.Captain, () => captainAlias)
                 .Where(x => x.Id == teamId)
                 .Select(Projections.Distinct(Projections.Property(() => captainAlias.Id)));
+            var requests = QueryOver.Of<TeamMemberRequest>()
+                .JoinAlias(x=>x.Member, () => requestMember)
+                .JoinAlias(x=>x.Team, () => requestTeam)
+                .Where(x => requestTeam.Id == teamId)
+                .Select(Projections.Distinct(Projections.Property(() => requestMember.Id)));
 
             return _dataAccessAdapter.GetCollection(QueryOver.Of<Player>().Where(Restrictions.Conjunction()
                 .Add(Subqueries.WhereProperty<Player>(x => x.Id).NotIn(members.Select(x => x.Id)))
-                .Add(Subqueries.WhereProperty<Player>(x => x.Id).NotIn(captain))));
+                .Add(Subqueries.WhereProperty<Player>(x => x.Id).NotIn(captain))
+                .Add(Subqueries.WhereProperty<Player>(x => x.Id).NotIn(requests))));
         } 
     }
 }

@@ -16,7 +16,7 @@ namespace Web.Models.TournamentModels.SubjectModels
         {
             var resultDto = new TournamentTeamViewModel
             {
-                Captain = TournamentPlayerViewModel.Build(team.Captain),
+                Captain = (TournamentPlayerViewModel)SubjectViewModel.Build(team.Captain),
                 Members = new List<TournamentPlayerViewModel>()
             };
 

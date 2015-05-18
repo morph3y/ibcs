@@ -8,7 +8,7 @@ namespace Dal.Mappings
         public TeamMap()
         {
             References(x => x.Captain);
-            HasManyToMany(x => x.Members).Cascade.AllDeleteOrphan();
+            HasManyToMany(x => x.Members);
             HasMany(x => x.MemberRequests).Cascade.AllDeleteOrphan().KeyColumn("TeamId");
         }
     }

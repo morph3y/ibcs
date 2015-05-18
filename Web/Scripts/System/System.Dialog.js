@@ -49,6 +49,4 @@ System.Dialog = function (options) {
         },
         buttons: btns
     });
-
-    return self;
 };

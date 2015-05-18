@@ -45,6 +45,16 @@ namespace Business
             return _teamDataAdapter.GetAvailableMembers(teamId);
         }
 
+        public IEnumerable<TeamMemberRequest> GetMembersRequests(int teamId)
+        {
+            return _teamDataAdapter.GetMembersRequests(teamId);
+        }
+
+        public IEnumerable<TeamMemberRequest> GetTeamsRequests(int memberId)
+        {
+            return _teamDataAdapter.GetTeamRequests(memberId);
+        }
+
         public void AddMember(int teamId, int memberId)
         {
             AddMember(teamId, _playerDataAdapter.Get(x => x.Id == memberId));
@@ -52,8 +62,25 @@ namespace Business
 
         public void AddMember(int teamId, Player member)
         {
+            var teamMemberRequest = new TeamMemberRequest
+            {
+                Member = member,
+                Team = Get(x=>x.Id == teamId)
+            };
+            _teamDataAdapter.CreateRequest(teamMemberRequest);
+        }
+
+        public void AcceptMember(int teamId, Player member)
+        {
             var team = _teamDataAdapter.Get(x => x.Id == teamId);
             team.Members.Add(member);
+
+            var requestToRemove = _teamDataAdapter.GetRequest(teamId, member.Id);
+            if (requestToRemove != null)
+            {
+                _teamDataAdapter.RemoveRequest(requestToRemove);
+            }
+
             _teamDataAdapter.Save(team);
         }
 
@@ -65,10 +92,18 @@ namespace Business
             {
                 if (team.ContestantIn.Any(x => x.IsRanked && x.Status == TournamentStatus.Active))
                 {
-                    throw new Exception("Can't remove player from the team - its registered for active tournament");
+                    throw new Exception("Can't remove the player from the team - it is registered for an active tournament");
                 }
 
-                team.Members.Remove(memberToRemove);
+                if (!team.Members.Remove(memberToRemove))
+                {
+                    var requestToRemove = _teamDataAdapter.GetRequest(teamId, memberId);
+                    if (requestToRemove != null)
+                    {
+                        _teamDataAdapter.RemoveRequest(requestToRemove);
+                    }
+                }
+
                 _teamDataAdapter.Save(team);
             }
             else
