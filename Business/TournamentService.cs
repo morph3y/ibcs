@@ -90,31 +90,24 @@ namespace Business
 
         public void RemoveContestant(Subject contestant, Tournament tournament)
         {
-            if (Contracts.Session.Session.Current == null || tournament.Status == TournamentStatus.Closed
+            if (tournament.Status == TournamentStatus.Closed
                 // temp until we figure out BYE player 
                 || tournament.Status == TournamentStatus.Active)
             {
                 return;
             }
 
-            if (tournament.IsTeamEvent)
+            if (contestant == null)
             {
-                var contestantId = contestant.Id;
-                contestant = _teamDataAdapter.Get(x => x.Id == contestantId);
-                if (contestant == null)
-                {
-                    return;
-                }
-            }
-
-            tournament.Contestants.Remove(contestant);
-            if (tournament.Status == TournamentStatus.Registration)
-            {
-                GenerateGames(tournament);
                 return;
             }
 
-            // do the magic / or team
+            tournament.Contestants.Remove(contestant);
+            
+            // regenerate games if required
+            GenerateGames(tournament);
+
+            // BYE player here
             if (tournament.Status == TournamentStatus.Active)
             {
                 var bye = new Player

@@ -128,16 +128,16 @@ namespace Web.Controllers
             return Json(new { success = true });
         }
 
-        public JsonResult GetAvailableMembers(int teamId)
-        {
-            var members = _teamService.GetAvailableMembers(teamId);
-            return Json(new GenericDataContractJsonSerializer<IList<SubjectViewModel>>().Serialize(members.Select(SubjectViewModel.Build).ToList()));
-        }
-
         public JsonResult RemoveMember(int teamId, int memberId)
         {
             _teamService.RemoveMember(teamId, memberId);
             return Json(new { success = true });
+        }
+
+        public JsonResult GetAvailableMembers(int teamId)
+        {
+            var members = _teamService.GetAvailableMembers(teamId);
+            return Json(new GenericDataContractJsonSerializer<IList<SubjectViewModel>>().Serialize(members.Select(SubjectViewModel.Build).ToList()));
         }
     }
 }

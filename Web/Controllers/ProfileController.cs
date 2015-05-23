@@ -57,7 +57,12 @@ namespace Web.Controllers
                 UserName = model.UserEmail
             });
 
-            return Logon(new LoginViewModel { UserName = model.UserEmail, Password = model.UserPassword }, string.Empty);
+            return View("Profile", new PlayerViewModel
+            {
+                DisplayName = "",
+                FirstName = "",
+                LastName = ""
+            });
         }
 
         [AllowAnonymous]
@@ -134,20 +139,6 @@ namespace Web.Controllers
             }
 
             return RedirectToAction("Profile");
-        }
-
-        [AllowAnonymous]
-        public void CreateAdmin()
-        {
-            _playerService.Save(new Player
-            {
-                FirstName = "Alex",
-                LastName = "Denysenko",
-                IsAdmin = true,
-                Name = "Alex Denysenko",
-                Passsword = "admin",
-                UserName = "admin"
-            });
         }
     }
 }

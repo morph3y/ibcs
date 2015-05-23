@@ -39,7 +39,9 @@ namespace Web.Controllers
                 UserInTournament = User.Identity.IsAuthenticated && (tournament.Contestants.Any(x => x.Id == Contracts.Session.Session.Current.Id)
                     || _tournamentService.IsInTournament(tournament.Id, Contracts.Session.Session.Current.Id)),
                 Tournament = tournament,
-                MyTeams = User.Identity.IsAuthenticated && tournament.IsTeamEvent ? _teamService.GetCollection(x => x.Captain.Id == Contracts.Session.Session.Current.Id) : new List<Team>()
+                MyTeams = User.Identity.IsAuthenticated && tournament.IsTeamEvent && tournament.Status == TournamentStatus.Registration
+                    ? _teamService.GetCollection(x => x.Captain.Id == Contracts.Session.Session.Current.Id)
+                    : new List<Team>()
             };
 
             return View(viewModel);
@@ -47,8 +49,7 @@ namespace Web.Controllers
 
         public ActionResult Bracket(int id)
         {
-            var viewModel = TournamentBracketViewModel.Build(_tournamentService.Get(id));
-            return View(viewModel);
+            return View(TournamentBracketViewModel.Build(_tournamentService.Get(id)));
         }
 
         [Authorize]
@@ -63,7 +64,7 @@ namespace Web.Controllers
             _tournamentService.AddContestant(_subjectService.Get(x => x.Id == contestantId), tournament);
             _tournamentService.Save(tournament);
 
-            return RedirectToAction("Detail", new { id = tournament.Id});
+            return RedirectToAction("Detail", new { id = tournament.Id });
         }
 
         [Authorize]

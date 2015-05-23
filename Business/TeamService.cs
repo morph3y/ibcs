@@ -62,10 +62,16 @@ namespace Business
 
         public void AddMember(int teamId, Player member)
         {
+            var team = Get(x=>x.Id == teamId);
+            if (!Session.Current.IsAdmin && team.Captain.Id != Session.Current.Id)
+            {
+                throw new Exception("You don't have permission to add members to this team");
+            }
+
             var teamMemberRequest = new TeamMemberRequest
             {
                 Member = member,
-                Team = Get(x=>x.Id == teamId)
+                Team = team
             };
             _teamDataAdapter.CreateRequest(teamMemberRequest);
         }
