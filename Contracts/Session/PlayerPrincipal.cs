@@ -1,6 +1,6 @@
 ﻿using System.Security.Principal;
 
-namespace Framework.Session
+namespace Contracts.Session
 {
     public class PlayerPrincipal : IPrincipal
     {

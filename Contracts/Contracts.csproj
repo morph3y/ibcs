@@ -50,7 +50,8 @@
     <Compile Include="Business\IPlayerService.cs" />
     <Compile Include="Business\ISubjectService.cs" />
     <Compile Include="Business\ITeamService.cs" />
-    <Compile Include="Business\ITournamentService.cs" />
+    <Compile Include="Business\Tournaments\ITournamentService.cs" />
+    <Compile Include="Business\Tournaments\ITournamentStageService.cs" />
     <Compile Include="Dal\IDbSessionManager.cs" />
     <Compile Include="IoC\IDependencyBinder.cs" />
     <Compile Include="IoC\IDependencyResolver.cs" />

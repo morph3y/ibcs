@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Contracts.Business;
+using Contracts.Business.Tournaments;
 using Entities;
 using Web.Models.TournamentModels;
 
@@ -13,12 +14,10 @@ namespace Web.Controllers
     {
         private readonly ITournamentService _tournamentService;
         private readonly ITeamService _teamService;
-        private readonly ISubjectService _subjectService;
-        public TournamentController(ITournamentService tournamentService, ITeamService teamService, ISubjectService subjectService)
+        public TournamentController(ITournamentService tournamentService, ITeamService teamService)
         {
             _tournamentService = tournamentService;
             _teamService = teamService;
-            _subjectService = subjectService;
         }
 
         public ActionResult Index()
@@ -61,8 +60,7 @@ namespace Web.Controllers
                 throw new Exception("Tournament was not found");
             }
 
-            _tournamentService.AddContestant(_subjectService.Get(x => x.Id == contestantId), tournament);
-            _tournamentService.Save(tournament);
+            _tournamentService.AddContestant(contestantId, tournament);
 
             return RedirectToAction("Detail", new { id = tournament.Id });
         }
@@ -76,8 +74,7 @@ namespace Web.Controllers
                 throw new Exception("Tournament was not found");
             }
 
-            _tournamentService.RemoveContestant(_subjectService.Get(x => x.Id == contestantId), tournament);
-            _tournamentService.Save(tournament);
+            _tournamentService.RemoveContestant(contestantId, tournament);
 
             return RedirectToAction("Detail", new { id = tournament.Id });
         }
@@ -92,7 +89,6 @@ namespace Web.Controllers
             };
 
             _tournamentService.Create(trn);
-            _tournamentService.Save(trn);
         }
     }
 }

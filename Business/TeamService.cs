@@ -62,7 +62,7 @@ namespace Business
 
         public void AddMember(int teamId, Player member)
         {
-            var team = Get(x=>x.Id == teamId);
+            var team = _teamDataAdapter.Get(x=>x.Id == teamId);
             if (!Session.Current.IsAdmin && team.Captain.Id != Session.Current.Id)
             {
                 throw new Exception("You don't have permission to add members to this team");
@@ -78,6 +78,11 @@ namespace Business
 
         public void AcceptMember(int teamId, Player member)
         {
+            if (!Session.Current.IsAdmin && Session.Current.Id != member.Id)
+            {
+                throw new Exception("You can not accept other players requests");
+            }
+
             var team = _teamDataAdapter.Get(x => x.Id == teamId);
             team.Members.Add(member);
 

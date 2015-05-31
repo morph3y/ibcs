@@ -4,7 +4,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Script.Serialization;
 using System.Web.Security;
-using Framework.Session;
+using Contracts.Session;
 using Web.Infrastructure;
 
 namespace Web

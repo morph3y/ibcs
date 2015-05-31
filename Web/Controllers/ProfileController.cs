@@ -1,8 +1,8 @@
 ﻿using System.Web.Mvc;
 using System.Web.Security;
 using Contracts.Business;
+using Contracts.Session;
 using Entities;
-using Framework.Session;
 using Web.Infrastructure;
 using Web.Models;
 

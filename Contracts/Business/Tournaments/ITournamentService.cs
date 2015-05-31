@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
 using Entities;
 
-namespace Contracts.Business
+namespace Contracts.Business.Tournaments
 {
     public interface ITournamentService
     {
         IEnumerable<Tournament> GetList();
         Tournament Get(int id);
         void Save(Tournament tournament);
-        void Create(Tournament entity);
+        void Create(Tournament tournament);
         bool IsInTournament(int tournamentId, int memberId);
-        void AddContestant(Subject contestant, Tournament tournament);
-        void RemoveContestant(Subject contestant, Tournament tournament);
+        void AddContestant(int contestantId, Tournament tournament);
+        void RemoveContestant(int contestantId, Tournament tournament);
     }
 }

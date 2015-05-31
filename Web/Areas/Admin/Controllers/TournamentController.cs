@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using Contracts.Business;
+using Contracts.Business.Tournaments;
 using Entities;
 using Web.Areas.Admin.Models;
 using Web.Models.TournamentModels;
@@ -56,8 +57,8 @@ namespace Web.Areas.Admin.Controllers
                 Id = model.Id,
                 IsRanked = model.IsRanked,
                 Name = model.Name,
-                PointsForTie = model.PointsForTie < 0 ? 0 : model.PointsForTie,
-                PointsForWin = model.PointsForWin < 0 ? 0 : model.PointsForWin,
+                PointsForTie = model.PointsForTie,
+                PointsForWin = model.PointsForWin,
                 Status = model.Status,
                 TournamentType = model.TournamentType,
                 IsTeamEvent = model.IsTeamEvent

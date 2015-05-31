@@ -2,7 +2,7 @@
 using System.Web;
 using System.Web.Script.Serialization;
 using System.Web.Security;
-using Framework.Session;
+using Contracts.Session;
 
 namespace Web.Infrastructure
 {

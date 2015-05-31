@@ -1,4 +1,6 @@
-﻿using Contracts.Business;
+﻿using Business.Tournaments;
+using Contracts.Business;
+using Contracts.Business.Tournaments;
 using Contracts.IoC;
 
 namespace Business.IoC
@@ -15,6 +17,7 @@ namespace Business.IoC
         public void Resolve()
         {
             _dependencyBinder.Bind<ITournamentService, TournamentService>();
+            _dependencyBinder.Bind<ITournamentStageService, TournamentStageService>();
             _dependencyBinder.Bind<ITeamService, TeamService>();
             _dependencyBinder.Bind<IPlayerService, PlayerService>();
             _dependencyBinder.Bind<IGameService, GameService>();
