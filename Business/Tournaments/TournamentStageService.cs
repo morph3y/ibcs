@@ -9,7 +9,7 @@ namespace Business.Tournaments
     {
         private readonly ITournamentDataAdapter _tournamentDataAdapter;
         private readonly IStageBuilderFactory _stageBuilderFactory;
-        public TournamentStageService(ITournamentDataAdapter tournamentDataAdapter, IStageBuilderFactory stageBuilderFactory)
+        public TournamentStageService(ITournamentDataAdapter tournamentDataAdapter, IStageBuilderFactory stageBuilderFactory = null)
         {
             _tournamentDataAdapter = tournamentDataAdapter;
             _stageBuilderFactory = stageBuilderFactory ?? new StageBuilderFactory();
@@ -33,20 +33,11 @@ namespace Business.Tournaments
             tournament.Contestants.Remove(contestant);
 
             GenerateStages(tournament);
+        }
 
-            // BYE player here
-            if (tournament.Status == TournamentStatus.Active)
-            {
-                var bye = new Player
-                {
-                    Name = "BYE",
-                    FirstName = "BYE",
-                    LastName = "",
-                    UserName = "BYE",
-
-                };
-            }
-
+        public void UpdateStages(Tournament tournament)
+        {
+            _stageBuilderFactory.Create(tournament).Update();
             _tournamentDataAdapter.Save(tournament);
         }
     }

@@ -48,6 +48,7 @@
     <Compile Include="Business.Dal\ITournamentDataAdapter.cs" />
     <Compile Include="Business\IGameService.cs" />
     <Compile Include="Business\IPlayerService.cs" />
+    <Compile Include="Business\IRankingService.cs" />
     <Compile Include="Business\ISubjectService.cs" />
     <Compile Include="Business\ITeamService.cs" />
     <Compile Include="Business\Tournaments\ITournamentService.cs" />

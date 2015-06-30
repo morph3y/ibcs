@@ -34,7 +34,8 @@ namespace Business.Tournaments.StageBuilders
                         Participant2 = contestant2,
                         Status = GameStatus.NotStarted,
                         TournamentStage = null,
-                        Winner = null
+                        Winner = null,
+                        Order = 0
                     };
 
                     if (!games.Contains(game))
@@ -92,6 +93,12 @@ namespace Business.Tournaments.StageBuilders
             {
                 _tournament.Stages.Add(tournamentStage);
             }
+        }
+
+        public void Update()
+        {
+            // League goes on until all games are done
+            return;
         }
     }
 }

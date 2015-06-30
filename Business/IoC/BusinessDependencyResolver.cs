@@ -22,6 +22,7 @@ namespace Business.IoC
             _dependencyBinder.Bind<IPlayerService, PlayerService>();
             _dependencyBinder.Bind<IGameService, GameService>();
             _dependencyBinder.Bind<ISubjectService, SubjectService>();
+            _dependencyBinder.Bind<IRankingService, RankingService>();
         }
     }
 }

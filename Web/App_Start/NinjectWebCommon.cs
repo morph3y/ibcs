@@ -47,6 +47,8 @@ namespace Web
                 _kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
 
                 RegisterServices();
+
+                _kernel.Settings.AllowNullInjection = true;
                 return _kernel;
             }
             catch

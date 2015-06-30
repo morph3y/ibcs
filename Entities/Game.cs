@@ -5,6 +5,7 @@
         public virtual int Id { get; set; }
 
         public virtual TournamentStage TournamentStage { get; set; }
+        public virtual int Order { get; set; }
         public virtual GameStatus Status { get; set; }
 
         public virtual Subject Participant1 { get; set; }

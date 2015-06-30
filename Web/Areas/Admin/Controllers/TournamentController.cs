@@ -12,16 +12,19 @@ namespace Web.Areas.Admin.Controllers
     public class TournamentController : Controller
     {
         private readonly ITournamentService _tournamentService;
+        private readonly ITournamentStageService _tournamentStageService;
         private readonly IPlayerService _playerService;
         private readonly IGameService _gameService;
         private readonly ISubjectService _subjectService;
         public TournamentController(
             ITournamentService tournamentService,
+            ITournamentStageService tournamentStageService,
             IPlayerService playerService,
             IGameService gameService,
             ISubjectService subjectService)
         {
             _tournamentService = tournamentService;
+            _tournamentStageService = tournamentStageService;
             _playerService = playerService;
             _gameService = gameService;
             _subjectService = subjectService;
@@ -82,13 +85,12 @@ namespace Web.Areas.Admin.Controllers
             }
 
             var game = _gameService.Get(x => x.Id == updateModel.GameId);
-            game.Status = GameStatus.Finished;
             game.Participant1Score = updateModel.Participant1Score;
             game.Participant2Score = updateModel.Participant2Score;
             game.Winner = _subjectService.Get(x => x.Id == updateModel.WinnerId);
-            _tournamentService.Save(game.TournamentStage.Tournament);
+            _gameService.EndGame(game);
 
-            return RedirectToAction("Edit", new { id = game.TournamentStage.Tournament.Id });
+            return RedirectToAction("Edit", new { id = game.TournamentStage.Tournament.Id, area = "Admin" });
         }
     }
 }

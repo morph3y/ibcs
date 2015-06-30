@@ -23,6 +23,8 @@ namespace Web.Models.TournamentModels
         public virtual int Participant2Score { get; set; }
         [DataMember(Name = "winner")]
         public virtual SubjectViewModel Winner { get; set; }
+        [DataMember(Name = "order")]
+        public virtual int Order { get; set; }
 
         public static GameViewModel Build(Game game)
         {
@@ -34,7 +36,8 @@ namespace Web.Models.TournamentModels
                 Participant2 = SubjectViewModel.Build(game.Participant2),
                 Participant2Score = game.Participant2Score,
                 Status = game.Status,
-                Winner = SubjectViewModel.Build(game.Winner)
+                Winner = SubjectViewModel.Build(game.Winner),
+                Order = game.Order
             };
         }
     }
