@@ -62,42 +62,53 @@ namespace Business.Tournaments.StageBuilders
                 });
             }
 
-            var upper = contestants.Take(contestants.Count / 2).ToList();
-            var lower = contestants.Skip(contestants.Count / 2).Reverse().ToList();
-            for (int i = 0; i < numberOfGames; i++)
+            var finalListOfGames = new List<Game>();
+            var currentStage = 1;
+            while (currentStage <= numberOfGames)
             {
-                var even = i % 2 == 0;
-
-                var contestant1 = upper[i];
-                var contestant2 = lower[i];
-
-                if (!even)
+                if (currentStage == 1)
                 {
-                    contestant1 = upper[upper.Count - i];
-                    contestant2 = lower[upper.Count - i];
+                    finalListOfGames.Add(new Game
+                    {
+                        Order = 0,
+                        Participant1 = contestants[0],
+                        Participant2 = contestants[1],
+                        Status = GameStatus.Pending,
+                        TournamentStage = _tournament.Stages[0]
+                    });
+                }
+                else
+                {
+                    var newList = new List<Game>();
+                    var stageModifier = (currentStage * 2) + 1;
+                    foreach (var game in finalListOfGames)
+                    {
+                        var contestant1 = game.Participant1;
+                        var contestant2 = contestants[(stageModifier - (contestants.IndexOf(contestant1) + 1)) - 1];
+
+                        newList.Add(CreateGameBetween(contestant1, contestant2, newList.Count));
+
+                        contestant2 = game.Participant2;
+                        contestant1 = contestants[(stageModifier - (contestants.IndexOf(contestant2) + 1)) - 1];
+
+                        newList.Add(CreateGameBetween(contestant1, contestant2, newList.Count));
+                    }
+                    finalListOfGames = newList;
                 }
 
-                var bye1 = contestant1.Id == -1;
-                var bye2 = contestant2.Id == -1;
-
-                _tournament.Stages[0].Games.Add(new Game
-                {
-                    Order = even ? i : numberOfGames - (i - 1),
-                    Participant1 = bye1 ? null : contestant1,
-                    Participant2 = bye2 ? null : contestant2,
-                    Participant1Score = bye2 ? 1 : 0,
-                    Participant2Score = bye1 ? 1 : 0,
-                    Status = bye1 || bye2 ? GameStatus.Finished : GameStatus.Pending,
-                    TournamentStage = _tournament.Stages[0],
-                    Winner = bye1 ? contestant2 : bye2 ? contestant1 : null
-                });
+                currentStage = currentStage * 2;
             }
+
+            finalListOfGames.ForEach(x => _tournament.Stages[0].Games.Add(x));
 
             // Trigger update in case stage 2 is needed
             if (numberOfByes > 1)
             {
                 Update();
-                _tournament.Stages[1].Games = _tournament.Stages[1].Games.OrderBy(x => x.Order).ToList();
+                if (_tournament.Stages.Count > 1)
+                {
+                    _tournament.Stages[1].Games = _tournament.Stages[1].Games.OrderBy(x => x.Order).ToList();
+                }
             }
 
             _tournament.Stages[0].Games = _tournament.Stages[0].Games.OrderBy(x => x.Order).ToList();
@@ -158,6 +169,24 @@ namespace Business.Tournaments.StageBuilders
                     }
                 }
             }
+        }
+
+        private Game CreateGameBetween(Subject contestant1, Subject contestant2, int order)
+        {
+            var bye1 = contestant1.Id == -1;
+            var bye2 = contestant2.Id == -1;
+
+            return new Game
+            {
+                Order = order,
+                Participant1 = bye1 ? null : contestant1,
+                Participant2 = bye2 ? null : contestant2,
+                Participant1Score = bye2 ? 1 : 0,
+                Participant2Score = bye1 ? 1 : 0,
+                Status = bye1 || bye2 ? GameStatus.Finished : GameStatus.Pending,
+                TournamentStage = _tournament.Stages[0],
+                Winner = bye1 ? contestant2 : bye2 ? contestant1 : null
+            };
         }
 
         private bool NextStageHasAppropriateGame(TournamentStage stage, int gameIndex)

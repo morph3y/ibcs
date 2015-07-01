@@ -81,11 +81,11 @@ namespace Business.Tests.StageBuilders
             Assert.AreEqual(4, tournament.Stages[0].Games.Count);
             Assert.IsTrue(tournament.Stages[0].Games[0].Participant1 == null || tournament.Stages[0].Games[0].Participant2 == null);
 
-            Assert.AreEqual(2, tournament.Stages[0].Games[1].Participant1.Id);
-            Assert.AreEqual(5, tournament.Stages[0].Games[1].Participant2.Id);
+            Assert.AreEqual(4, tournament.Stages[0].Games[1].Participant1.Id);
+            Assert.AreEqual(3, tournament.Stages[0].Games[1].Participant2.Id);
 
-            Assert.AreEqual(3, tournament.Stages[0].Games[2].Participant1.Id);
-            Assert.AreEqual(4, tournament.Stages[0].Games[2].Participant2.Id);
+            Assert.AreEqual(2, tournament.Stages[0].Games[2].Participant1.Id);
+            Assert.AreEqual(5, tournament.Stages[0].Games[2].Participant2.Id);
         }
 
         [Test]
@@ -113,8 +113,11 @@ namespace Business.Tests.StageBuilders
             Assert.IsTrue(tournament.Stages[0].Games[31].Participant1 == null || tournament.Stages[0].Games[0].Participant2 == null);
 
             Assert.IsTrue(tournament.Stages[0].Games[1].Participant1 != null && tournament.Stages[0].Games[1].Participant2 != null);
-            Assert.AreEqual(31, tournament.Stages[0].Games[1].Participant1.Id);
-            Assert.AreEqual(32, tournament.Stages[0].Games[1].Participant2.Id);
+            Assert.AreEqual(32, tournament.Stages[0].Games[1].Participant1.Id);
+            Assert.AreEqual(31, tournament.Stages[0].Games[1].Participant2.Id);
+
+            Assert.AreEqual(18, tournament.Stages[1].Games.First(x => x.Order == 9).Participant1.Id);
+            Assert.AreEqual(13, tournament.Stages[1].Games.First(x => x.Order == 9).Participant2.Id);
         }
 
         [Test]
@@ -137,50 +140,50 @@ namespace Business.Tests.StageBuilders
             Assert.AreEqual(16, tournament.Stages[0].Games.Count);
 
             #region Assert 32 Players
-            Assert.IsTrue(tournament.Stages[0].Games[1].Participant1.Id == 15 || tournament.Stages[0].Games[1].Participant2.Id == 15);
-            Assert.IsTrue(tournament.Stages[0].Games[1].Participant1.Id == 16 || tournament.Stages[0].Games[1].Participant2.Id == 16);
+            Assert.AreEqual(16, tournament.Stages[0].Games[1].Participant1.Id);
+            Assert.AreEqual(15, tournament.Stages[0].Games[1].Participant2.Id);
 
-            Assert.IsTrue(tournament.Stages[0].Games[2].Participant1.Id == 7 || tournament.Stages[0].Games[2].Participant2.Id == 7);
-            Assert.IsTrue(tournament.Stages[0].Games[2].Participant1.Id == 24 || tournament.Stages[0].Games[2].Participant2.Id == 24);
+            Assert.AreEqual(8, tournament.Stages[0].Games[2].Participant1.Id);
+            Assert.AreEqual(23, tournament.Stages[0].Games[2].Participant2.Id);
 
-            Assert.IsTrue(tournament.Stages[0].Games[3].Participant1.Id == 8 || tournament.Stages[0].Games[3].Participant2.Id == 8);
-            Assert.IsTrue(tournament.Stages[0].Games[3].Participant1.Id == 23 || tournament.Stages[0].Games[3].Participant2.Id == 23);
+            Assert.AreEqual(24, tournament.Stages[0].Games[3].Participant1.Id);
+            Assert.AreEqual(7, tournament.Stages[0].Games[3].Participant2.Id);
 
-            Assert.IsTrue(tournament.Stages[0].Games[4].Participant1.Id == 3 || tournament.Stages[0].Games[4].Participant2.Id == 3);
-            Assert.IsTrue(tournament.Stages[0].Games[4].Participant1.Id == 28 || tournament.Stages[0].Games[4].Participant2.Id == 28);
+            Assert.AreEqual(4, tournament.Stages[0].Games[4].Participant1.Id);
+            Assert.AreEqual(27, tournament.Stages[0].Games[4].Participant2.Id);
 
-            Assert.IsTrue(tournament.Stages[0].Games[5].Participant1.Id == 12 || tournament.Stages[0].Games[5].Participant2.Id == 12);
-            Assert.IsTrue(tournament.Stages[0].Games[5].Participant1.Id == 19 || tournament.Stages[0].Games[5].Participant2.Id == 19);
+            Assert.AreEqual(20, tournament.Stages[0].Games[5].Participant1.Id);
+            Assert.AreEqual(11, tournament.Stages[0].Games[5].Participant2.Id);
 
-            Assert.IsTrue(tournament.Stages[0].Games[6].Participant1.Id == 11 || tournament.Stages[0].Games[6].Participant2.Id == 11);
-            Assert.IsTrue(tournament.Stages[0].Games[6].Participant1.Id == 20 || tournament.Stages[0].Games[6].Participant2.Id == 20);
+            Assert.AreEqual(12, tournament.Stages[0].Games[6].Participant1.Id);
+            Assert.AreEqual(19, tournament.Stages[0].Games[6].Participant2.Id);
 
-            Assert.IsTrue(tournament.Stages[0].Games[7].Participant1.Id == 4 || tournament.Stages[0].Games[7].Participant2.Id == 4);
-            Assert.IsTrue(tournament.Stages[0].Games[7].Participant1.Id == 27 || tournament.Stages[0].Games[7].Participant2.Id == 27);
+            Assert.AreEqual(28, tournament.Stages[0].Games[7].Participant1.Id);
+            Assert.AreEqual(3, tournament.Stages[0].Games[7].Participant2.Id);
 
-            Assert.IsTrue(tournament.Stages[0].Games[8].Participant1.Id == 5 || tournament.Stages[0].Games[8].Participant2.Id == 5);
-            Assert.IsTrue(tournament.Stages[0].Games[8].Participant1.Id == 26 || tournament.Stages[0].Games[8].Participant2.Id == 26);
+            Assert.AreEqual(2, tournament.Stages[0].Games[8].Participant1.Id);
+            Assert.AreEqual(29, tournament.Stages[0].Games[8].Participant2.Id);
 
-            Assert.IsTrue(tournament.Stages[0].Games[9].Participant1.Id == 10 || tournament.Stages[0].Games[9].Participant2.Id == 10);
-            Assert.IsTrue(tournament.Stages[0].Games[9].Participant1.Id == 21 || tournament.Stages[0].Games[9].Participant2.Id == 21);
+            Assert.AreEqual(18, tournament.Stages[0].Games[9].Participant1.Id);
+            Assert.AreEqual(13, tournament.Stages[0].Games[9].Participant2.Id);
 
-            Assert.IsTrue(tournament.Stages[0].Games[10].Participant1.Id == 13 || tournament.Stages[0].Games[10].Participant2.Id == 13);
-            Assert.IsTrue(tournament.Stages[0].Games[10].Participant1.Id == 18 || tournament.Stages[0].Games[10].Participant2.Id == 18);
+            Assert.AreEqual(10, tournament.Stages[0].Games[10].Participant1.Id);
+            Assert.AreEqual(21, tournament.Stages[0].Games[10].Participant2.Id);
 
-            Assert.IsTrue(tournament.Stages[0].Games[11].Participant1.Id == 2 || tournament.Stages[0].Games[11].Participant2.Id == 2);
-            Assert.IsTrue(tournament.Stages[0].Games[11].Participant1.Id == 29 || tournament.Stages[0].Games[11].Participant2.Id == 29);
+            Assert.AreEqual(26, tournament.Stages[0].Games[11].Participant1.Id);
+            Assert.AreEqual(5, tournament.Stages[0].Games[11].Participant2.Id);
 
-            Assert.IsTrue(tournament.Stages[0].Games[12].Participant1.Id == 6 || tournament.Stages[0].Games[12].Participant2.Id == 6);
-            Assert.IsTrue(tournament.Stages[0].Games[12].Participant1.Id == 25 || tournament.Stages[0].Games[12].Participant2.Id == 25);
+            Assert.AreEqual(6, tournament.Stages[0].Games[12].Participant1.Id);
+            Assert.AreEqual(25, tournament.Stages[0].Games[12].Participant2.Id);
 
-            Assert.IsTrue(tournament.Stages[0].Games[13].Participant1.Id == 9 || tournament.Stages[0].Games[13].Participant2.Id == 9);
-            Assert.IsTrue(tournament.Stages[0].Games[13].Participant1.Id == 22 || tournament.Stages[0].Games[13].Participant2.Id == 22);
+            Assert.AreEqual(22, tournament.Stages[0].Games[13].Participant1.Id);
+            Assert.AreEqual(9, tournament.Stages[0].Games[13].Participant2.Id);
 
-            Assert.IsTrue(tournament.Stages[0].Games[14].Participant1.Id == 14 || tournament.Stages[0].Games[14].Participant2.Id == 14);
-            Assert.IsTrue(tournament.Stages[0].Games[14].Participant1.Id == 17 || tournament.Stages[0].Games[14].Participant2.Id == 17);
+            Assert.AreEqual(14, tournament.Stages[0].Games[14].Participant1.Id);
+            Assert.AreEqual(17, tournament.Stages[0].Games[14].Participant2.Id);
 
-            Assert.IsTrue(tournament.Stages[0].Games[15].Participant1.Id == 1 || tournament.Stages[0].Games[15].Participant2.Id == 1);
-            Assert.IsTrue(tournament.Stages[0].Games[15].Participant1.Id == 30 || tournament.Stages[0].Games[15].Participant2.Id == 30);
+            Assert.AreEqual(30, tournament.Stages[0].Games[15].Participant1.Id);
+            Assert.AreEqual(1, tournament.Stages[0].Games[15].Participant2.Id);
             #endregion
         }
 
@@ -205,17 +208,17 @@ namespace Business.Tests.StageBuilders
             Assert.AreEqual(1, tournament.Stages.Count);
             Assert.AreEqual(4, tournament.Stages[0].Games.Count);
 
-            Assert.IsTrue(tournament.Stages[0].Games[0].Participant1.Id == 0 || tournament.Stages[0].Games[0].Participant2.Id == 0);
-            Assert.IsTrue(tournament.Stages[0].Games[0].Participant1.Id == 7 || tournament.Stages[0].Games[0].Participant2.Id == 7);
+            Assert.AreEqual(0, tournament.Stages[0].Games[0].Participant1.Id);
+            Assert.AreEqual(7, tournament.Stages[0].Games[0].Participant2.Id);
 
-            Assert.IsTrue(tournament.Stages[0].Games[1].Participant1.Id == 2 || tournament.Stages[0].Games[1].Participant2.Id == 2);
-            Assert.IsTrue(tournament.Stages[0].Games[1].Participant1.Id == 5 || tournament.Stages[0].Games[1].Participant2.Id == 5);
+            Assert.AreEqual(4, tournament.Stages[0].Games[1].Participant1.Id);
+            Assert.AreEqual(3, tournament.Stages[0].Games[1].Participant2.Id);
 
-            Assert.IsTrue(tournament.Stages[0].Games[2].Participant1.Id == 3 || tournament.Stages[0].Games[2].Participant2.Id == 3);
-            Assert.IsTrue(tournament.Stages[0].Games[2].Participant1.Id == 4 || tournament.Stages[0].Games[2].Participant2.Id == 4);
+            Assert.AreEqual(2, tournament.Stages[0].Games[2].Participant1.Id);
+            Assert.AreEqual(5, tournament.Stages[0].Games[2].Participant2.Id);
 
-            Assert.IsTrue(tournament.Stages[0].Games[3].Participant1.Id == 1 || tournament.Stages[0].Games[3].Participant2.Id == 1);
-            Assert.IsTrue(tournament.Stages[0].Games[3].Participant1.Id == 6 || tournament.Stages[0].Games[3].Participant2.Id == 6);
+            Assert.AreEqual(6, tournament.Stages[0].Games[3].Participant1.Id);
+            Assert.AreEqual(1, tournament.Stages[0].Games[3].Participant2.Id);
         }
 
         [Test]
@@ -240,17 +243,17 @@ namespace Business.Tests.StageBuilders
             Assert.AreEqual(1, tournament.Stages.Count);
             Assert.AreEqual(4, tournament.Stages[0].Games.Count);
 
-            Assert.IsTrue(tournament.Stages[0].Games[0].Participant1.Id == 0 || tournament.Stages[0].Games[0].Participant2.Id == 0);
-            Assert.IsTrue(tournament.Stages[0].Games[0].Winner.Id == 0);
+            Assert.AreEqual(0, tournament.Stages[0].Games[0].Participant1.Id);
+            Assert.AreEqual(null, tournament.Stages[0].Games[0].Participant2);
 
-            Assert.IsTrue(tournament.Stages[0].Games[1].Participant1.Id == 2 || tournament.Stages[0].Games[1].Participant2.Id == 2);
-            Assert.IsTrue(tournament.Stages[0].Games[1].Participant1.Id == 5 || tournament.Stages[0].Games[1].Participant2.Id == 5);
+            Assert.AreEqual(4, tournament.Stages[0].Games[1].Participant1.Id);
+            Assert.AreEqual(3, tournament.Stages[0].Games[1].Participant2.Id);
 
-            Assert.IsTrue(tournament.Stages[0].Games[2].Participant1.Id == 3 || tournament.Stages[0].Games[2].Participant2.Id == 3);
-            Assert.IsTrue(tournament.Stages[0].Games[2].Participant1.Id == 4 || tournament.Stages[0].Games[2].Participant2.Id == 4);
+            Assert.AreEqual(2, tournament.Stages[0].Games[2].Participant1.Id);
+            Assert.AreEqual(5, tournament.Stages[0].Games[2].Participant2.Id);
 
-            Assert.IsTrue(tournament.Stages[0].Games[3].Participant1.Id == 1 || tournament.Stages[0].Games[3].Participant2.Id == 1);
-            Assert.IsTrue(tournament.Stages[0].Games[3].Winner.Id == 1);
+            Assert.AreEqual(null, tournament.Stages[0].Games[3].Participant1);
+            Assert.AreEqual(1, tournament.Stages[0].Games[3].Participant2.Id);
         }
 
         [Test]
@@ -302,13 +305,16 @@ namespace Business.Tests.StageBuilders
 
             tournament.Stages[0].Games[1].Participant1Score = 1;
             tournament.Stages[0].Games[1].Participant2Score = 0;
-            tournament.Stages[0].Games[1].Winner = tournament.Stages[0].Games[0].Participant1;
+            tournament.Stages[0].Games[1].Winner = tournament.Stages[0].Games[1].Participant2;
             tournament.Stages[0].Games[1].Status = GameStatus.Finished;
             testSubject.Update();
 
             // Assert
             Assert.AreEqual(2, tournament.Stages.Count);
             Assert.AreEqual(1, tournament.Stages[1].Games.Count);
+
+            Assert.AreEqual(0, tournament.Stages[1].Games[0].Participant1.Id);
+            Assert.AreEqual(1, tournament.Stages[1].Games[0].Participant2.Id);
         }
 
         [Test]
