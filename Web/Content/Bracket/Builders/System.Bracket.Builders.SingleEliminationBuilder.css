@@ -1,0 +1,38 @@
+﻿div.jQBracket .round {
+    width: 150px !important;
+}
+
+div.jQBracket .team {
+    width: 150px !important;
+    background-color: #151D26 !important;
+    color: #F2F2F2 !important;
+}
+
+div.jQBracket .team div.score {
+    background-color: #151D26 !important;
+    width: 19px !important;
+    border-left: 1px solid #F2F2F2;
+}
+
+div.jQBracket .team.win .label {
+    background-color: green !important;
+}
+
+div.jQBracket .teamContainer {
+    border-radius: 5px !important;
+    margin: 10px 8px !important;
+}
+
+div.jQBracket .team div.label {
+    text-overflow: ellipsis;
+    width: 118px !important;
+    height: 16px !important;
+}
+
+div.jQBracket .team.win div.score {
+    color: green !important;
+}
+
+div.jQBracket .team.lose div.score {
+    color: red !important;
+}

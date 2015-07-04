@@ -177,10 +177,12 @@
   <ItemGroup>
     <Content Include="Content\Bracket\Builders\System.Bracket.Builders.LeagueBuilder.css" />
     <Content Include="Content\Bracket\Builders\System.Bracket.Builders.LeagueSummary.css" />
+    <Content Include="Content\Bracket\Builders\System.Bracket.Builders.SingleEliminationBuilder.css" />
     <Content Include="Content\Bracket\Builders\System.Bracket.Builders.StageBuilder.css" />
     <Content Include="Content\images\footer.png" />
     <Content Include="Content\images\side_base.png" />
     <Content Include="Content\images\side_top.png" />
+    <Content Include="Content\Plugins\jquery.bracket.min.css" />
     <Content Include="Content\Team.css" />
     <Content Include="Content\themes\humanity\images\ui-bg_flat_75_aaaaaa_40x100.png" />
     <Content Include="Content\themes\humanity\images\ui-bg_glass_100_f5f0e5_1x400.png" />
@@ -204,8 +206,10 @@
     <Content Include="Scripts\jquery-1.11.2.js" />
     <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
+    <Content Include="Scripts\Plugins\jquery.bracket.min.js" />
     <Content Include="Scripts\System\Bracket\Builders\System.Bracket.Builders.LeagueBuilder.js" />
     <Content Include="Scripts\System\Bracket\Builders\System.Bracket.Builders.LeagueSummary.js" />
+    <Content Include="Scripts\System\Bracket\Builders\System.Bracket.Builders.SingleEliminationBuilder.js" />
     <Content Include="Scripts\System\Bracket\Builders\System.Bracket.Builders.StageBuilder.js" />
     <Content Include="Scripts\System\Bracket\System.Bracket.BuilderFactory.js" />
     <Content Include="Scripts\System\Bracket\System.Bracket.js" />

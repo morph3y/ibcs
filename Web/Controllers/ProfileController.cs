@@ -57,12 +57,7 @@ namespace Web.Controllers
                 UserName = model.UserEmail
             });
 
-            return View("Profile", new PlayerViewModel
-            {
-                DisplayName = "",
-                FirstName = "",
-                LastName = ""
-            });
+            return RedirectToAction("Logon");
         }
 
         [AllowAnonymous]

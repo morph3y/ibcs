@@ -86,7 +86,7 @@ namespace Business.Tournaments
                     ||
                 (!tournament.IsTeamEvent && playerContestant.Id != Session.Current.Id)))
             {
-                throw new Exception("You don't have rights to remove this contestant");
+                throw new Exception("You don't have rights to change this contestant");
             }
         }
     }

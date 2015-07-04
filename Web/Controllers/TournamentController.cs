@@ -85,7 +85,7 @@ namespace Web.Controllers
             {
                 Name = "IBCS 2015",
                 Status = TournamentStatus.Registration,
-                TournamentType = TournamentType.League
+                TournamentType = TournamentType.SingleElimination
             };
 
             _tournamentService.Create(trn);

@@ -11,7 +11,7 @@ namespace Dal.Mappings
             Map(x => x.Status);
             Map(x => x.Participant1Score);
             Map(x => x.Participant2Score);
-            Map(x => x.Order).Column("[Order]").Not.Nullable();
+            Map(x => x.Order).Column("[Order]").Default("0");
 
             References(x => x.TournamentStage).Nullable().Column("TournamentStage_id");
             References(x => x.Participant1).Nullable().Column("Participant1_id");

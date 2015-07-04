@@ -4,21 +4,25 @@
 
 @section styles
 {
-   <link rel="stylesheet" type="text/css" href="~/Content/Bracket/Builders/System.Bracket.Builders.LeagueBuilder.css"/>
+    <link rel="stylesheet" type="text/css" href="~/Content/Plugins/jquery.bracket.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/Bracket/Builders/System.Bracket.Builders.SingleEliminationBuilder.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/Bracket/Builders/System.Bracket.Builders.LeagueBuilder.css"/>
     <link rel="stylesheet" type="text/css" href="~/Content/Bracket/Builders/System.Bracket.Builders.LeagueSummary.css"/>
     <link rel="stylesheet" type="text/css" href="~/Content/Bracket/Builders/System.Bracket.Builders.StageBuilder.css" />
 }
 
 @section scripts
 {
+    <script type="text/javascript" src="~/Scripts/Plugins/jquery.bracket.min.js"></script>
     <script type="text/javascript" src="~/Scripts/System/Bracket/System.Bracket.js"></script>
     <script type="text/javascript" src="~/Scripts/System/Bracket/System.Bracket.BuilderFactory.js"></script>
     <script type="text/javascript" src="~/Scripts/System/Bracket/Builders/System.Bracket.Builders.LeagueBuilder.js"></script>
+    <script type="text/javascript" src="~/Scripts/System/Bracket/Builders/System.Bracket.Builders.SingleEliminationBuilder.js"></script>
     <script type="text/javascript" src="~/Scripts/System/Bracket/Builders/System.Bracket.Builders.LeagueSummary.js"></script>
     <script type="text/javascript" src="~/Scripts/System/Bracket/Builders/System.Bracket.Builders.StageBuilder.js"></script>
 }
 
-<div class="bracket"> </div>
+<div class="bracket"></div>
 @section onReady
 {
     (new System.Bracket(@Html.Raw(new GenericDataContractJsonSerializer<TournamentBracketViewModel>().Serialize(Model)))).init($('.bracket'));

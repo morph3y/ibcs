@@ -3,8 +3,10 @@
 System.Bracket.BuilderFactory = (function () {
     this.get = function(tournament) {
         if (tournament.type == 1) {
-            // league
             return new System.Bracket.Builders.LeagueBuilder(tournament);
+        }
+        else if (tournament.type == 2) {
+            return new System.Bracket.Builders.SingleEliminationBuilder(tournament);
         }
         return null;
     };

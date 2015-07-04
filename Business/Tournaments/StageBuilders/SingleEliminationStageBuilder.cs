@@ -37,15 +37,13 @@ namespace Business.Tournaments.StageBuilders
                 numberOfGames = contestants.Count / 2;
             }
 
-            _tournament.Stages = new List<TournamentStage>
+            _tournament.Stages.Clear();
+            _tournament.Stages.Add(new TournamentStage
             {
-                new TournamentStage
-                {
-                    Name = "1/" + numberOfGames,
-                    Order = 0,
-                    Tournament = _tournament
-                }
-            };
+                Name = "1/" + numberOfGames,
+                Order = 0,
+                Tournament = _tournament
+            });
 
             var numberOfByes = (numberOfGames * 2) - contestants.Count;
             for (int i = 0; i < numberOfByes; i++)
@@ -110,7 +108,6 @@ namespace Business.Tournaments.StageBuilders
                     _tournament.Stages[1].Games = _tournament.Stages[1].Games.OrderBy(x => x.Order).ToList();
                 }
             }
-
             _tournament.Stages[0].Games = _tournament.Stages[0].Games.OrderBy(x => x.Order).ToList();
         }
 
@@ -138,17 +135,17 @@ namespace Business.Tournaments.StageBuilders
                         }
                     }
 
-                    if (games[i].Status == GameStatus.Finished && games[i + 1].Status == GameStatus.Finished)
+                    if (games[i].Status == GameStatus.Finished && games.Count > (i + 1) && games[i + 1].Status == GameStatus.Finished)
                     {
                         var nextStage = _tournament.Stages.FirstOrDefault(x => x.Order == stage.Order + 1);
                         if (nextStage == null)
                         {
+                            var numberOfGames = ((int)Math.Pow(2, GetNumberOfStages() - (stage.Order + 1)));
                             nextStage = new TournamentStage
                             {
                                 Order = stage.Order + 1,
-                                Name = "",
-                                Tournament = _tournament,
-                                Games = new List<Game>()
+                                Name = numberOfGames == 1 ? "Final" : "1/" + numberOfGames,
+                                Tournament = _tournament
                             };
 
                             _tournament.Stages.Add(nextStage);
