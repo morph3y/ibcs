@@ -78,8 +78,8 @@ System.Bracket.Builders.LeagueSummary = function (tournament) {
             sorted.push([id, playerMap[id]])
         }
         sorted.sort(function (a, b) {
-            return b[1].points - a[1].points;
-        })
+            return b[1].points - a[1].points || a[1].losses - b[1].losses;
+        });
 
         for (var u = 0, ul = sorted.length; u < ul; u++) {
             var rank = u + 1;
