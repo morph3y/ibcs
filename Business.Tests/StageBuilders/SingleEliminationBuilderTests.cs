@@ -2,6 +2,7 @@
 using System.Linq;
 using Business.Tournaments.StageBuilders;
 using Contracts.Business;
+using Contracts.Business.Dal;
 using Entities;
 using Moq;
 using NUnit.Framework;
@@ -12,12 +13,14 @@ namespace Business.Tests.StageBuilders
     internal sealed class SingleEliminationBuilderTests : StageBuilderTestBase
     {
         private Mock<IRankingService> _fakeRankingService;
+        private Mock<IRankingAdapter> _fakeRankingAdapter;
 
         [SetUp]
         public void Setup()
         {
             _fakeRankingService = new Mock<IRankingService>();
-            _fakeRankingService.Setup(x => x.Rank(It.IsAny<List<Subject>>())).Returns((List<Subject> list) => list);
+            _fakeRankingAdapter = new Mock<IRankingAdapter>();
+            _fakeRankingService.Setup(x => x.Rank(It.IsAny<List<Subject>>())).Returns((IEnumerable<Subject> list) => list);
         }
 
         [Test]
@@ -30,7 +33,7 @@ namespace Business.Tests.StageBuilders
                 Status = TournamentStatus.Registration,
                 Contestants = new List<Subject>()
             };
-            var testSubject = new SingleEliminationStageBuilder(tournament, _fakeRankingService.Object);
+            var testSubject = new SingleEliminationStageBuilder(tournament, _fakeRankingAdapter.Object, _fakeRankingService.Object);
 
             // Act
             testSubject.Build();
@@ -49,7 +52,7 @@ namespace Business.Tests.StageBuilders
                 Status = TournamentStatus.Registration,
                 Contestants = new List<Subject>(GeneratePlayers(2))
             };
-            var testSubject = new SingleEliminationStageBuilder(tournament, _fakeRankingService.Object);
+            var testSubject = new SingleEliminationStageBuilder(tournament, _fakeRankingAdapter.Object, _fakeRankingService.Object);
 
             // Act
             testSubject.Build();
@@ -71,7 +74,7 @@ namespace Business.Tests.StageBuilders
                 Status = TournamentStatus.Registration,
                 Contestants = new List<Subject>(GeneratePlayers(7))
             };
-            var testSubject = new SingleEliminationStageBuilder(tournament, _fakeRankingService.Object);
+            var testSubject = new SingleEliminationStageBuilder(tournament, _fakeRankingAdapter.Object, _fakeRankingService.Object);
 
             // Act
             testSubject.Build();
@@ -98,7 +101,7 @@ namespace Business.Tests.StageBuilders
                 Status = TournamentStatus.Registration,
                 Contestants = new List<Subject>(GeneratePlayers(33))
             };
-            var testSubject = new SingleEliminationStageBuilder(tournament, _fakeRankingService.Object);
+            var testSubject = new SingleEliminationStageBuilder(tournament, _fakeRankingAdapter.Object, _fakeRankingService.Object);
 
             // Act
             testSubject.Build();
@@ -130,7 +133,7 @@ namespace Business.Tests.StageBuilders
                 Status = TournamentStatus.Registration,
                 Contestants = new List<Subject>(GeneratePlayers(32))
             };
-            var testSubject = new SingleEliminationStageBuilder(tournament, _fakeRankingService.Object);
+            var testSubject = new SingleEliminationStageBuilder(tournament, _fakeRankingAdapter.Object, _fakeRankingService.Object);
 
             // Act
             testSubject.Build();
@@ -199,7 +202,7 @@ namespace Business.Tests.StageBuilders
                 Status = TournamentStatus.Registration,
                 Contestants = rankedPlayers
             };
-            var testSubject = new SingleEliminationStageBuilder(tournament, _fakeRankingService.Object);
+            var testSubject = new SingleEliminationStageBuilder(tournament, _fakeRankingAdapter.Object, _fakeRankingService.Object);
 
             // Act
             testSubject.Build();
@@ -233,7 +236,7 @@ namespace Business.Tests.StageBuilders
                 Status = TournamentStatus.Registration,
                 Contestants = rankedPlayers
             };
-            var testSubject = new SingleEliminationStageBuilder(tournament, _fakeRankingService.Object);
+            var testSubject = new SingleEliminationStageBuilder(tournament, _fakeRankingAdapter.Object, _fakeRankingService.Object);
 
             // Act
             testSubject.Build();
@@ -266,7 +269,7 @@ namespace Business.Tests.StageBuilders
                 Status = TournamentStatus.Registration,
                 Contestants = new List<Subject>(GeneratePlayers(4))
             };
-            var testSubject = new SingleEliminationStageBuilder(tournament, _fakeRankingService.Object);
+            var testSubject = new SingleEliminationStageBuilder(tournament, _fakeRankingAdapter.Object, _fakeRankingService.Object);
             testSubject.Build();
 
             // Act
@@ -291,7 +294,7 @@ namespace Business.Tests.StageBuilders
                 Status = TournamentStatus.Registration,
                 Contestants = new List<Subject>(GeneratePlayers(4))
             };
-            var testSubject = new SingleEliminationStageBuilder(tournament, _fakeRankingService.Object);
+            var testSubject = new SingleEliminationStageBuilder(tournament, _fakeRankingAdapter.Object, _fakeRankingService.Object);
             testSubject.Build();
 
             // Act
@@ -302,6 +305,7 @@ namespace Business.Tests.StageBuilders
             testSubject.Update();
 
             Assert.AreEqual(1, tournament.Stages.Count);
+            Assert.AreEqual("1/2", tournament.Stages[0].Name);
 
             tournament.Stages[0].Games[1].Participant1Score = 1;
             tournament.Stages[0].Games[1].Participant2Score = 0;
@@ -315,6 +319,7 @@ namespace Business.Tests.StageBuilders
 
             Assert.AreEqual(0, tournament.Stages[1].Games[0].Participant1.Id);
             Assert.AreEqual(1, tournament.Stages[1].Games[0].Participant2.Id);
+            Assert.AreEqual("Final", tournament.Stages[1].Name);
         }
 
         [Test]
@@ -327,7 +332,7 @@ namespace Business.Tests.StageBuilders
                 Status = TournamentStatus.Registration,
                 Contestants = new List<Subject>(GeneratePlayers(2))
             };
-            var testSubject = new SingleEliminationStageBuilder(tournament, _fakeRankingService.Object);
+            var testSubject = new SingleEliminationStageBuilder(tournament, _fakeRankingAdapter.Object, _fakeRankingService.Object);
             testSubject.Build();
 
             // Act

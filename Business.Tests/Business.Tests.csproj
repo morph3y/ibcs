@@ -50,6 +50,7 @@
     <Compile Include="BusinessTestBase.cs" />
     <Compile Include="GameServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RankingServiceTests.cs" />
     <Compile Include="StageBuilders\LeagueBuilderTests.cs" />
     <Compile Include="StageBuilders\SingleEliminationBuilderTests.cs" />
     <Compile Include="StageBuilders\StageBuilderTestBase.cs" />

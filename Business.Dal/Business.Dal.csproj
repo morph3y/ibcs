@@ -51,6 +51,7 @@
     <Compile Include="GameDataAdapter.cs" />
     <Compile Include="IoC\BusinessToDalDependencyResolver.cs" />
     <Compile Include="PlayerDataAdapter.cs" />
+    <Compile Include="RankingDataAdapter.cs" />
     <Compile Include="SubjectDataAdapter.cs" />
     <Compile Include="TeamDataAdapter.cs" />
     <Compile Include="TournamentDataAdapter.cs" />

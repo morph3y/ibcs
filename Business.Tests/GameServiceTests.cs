@@ -1,4 +1,5 @@
-﻿using Contracts.Business.Dal;
+﻿using System;
+using Contracts.Business.Dal;
 using Contracts.Business.Tournaments;
 using Contracts.Session;
 using Entities;
@@ -38,7 +39,12 @@ namespace Business.Tests
                 TournamentStage = new TournamentStage
                 {
                     Tournament = new Tournament()
-                }
+                },
+                Participant1 = new Player { Id = 1 },
+                Participant1Score = 1,
+                Participant2 = new Player { Id = 2 },
+                Participant2Score = 2,
+                Winner = new Player { Id = 2 }
             };
             _fakeTournamentStageService.Setup(x => x.UpdateStages(It.IsAny<Tournament>()));
 
@@ -48,6 +54,21 @@ namespace Business.Tests
             // Assert
             Assert.AreEqual(GameStatus.Finished, game.Status);
             _fakeTournamentStageService.Verify(x => x.UpdateStages(It.IsAny<Tournament>()), Times.Once);
+        }
+
+        [Test]
+        public void VerifyCanNotEndGame()
+        {
+            // Arrange
+            var game = new Game
+            {
+                TournamentStage = new TournamentStage
+                {
+                    Tournament = new Tournament()
+                }
+            };
+            // Act / Assert
+            Assert.Throws<Exception>(() => _testSubject.EndGame(game));
         }
     }
 }

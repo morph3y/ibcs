@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Contracts.Business;
+using Contracts.Business.Dal;
 using Entities;
 
 namespace Business.Tournaments.StageBuilders
@@ -10,10 +11,10 @@ namespace Business.Tournaments.StageBuilders
     {
         private readonly Tournament _tournament;
         private readonly IRankingService _rankingService;
-        public SingleEliminationStageBuilder(Tournament tournament, IRankingService rankingService = null)
+        public SingleEliminationStageBuilder(Tournament tournament, IRankingAdapter rankingAdapter = null, IRankingService rankingService = null)
         {
             _tournament = tournament;
-            _rankingService = rankingService ?? new RankingService();
+            _rankingService = rankingService ?? new RankingService(rankingAdapter);
         }
 
         public void Build()
@@ -24,18 +25,7 @@ namespace Business.Tournaments.StageBuilders
             }
 
             var contestants = _rankingService.Rank(_tournament.Contestants).ToList();
-
-            int numberOfGames;
-            if ((contestants.Count & (contestants.Count - 1)) != 0)
-            {
-                var binLog = Math.Ceiling(Math.Log(contestants.Count, 2));
-                var nextPowerOfTwo = (int)Math.Pow(2, binLog);
-                numberOfGames = nextPowerOfTwo / 2;
-            }
-            else
-            {
-                numberOfGames = contestants.Count / 2;
-            }
+            var numberOfGames = GetNumberOfGamesToStart(contestants);
 
             _tournament.Stages.Clear();
             _tournament.Stages.Add(new TournamentStage
@@ -125,7 +115,7 @@ namespace Business.Tournaments.StageBuilders
                     }
 
                     // Last stage
-                    if ((GetNumberOfStages() - 1) == stage.Order)
+                    if ((GetNumberOfStagesInTournament() - 1) == stage.Order)
                     {
                         // Last game
                         if (games[i].Status == GameStatus.Finished)
@@ -138,13 +128,14 @@ namespace Business.Tournaments.StageBuilders
                     if (games[i].Status == GameStatus.Finished && games.Count > (i + 1) && games[i + 1].Status == GameStatus.Finished)
                     {
                         var nextStage = _tournament.Stages.FirstOrDefault(x => x.Order == stage.Order + 1);
+                        // need new stage
                         if (nextStage == null)
                         {
-                            var numberOfGames = ((int)Math.Pow(2, GetNumberOfStages() - (stage.Order + 1)));
+                            var numberOfGamesInNewStage = ((int)Math.Pow(2, (GetNumberOfStagesInTournament() - 1) - (stage.Order + 1)));
                             nextStage = new TournamentStage
                             {
                                 Order = stage.Order + 1,
-                                Name = numberOfGames == 1 ? "Final" : "1/" + numberOfGames,
+                                Name = numberOfGamesInNewStage == 1 ? "Final" : "1/" + numberOfGamesInNewStage,
                                 Tournament = _tournament
                             };
 
@@ -192,9 +183,26 @@ namespace Business.Tournaments.StageBuilders
             return nextStage != null && nextStage.Games.Any(x => x.Order == (gameIndex / 2));
         }
 
-        private int GetNumberOfStages()
+        private static int GetNumberOfGamesToStart(List<Subject> contestants)
         {
-            return (int)Math.Ceiling(Math.Log((_tournament.Stages[0].Games.Count * 2), 2));
+            int numberOfGames;
+            if ((contestants.Count & (contestants.Count - 1)) != 0)
+            {
+                var binLog = Math.Ceiling(Math.Log(contestants.Count, 2));
+                var nextPowerOfTwo = (int)Math.Pow(2, binLog);
+                numberOfGames = nextPowerOfTwo / 2;
+            }
+            else
+            {
+                numberOfGames = contestants.Count / 2;
+            }
+            return numberOfGames;
+        }
+
+        private int GetNumberOfStagesInTournament()
+        {
+            var numberOfStages = (int)Math.Ceiling(Math.Log(_tournament.Contestants.Count, 2));
+            return numberOfStages == 0 ? 1 : numberOfStages;
         }
     }
 }

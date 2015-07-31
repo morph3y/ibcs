@@ -17,7 +17,7 @@ System.Bracket.Builders.SingleEliminationBuilder = function (tournament) {
 
             var sortedGames = [];
             for (var id in stage.games) {
-                sortedGames.push([id, stage.games[id]])
+                sortedGames.push([id, stage.games[id]]);
             }
             sortedGames.sort(function (a, b) {
                 return a[1].order - b[1].order;
@@ -82,16 +82,7 @@ System.Bracket.Builders.SingleEliminationBuilder = function (tournament) {
         wrapper.empty().append(template.empty());
 
         template.bracket({
-            init: tournamentModel,
-            decorator: {
-                render: function (container, data, score) {
-                    container.append(data);
-                },
-                edit: function (a, b, doneCb) {
-                    debugger;
-                    doneCb();
-                }
-            }
+            init: tournamentModel
         });
     };
 

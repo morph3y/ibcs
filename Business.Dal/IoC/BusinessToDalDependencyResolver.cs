@@ -20,6 +20,7 @@ namespace Business.Dal.IoC
             _dependencyBinder.Bind<IPlayerDataAdapter, PlayerDataAdapter>();
             _dependencyBinder.Bind<ISubjectDataAdapter, SubjectDataAdapter>();
             _dependencyBinder.Bind<IGameDataAdapter, GameDataAdapter>();
+            _dependencyBinder.Bind<IRankingAdapter, RankingDataAdapter>();
         }
     }
 }
