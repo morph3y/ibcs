@@ -12,5 +12,7 @@ namespace Contracts.Business.Tournaments
         bool IsInTournament(int tournamentId, int memberId);
         void AddContestant(int contestantId, Tournament tournament);
         void RemoveContestant(int contestantId, Tournament tournament);
+
+        void ResetRanks(Tournament tournament);
     }
 }

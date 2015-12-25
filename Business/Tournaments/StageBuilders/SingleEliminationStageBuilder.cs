@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Contracts.Business;
-using Contracts.Business.Dal;
 using Entities;
 
 namespace Business.Tournaments.StageBuilders
@@ -10,11 +8,9 @@ namespace Business.Tournaments.StageBuilders
     internal sealed class SingleEliminationStageBuilder : IStageBuilder
     {
         private readonly Tournament _tournament;
-        private readonly IRankingService _rankingService;
-        public SingleEliminationStageBuilder(Tournament tournament, IRankingAdapter rankingAdapter = null, IRankingService rankingService = null)
+        public SingleEliminationStageBuilder(Tournament tournament)
         {
             _tournament = tournament;
-            _rankingService = rankingService ?? new RankingService(rankingAdapter);
         }
 
         public void Build()
@@ -24,7 +20,7 @@ namespace Business.Tournaments.StageBuilders
                 return;
             }
 
-            var contestants = _rankingService.Rank(_tournament.Contestants).ToList();
+            var contestants = _tournament.Contestants.ToList();
             var numberOfGames = GetNumberOfGamesToStart(contestants);
 
             _tournament.Stages.Clear();

@@ -19,6 +19,7 @@ namespace Business.Tests
         private Mock<ITournamentDataAdapter> _fakeTournamentDataAdapter;
         private Mock<ITournamentStageService> _fakeTournamentStageService;
         private Mock<ISubjectService> _fakeSubjectService;
+        private Mock<IRankingService> _fakeRankingService;
 
         [SetUp]
         public void Setup()
@@ -26,8 +27,9 @@ namespace Business.Tests
             _fakeTournamentDataAdapter = new Mock<ITournamentDataAdapter>();
             _fakeTournamentStageService = new Mock<ITournamentStageService>();
             _fakeSubjectService = new Mock<ISubjectService>();
+            _fakeRankingService = new Mock<IRankingService>();
 
-            _testSubject = new TournamentService(_fakeTournamentDataAdapter.Object, _fakeTournamentStageService.Object, _fakeSubjectService.Object);
+            _testSubject = new TournamentService(_fakeTournamentDataAdapter.Object, _fakeTournamentStageService.Object, _fakeSubjectService.Object, _fakeRankingService.Object);
         }
 
         [TearDown]

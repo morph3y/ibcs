@@ -43,11 +43,10 @@
     <Compile Include="Business.Dal\IDataAdapter.cs" />
     <Compile Include="Business.Dal\IGameDataAdapter.cs" />
     <Compile Include="Business.Dal\IPlayerDataService.cs" />
-    <Compile Include="Business.Dal\IRankingAdapter.cs" />
+    <Compile Include="Business.Dal\IRankingDataAdapter.cs" />
     <Compile Include="Business.Dal\ISubjectDataAdapter.cs" />
     <Compile Include="Business.Dal\ITeamDataAdapter.cs" />
     <Compile Include="Business.Dal\ITournamentDataAdapter.cs" />
-    <Compile Include="Business\RankModel.cs" />
     <Compile Include="Business\IGameService.cs" />
     <Compile Include="Business\IPlayerService.cs" />
     <Compile Include="Business\IRankingService.cs" />

@@ -6,7 +6,7 @@ namespace Business.Tournaments.StageBuilders
 {
     internal sealed class StageBuilderFactory : IStageBuilderFactory
     {
-        private static readonly IDictionary<TournamentType, Func<Tournament, IStageBuilder>> Map = new Dictionary<TournamentType, Func<Tournament, IStageBuilder>>
+        private readonly IDictionary<TournamentType, Func<Tournament, IStageBuilder>> _map = new Dictionary<TournamentType, Func<Tournament, IStageBuilder>>
         {
             { TournamentType.League, trn => new LeagueStageBuilder(trn) },
             { TournamentType.SingleElimination, trn => new SingleEliminationStageBuilder(trn) }
@@ -15,7 +15,7 @@ namespace Business.Tournaments.StageBuilders
         public IStageBuilder Create(Tournament tournament)
         {
             Func<Tournament, IStageBuilder> toReturn;
-            if (Map.TryGetValue(tournament.TournamentType, out toReturn))
+            if (_map.TryGetValue(tournament.TournamentType, out toReturn))
             {
                 return toReturn(tournament);
             }

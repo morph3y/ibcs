@@ -58,6 +58,7 @@
     <Compile Include="IoC\DalDependencyResolver.cs" />
     <Compile Include="Mappings\GameMap.cs" />
     <Compile Include="Mappings\PlayerMap.cs" />
+    <Compile Include="Mappings\RankMap.cs" />
     <Compile Include="Mappings\SubjectMap.cs" />
     <Compile Include="Mappings\TeamMap.cs" />
     <Compile Include="Mappings\TeamMemberRequestMap.cs" />

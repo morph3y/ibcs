@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Contracts.Business;
 using Contracts.Business.Dal;
 using Contracts.Business.Tournaments;
@@ -13,11 +14,16 @@ namespace Business.Tournaments
         private readonly ITournamentDataAdapter _tournamentDataAdapter;
         private readonly ITournamentStageService _tournamentStageService;
         private readonly ISubjectService _subjectService;
-        public TournamentService(ITournamentDataAdapter tournamentDataAdapter, ITournamentStageService tournamentStageService, ISubjectService subjectService)
+        private readonly IRankingService _rankingService;
+        public TournamentService(ITournamentDataAdapter tournamentDataAdapter,
+            ITournamentStageService tournamentStageService,
+            ISubjectService subjectService,
+            IRankingService rankingService)
         {
             _tournamentDataAdapter = tournamentDataAdapter;
             _tournamentStageService = tournamentStageService;
             _subjectService = subjectService;
+            _rankingService = rankingService;
         }
 
         public IEnumerable<Tournament> GetList()
@@ -69,6 +75,20 @@ namespace Business.Tournaments
             ValidateContestant(contestant, tournament);
 
             _tournamentStageService.RemoveContestant(contestant, tournament);
+        }
+
+        public void ResetRanks(Tournament tournament)
+        {
+            var stages = tournament.Stages.OrderBy(x => x.Order);
+
+            foreach (var tournamentStage in stages)
+            {
+                var games = tournamentStage.Games.Where(x => x.Status == GameStatus.Finished && x.Winner != null && x.Participant1 != null && x.Participant2 != null);
+                foreach (var game in games)
+                {
+                    _rankingService.UpdateRank(game.Winner, game.Winner.Id == game.Participant1.Id ? game.Participant2 : game.Participant1);
+                }
+            }
         }
 
         private void ValidateContestant(Subject contestant, Tournament tournament)

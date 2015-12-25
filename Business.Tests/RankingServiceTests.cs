@@ -12,12 +12,12 @@ namespace Business.Tests
     internal sealed class RankingServiceTests : BusinessTestBase
     {
         private IRankingService _testSubject;
-        private Mock<IRankingAdapter> _fakeRankingAdapter;
+        private Mock<IRankingDataAdapter> _fakeRankingAdapter;
 
         [SetUp]
         public void Setup()
         {
-            _fakeRankingAdapter = new Mock<IRankingAdapter>();
+            _fakeRankingAdapter = new Mock<IRankingDataAdapter>();
 
             _testSubject = new RankingService(_fakeRankingAdapter.Object);
         }
@@ -26,11 +26,11 @@ namespace Business.Tests
         public void VerifyCanRankPlayers()
         {
             // Arrange
-            var resultRanks = new List<RankModel>
+            var resultRanks = new List<Rank>
             {
-                new RankModel { Elo = 2100, Subject = new Player { Name = "Player 1" } },
-                new RankModel { Elo = 2005, Subject = new Player { Name = "Player 2" } },
-                new RankModel { Elo = 2090, Subject = new Player { Name = "Player 3" } }
+                new Rank { Elo = 2100, Subject = new Player { Name = "Player 1" } },
+                new Rank { Elo = 2005, Subject = new Player { Name = "Player 2" } },
+                new Rank { Elo = 2090, Subject = new Player { Name = "Player 3" } }
             };
             _fakeRankingAdapter.Setup(x => x.GetRanks(It.IsAny<IEnumerable<Subject>>())).Returns(resultRanks);
 

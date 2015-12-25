@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Business.Tournaments;
 using Business.Tournaments.StageBuilders;
+using Contracts.Business;
 using Contracts.Business.Dal;
 using Contracts.Session;
 using Entities;
@@ -43,7 +44,7 @@ namespace Business.Tests
 
             // Assert
             _fakeStageBuilderFactory.Verify(x => x.Create(It.IsAny<Tournament>()), Times.Once);
-            _fakeStageBuilder.Verify(x=>x.Build(), Times.Once);
+            _fakeStageBuilder.Verify(x => x.Build(), Times.Once);
         }
 
         [Test]
@@ -53,8 +54,8 @@ namespace Business.Tests
             _testSubject.UpdateStages(new Tournament());
 
             // Assert
-            _fakeStageBuilderFactory.Verify(x=>x.Create(It.IsAny<Tournament>()), Times.Once);
-            _fakeStageBuilder.Verify(x=>x.Update(), Times.Once);
+            _fakeStageBuilderFactory.Verify(x => x.Create(It.IsAny<Tournament>()), Times.Once);
+            _fakeStageBuilder.Verify(x => x.Update(), Times.Once);
         }
 
         [Test]
@@ -77,7 +78,7 @@ namespace Business.Tests
 
             // Assert
             Assert.AreEqual(0, tournament.Contestants.Count);
-            _fakeTournamentDataAdapter.Verify(x=>x.Save(tournament), Times.Once);
+            _fakeTournamentDataAdapter.Verify(x => x.Save(tournament), Times.Once);
         }
 
         [Test]

@@ -1,26 +1,66 @@
 ﻿using System;
 using System.Collections.Generic;
-using Contracts.Business;
+using System.Linq;
 using Contracts.Business.Dal;
+using Dal.Contracts;
 using Entities;
+using NHibernate.Criterion;
 
 namespace Business.Dal
 {
-    internal sealed class RankingDataAdapter : IRankingAdapter
+    internal sealed class RankingDataAdapter : IRankingDataAdapter
     {
-        public IEnumerable<RankModel> GetRankHistory(Subject subject)
+        private readonly IDataAccessAdapter _dataAccessAdapter;
+        public RankingDataAdapter(IDataAccessAdapter dataAccessAdapter)
         {
-            throw new NotImplementedException();
+            _dataAccessAdapter = dataAccessAdapter;
         }
 
-        public IEnumerable<RankModel> GetRanks(IEnumerable<Subject> subjects)
+        public IEnumerable<Rank> GetRanks(IEnumerable<Subject> subjects)
         {
-            throw new NotImplementedException();
+            // TODO: repeated ids...
+            Rank rankAlias = null;
+            var subjectIds = subjects.Select(x => x.Id).ToList();
+            var ranksQuery = QueryOver.Of(() => rankAlias)
+                .Where(Restrictions.In(Projections.Property(() => rankAlias.Subject.Id), subjectIds));
+
+            return _dataAccessAdapter.GetCollection(ranksQuery);
         }
 
-        public RankModel GetRank(Subject subject)
+        public Rank GetRank(Subject subject)
         {
-            throw new NotImplementedException();
+            return  _dataAccessAdapter.GetCollection<Rank>(x=>x.Id == subject.Id).FirstOrDefault();
+        }
+
+        public void Save(Rank rank)
+        {
+            _dataAccessAdapter.Save(rank);
+        }
+
+        public Rank InitRank(Subject subject)
+        {
+            return InitRank(new List<Subject> { subject }).First();
+        }
+
+        public IEnumerable<Rank> InitRank(IEnumerable<Subject> subjects)
+        {
+            // TODO: Whaaa?
+            var toReturn = new List<Rank>();
+            foreach (var subject in subjects)
+            {
+                var newRank = new Rank
+                {
+                    DateModified = DateTime.Now,
+                    Elo = 2200,
+                    LastGame = null,
+                    Subject = subject
+                };
+
+                toReturn.Add(newRank);
+                _dataAccessAdapter.Save(newRank);
+            }
+
+            return toReturn;
         }
     }
 }

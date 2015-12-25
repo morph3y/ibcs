@@ -12,19 +12,16 @@ namespace Web.Areas.Admin.Controllers
     public class TournamentController : Controller
     {
         private readonly ITournamentService _tournamentService;
-        private readonly ITournamentStageService _tournamentStageService;
         private readonly IPlayerService _playerService;
         private readonly IGameService _gameService;
         private readonly ISubjectService _subjectService;
         public TournamentController(
             ITournamentService tournamentService,
-            ITournamentStageService tournamentStageService,
             IPlayerService playerService,
             IGameService gameService,
             ISubjectService subjectService)
         {
             _tournamentService = tournamentService;
-            _tournamentStageService = tournamentStageService;
             _playerService = playerService;
             _gameService = gameService;
             _subjectService = subjectService;
@@ -91,6 +88,13 @@ namespace Web.Areas.Admin.Controllers
             _gameService.EndGame(game);
 
             return RedirectToAction("Edit", new { id = game.TournamentStage.Tournament.Id, area = "Admin" });
+        }
+
+        public ActionResult ResetRank(int id)
+        {
+            _tournamentService.ResetRanks(_tournamentService.Get(id));
+
+            return RedirectToAction("Edit", new { id = id, area = "Admin" });
         }
     }
 }

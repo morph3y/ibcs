@@ -24,7 +24,7 @@
                 return false;
             }
 
-            return Team.Equals(obj) && Member.Equals(obj);
+            return Team.Equals(item.Team) && Member.Equals(item.Member);
         }
     }
 }

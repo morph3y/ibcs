@@ -16,13 +16,13 @@ namespace Business.IoC
 
         public void Resolve()
         {
+            _dependencyBinder.Bind<IRankingService, RankingService>();
             _dependencyBinder.Bind<ITournamentService, TournamentService>();
             _dependencyBinder.Bind<ITournamentStageService, TournamentStageService>();
             _dependencyBinder.Bind<ITeamService, TeamService>();
             _dependencyBinder.Bind<IPlayerService, PlayerService>();
             _dependencyBinder.Bind<IGameService, GameService>();
             _dependencyBinder.Bind<ISubjectService, SubjectService>();
-            _dependencyBinder.Bind<IRankingService, RankingService>();
         }
     }
 }
