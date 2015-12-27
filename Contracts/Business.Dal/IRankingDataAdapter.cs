@@ -7,6 +7,7 @@ namespace Contracts.Business.Dal
     {
         IEnumerable<Rank> GetRanks(IEnumerable<Subject> subjects);
         Rank GetRank(Subject subject);
+        IEnumerable<Rank> GetRanks(int? limit = null); 
 
         void Save(Rank rank);
 

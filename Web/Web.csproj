@@ -149,6 +149,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
+    <Compile Include="Controllers\RankingController.cs" />
     <Compile Include="Controllers\TeamController.cs" />
     <Compile Include="Controllers\TournamentController.cs" />
     <Compile Include="Global.asax.cs">
@@ -250,9 +251,7 @@
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Views\Shared\" />
-    <Folder Include="Filters\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -318,6 +317,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Notification\List.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Ranking\Top10.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Ranking\ShowAllRanks.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

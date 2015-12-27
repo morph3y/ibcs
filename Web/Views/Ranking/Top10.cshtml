@@ -1,0 +1,28 @@
+﻿@model List<Entities.Rank>
+
+<span>Top 10 best players:</span>
+
+<table class="rank-table">
+    <thead>
+    <tr>
+        <td>&nbsp;</td>
+        <td>Name</td>
+        <td>Elo</td>
+    </tr>
+    </thead>
+    <tbody>
+    @for (var i = 0; i < Model.Count(); i++)
+    {
+        <tr>
+            <td>@(i + 1)</td>
+            <td class="name">
+                <div>@Model[i].Subject.Name</div>
+            </td>
+            <td>@Model[i].Elo</td>
+        </tr>
+    }
+    </tbody>
+</table>
+<div>
+    @Html.ActionLink("more", "AllRanks", new { controller = "Ranking", area = "" })
+</div>

@@ -6,7 +6,7 @@ System.Notifications.MembershipRequests = function (data, options) {
     */
     var self = this,
         template = $('' +
-            '<table>' +
+            '<table class="fancy">' +
             '   <thead>' +
             '       <tr>' +
             '           <th></th>' +

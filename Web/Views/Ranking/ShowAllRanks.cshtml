@@ -1,0 +1,23 @@
+﻿@model List<Entities.Rank>
+
+<table class="rank-table fancy">
+    <thead>
+        <tr>
+            <td>Position</td>
+            <td>Name</td>
+            <td>Elo</td>
+        </tr>
+    </thead>
+    <tbody>
+        @for (var i = 0; i < Model.Count(); i++)
+        {
+            <tr>
+                <td>@(i + 1)</td>
+                <td class="name">
+                    <div>@Model[i].Subject.Name</div>
+                </td>
+                <td>@Model[i].Elo</td>
+            </tr>
+        }
+    </tbody>
+</table>

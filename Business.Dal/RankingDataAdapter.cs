@@ -32,6 +32,17 @@ namespace Business.Dal
             return  _dataAccessAdapter.GetCollection<Rank>(x=>x.Id == subject.Id).FirstOrDefault();
         }
 
+        public IEnumerable<Rank> GetRanks(int? limit = null)
+        {
+            Rank rankAlias = null;
+            var ranksQuery = QueryOver.Of(() => rankAlias).OrderBy(x => x.Elo).Desc;
+            if (limit.HasValue)
+            {
+                ranksQuery.Take(limit.Value);
+            }
+            return _dataAccessAdapter.GetCollection(ranksQuery);
+        }
+
         public void Save(Rank rank)
         {
             _dataAccessAdapter.Save(rank);
@@ -44,7 +55,7 @@ namespace Business.Dal
 
         public IEnumerable<Rank> InitRank(IEnumerable<Subject> subjects)
         {
-            // TODO: Whaaa?
+            // TODO: WTF?
             var toReturn = new List<Rank>();
             foreach (var subject in subjects)
             {

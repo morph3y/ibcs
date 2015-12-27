@@ -15,6 +15,11 @@ namespace Business
             _rankingDataAdapter = rankingDataAdapter;
         }
 
+        public IEnumerable<Rank> Get(int? limit = null)
+        {
+            return _rankingDataAdapter.GetRanks(limit);
+        }
+
         public IEnumerable<Subject> Rank(IEnumerable<Subject> subjects)
         {
             var rankInfo = _rankingDataAdapter.GetRanks(subjects);
@@ -38,8 +43,18 @@ namespace Business
         {
             var currentRanks = _rankingDataAdapter.GetRanks(new List<Subject> { winner, player2 });
 
-            var player1Rank = currentRanks.First(x => x.Subject.Id == winner.Id);
-            var player2Rank = currentRanks.First(x => x.Subject.Id == player2.Id);
+            var player1Rank = currentRanks.FirstOrDefault(x => x.Subject.Id == winner.Id);
+            var player2Rank = currentRanks.FirstOrDefault(x => x.Subject.Id == player2.Id);
+
+            if (player1Rank == null)
+            {
+                player1Rank = _rankingDataAdapter.InitRank(winner);
+            }
+
+            if (player2Rank == null)
+            {
+                player2Rank = _rankingDataAdapter.InitRank(player2);
+            }
 
             var player1CurrentRank = (double)player1Rank.Elo;
             var player2CurrentRank = (double)player2Rank.Elo;

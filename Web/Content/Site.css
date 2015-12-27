@@ -245,33 +245,33 @@ input[type=submit] {
     }
 
 
-table {
+table.fancy {
     border: 1px solid #151D26;
     border-radius: 5px;
     border-spacing: 0;
 }
 
-    table tr,
-    table td,
-    table th {
+    table.fancy tr,
+    table.fancy td,
+    table.fancy th {
         border-collapse: collapse;
     }
 
-    table thead {
+    table.fancy thead {
         background-color: #A69D8D;
     }
 
-        table thead th {
+        table.fancy thead th {
             padding: 8px 14px;
             text-align: center;
         }
 
-    table tbody td {
+    table.fancy tbody td {
         padding: 4px;
         text-align: center;
     }
 
-    table tbody tr:nth-child(even) {
+    table.fancy tbody tr:nth-child(even) {
         background: #D9D9D9;
     }
 /*******************************************
@@ -313,3 +313,20 @@ table {
 .tournaments ul li {
     list-style: none;
 }
+
+/*******************************************
+    Ranks
+*******************************************/
+table.rank-table {
+    width: 190px;
+}
+
+    table.rank-table tr td.name {
+        max-width: 120px;
+    }
+
+    table.rank-table tbody tr td.name > div {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }

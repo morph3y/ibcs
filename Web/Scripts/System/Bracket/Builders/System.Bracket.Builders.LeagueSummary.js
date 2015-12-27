@@ -13,7 +13,7 @@ System.Bracket.Builders.LeagueSummary = function (tournament) {
             leftToPlay: 0
         },
         template = $('' +
-            '<table class="summary">' +
+            '<table class="summary fancy">' +
             '   <thead>' +
             '       <tr>' +
             '           <th>Rank</th>' +
