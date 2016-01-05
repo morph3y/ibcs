@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using Contracts.Business;
+using Entities;
+using Web.Models;
 
 namespace Web.Controllers
 {
@@ -13,14 +15,45 @@ namespace Web.Controllers
             _rankingService = rankingService;
         }
 
-        public ActionResult Top10()
+        public ActionResult List()
         {
-            return PartialView("Top10", _rankingService.Get(10).ToList());
+            return View("RankingInventory");
         }
 
-        public ActionResult AllRanks()
+        public ActionResult Top10Players()
         {
-            return View("ShowAllRanks", _rankingService.Get().ToList());
+            return PartialView("Top10", new RankingViewModel
+            {
+                Ranks = _rankingService.Get<Player>(10).ToList(),
+                SubjectType = typeof(Player)
+            });
+        }
+
+        public ActionResult AllPlayerRanks()
+        {
+            return View("ShowAllRanks", new RankingViewModel
+            {
+                Ranks = _rankingService.Get<Player>(10).ToList(),
+                SubjectType = typeof(Player)
+            });
+        }
+
+        public ActionResult Top10Teams()
+        {
+            return PartialView("Top10", new RankingViewModel
+            {
+                Ranks = _rankingService.Get<Team>(10).ToList(),
+                SubjectType = typeof(Team)
+            });
+        }
+
+        public ActionResult AllTeamRanks()
+        {
+            return View("ShowAllRanks", new RankingViewModel
+            {
+                Ranks = _rankingService.Get<Team>().ToList(),
+                SubjectType = typeof(Team)
+            });
         }
     }
 }

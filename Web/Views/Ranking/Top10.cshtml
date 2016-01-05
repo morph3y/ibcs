@@ -1,6 +1,10 @@
-﻿@model List<Entities.Rank>
+﻿@using Entities
+@model Web.Models.RankingViewModel
 
-<span>Top 10 best players:</span>
+<span>Top 10 best 
+@{
+    Write(Model.SubjectType == typeof (Team) ? "teams" : "players");
+}:</span>
 
 <table class="rank-table">
     <thead>
@@ -11,18 +15,15 @@
     </tr>
     </thead>
     <tbody>
-    @for (var i = 0; i < Model.Count(); i++)
+    @for (var i = 0; i < Model.Ranks.Count(); i++)
     {
         <tr>
             <td>@(i + 1)</td>
             <td class="name">
-                <div>@Model[i].Subject.Name</div>
+                <div>@Model.Ranks[i].Subject.Name</div>
             </td>
-            <td>@Model[i].Elo</td>
+            <td>@Model.Ranks[i].Elo</td>
         </tr>
     }
     </tbody>
 </table>
-<div>
-    @Html.ActionLink("more", "AllRanks", new { controller = "Ranking", area = "" })
-</div>

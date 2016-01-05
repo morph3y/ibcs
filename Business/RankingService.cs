@@ -15,9 +15,9 @@ namespace Business
             _rankingDataAdapter = rankingDataAdapter;
         }
 
-        public IEnumerable<Rank> Get(int? limit = null)
+        public IEnumerable<Rank> Get<T>(int? limit = null) where T : Subject
         {
-            return _rankingDataAdapter.GetRanks(limit);
+            return _rankingDataAdapter.GetRanks<T>(limit);
         }
 
         public IEnumerable<Subject> Rank(IEnumerable<Subject> subjects)

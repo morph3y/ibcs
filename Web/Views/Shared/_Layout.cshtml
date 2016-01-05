@@ -26,7 +26,7 @@
             <ul>
                 <li>@Html.ActionLink("Home", "Index", new { controller = "Home", area = "" })</li>
                 <li>@Html.ActionLink("Tournaments", "Index", new { controller = "Tournament", area = "" })</li>
-                <li>@Html.ActionLink("Ranking", "AllRanks", new { controller = "Ranking", area = "" })</li>
+                <li>@Html.ActionLink("Ranking", "List", new { controller = "Ranking", area = "" })</li>
                 <li>@Html.ActionLink("Teams", "Index", new { controller = "Team", area = "" })</li>
                 <li>@Html.ActionLink("Profile", "Profile", new { controller = "Profile", area = "" })</li>
 
@@ -67,7 +67,18 @@
                     </div>
                     <div class="item">
                         @{
-                            Html.RenderAction("Top10", new { controller = "Ranking", area = "" });
+                            Html.RenderAction("Top10Players", new {controller = "Ranking", area = ""});
+                        }
+                    </div>
+                    <div class="bottom">
+                    </div>
+                </div>
+                <div class="sidebar">
+                    <div class="top">
+                    </div>
+                    <div class="item">
+                        @{
+                            Html.RenderAction("Top10Teams", new { controller = "Ranking", area = "" });
                         }
                     </div>
                     <div class="bottom">

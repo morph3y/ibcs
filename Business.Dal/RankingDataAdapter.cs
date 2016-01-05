@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Schema;
 using Contracts.Business.Dal;
 using Dal.Contracts;
 using Entities;
 using NHibernate.Criterion;
+using NHibernate.SqlCommand;
 
 namespace Business.Dal
 {
@@ -29,13 +31,16 @@ namespace Business.Dal
 
         public Rank GetRank(Subject subject)
         {
-            return  _dataAccessAdapter.GetCollection<Rank>(x=>x.Id == subject.Id).FirstOrDefault();
+            return _dataAccessAdapter.GetCollection<Rank>(x => x.Id == subject.Id).FirstOrDefault();
         }
 
-        public IEnumerable<Rank> GetRanks(int? limit = null)
+        public IEnumerable<Rank> GetRanks<T>(int? limit = null) where T : Subject
         {
             Rank rankAlias = null;
-            var ranksQuery = QueryOver.Of(() => rankAlias).OrderBy(x => x.Elo).Desc;
+            T subjectActual = null;
+            var ranksQuery = QueryOver.Of(() => rankAlias)
+                .JoinAlias(x=>x.Subject, () => subjectActual)
+                .Where(y=> subjectActual.GetType() == typeof(T)).OrderBy(x => x.Elo).Desc;
             if (limit.HasValue)
             {
                 ranksQuery.Take(limit.Value);
