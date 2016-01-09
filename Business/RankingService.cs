@@ -15,6 +15,12 @@ namespace Business
             _rankingDataAdapter = rankingDataAdapter;
         }
 
+        public void Save(Rank rank)
+        {
+            rank.DateModified = DateTime.Now;
+            _rankingDataAdapter.Save(rank);
+        }
+
         public IEnumerable<Rank> Get<T>(int? limit = null) where T : Subject
         {
             return _rankingDataAdapter.GetRanks<T>(limit);
@@ -28,7 +34,7 @@ namespace Business
             if (rankInfo.Count() != subjects.Count())
             {
                 var toInitialize = subjects.Where(x => !rankInfo.Select(y => y.Subject).Contains(x));
-                var newRanks = _rankingDataAdapter.InitRank(toInitialize);
+                var newRanks = InitRank(toInitialize);
 
                 var allRanks = new List<Rank>();
                 allRanks.AddRange(newRanks);
@@ -37,6 +43,31 @@ namespace Business
             }
 
             return rankInfo.OrderByDescending(x => x.Elo).Select(x => x.Subject);
+        }
+
+        public Rank InitRank(Subject subject)
+        {
+            return InitRank(new List<Subject> { subject }).First();
+        }
+
+        public IEnumerable<Rank> InitRank(IEnumerable<Subject> subjects)
+        {
+            // TODO: WTF?
+            var toReturn = new List<Rank>();
+            foreach (var subject in subjects)
+            {
+                var newRank = new Rank
+                {
+                    Elo = 2200,
+                    LastGame = null,
+                    Subject = subject
+                };
+
+                toReturn.Add(newRank);
+                Save(newRank);
+            }
+
+            return toReturn;
         }
 
         public void UpdateRank(Subject winner, Subject player2)
@@ -48,58 +79,23 @@ namespace Business
 
             if (player1Rank == null)
             {
-                player1Rank = _rankingDataAdapter.InitRank(winner);
+                player1Rank = InitRank(winner);
             }
 
             if (player2Rank == null)
             {
-                player2Rank = _rankingDataAdapter.InitRank(player2);
+                player2Rank = InitRank(player2);
             }
 
             var player1CurrentRank = (double)player1Rank.Elo;
             var player2CurrentRank = (double)player2Rank.Elo;
 
-            /*if (player1Score != player2Score)
-            {*/
-                /*if (player1Score > player2Score)
-                {*/
-                    var e = 120 - Math.Round(1 / (1 + Math.Pow(10, ((player2CurrentRank - player1CurrentRank) / 90))) * 120);
-                    player1Rank.Elo = (int)(player1CurrentRank + e);
-                    player2Rank.Elo = (int)(player2CurrentRank - e);
-                /*}
-                else
-                {
-                    e = 120 - Math.Round(1 / (1 + Math.Pow(10, ((player1CurrentRank - player2CurrentRank) / 90))) * 120);
-                    player1Rank.Elo = (int)(player1CurrentRank - e);
-                    player2Rank.Elo = (int)(player2CurrentRank + e);
-                }*/
-            /*}
-            else
-            {
-                if ((int)player1CurrentRank == (int)player2CurrentRank)
-                {
-                    player1Rank.Elo = (int)(player1CurrentRank);
-                    player2Rank.Elo = (int)(player2CurrentRank);
-                }
-                else
-                {
-                    if (player1CurrentRank > player2CurrentRank)
-                    {
-                        e = (120 - Math.Round(1 / (1 + Math.Pow(10, ((player1CurrentRank - player2CurrentRank) / 90))) * 120)) - (120 - Math.Round(1 / (1 + Math.Pow(10, ((player2CurrentRank - player1CurrentRank) / 90))) * 120));
-                        player1Rank.Elo = (int)(player1CurrentRank - e);
-                        player2Rank.Elo = (int)(player2CurrentRank + e);
-                    }
-                    else
-                    {
-                        e = (120 - Math.Round(1 / (1 + Math.Pow(10, ((player2CurrentRank - player1CurrentRank) / 90))) * 120)) - (120 - Math.Round(1 / (1 + Math.Pow(10, ((player1CurrentRank - player2CurrentRank) / 90))) * 120));
-                        player1Rank.Elo = (int)(player1CurrentRank + e);
-                        player2Rank.Elo = (int)(player2CurrentRank - e);
-                    }
-                }
-            }*/
+            var e = 120 - Math.Round(1 / (1 + Math.Pow(10, ((player2CurrentRank - player1CurrentRank) / 90))) * 120);
+            player1Rank.Elo = (int)(player1CurrentRank + e);
+            player2Rank.Elo = (int)(player2CurrentRank - e);
 
-            _rankingDataAdapter.Save(player1Rank);
-            _rankingDataAdapter.Save(player2Rank);
+            Save(player1Rank);
+            Save(player2Rank);
         }
     }
 }

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Schema;
 using Contracts.Business.Dal;
 using Dal.Contracts;
 using Entities;
 using NHibernate.Criterion;
-using NHibernate.SqlCommand;
 
 namespace Business.Dal
 {
@@ -51,32 +48,6 @@ namespace Business.Dal
         public void Save(Rank rank)
         {
             _dataAccessAdapter.Save(rank);
-        }
-
-        public Rank InitRank(Subject subject)
-        {
-            return InitRank(new List<Subject> { subject }).First();
-        }
-
-        public IEnumerable<Rank> InitRank(IEnumerable<Subject> subjects)
-        {
-            // TODO: WTF?
-            var toReturn = new List<Rank>();
-            foreach (var subject in subjects)
-            {
-                var newRank = new Rank
-                {
-                    DateModified = DateTime.Now,
-                    Elo = 2200,
-                    LastGame = null,
-                    Subject = subject
-                };
-
-                toReturn.Add(newRank);
-                _dataAccessAdapter.Save(newRank);
-            }
-
-            return toReturn;
         }
     }
 }
