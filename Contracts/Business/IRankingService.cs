@@ -7,6 +7,8 @@ namespace Contracts.Business
     {
         IEnumerable<Rank> Get<T>(int? limit = null) where T : Subject;
         IEnumerable<Subject> Rank(IEnumerable<Subject> subjects);
+
+        void MaintainRanks();
         
         void Save(Rank rank);
 

@@ -9,10 +9,30 @@ namespace Business
 {
     internal sealed class RankingService : IRankingService
     {
+        public const int StartingElo = 2200;
+        public const int PunishElo = 50;
+        public const int AllowedMonths = 1;
+
         private readonly IRankingDataAdapter _rankingDataAdapter;
         public RankingService(IRankingDataAdapter rankingDataAdapter)
         {
             _rankingDataAdapter = rankingDataAdapter;
+        }
+
+        public void MaintainRanks()
+        {
+            var ranksToPunish = _rankingDataAdapter.GetRanksToPunish(AllowedMonths, StartingElo);
+            foreach (var rank in ranksToPunish)
+            {
+                // remove elo to punish but not less that starting
+                rank.Elo -= PunishElo;
+                if (rank.Elo < StartingElo)
+                {
+                    rank.Elo = StartingElo;
+                }
+
+                Save(rank);
+            }
         }
 
         public void Save(Rank rank)
@@ -58,7 +78,7 @@ namespace Business
             {
                 var newRank = new Rank
                 {
-                    Elo = 2200,
+                    Elo = StartingElo,
                     LastGame = null,
                     Subject = subject
                 };
@@ -96,6 +116,8 @@ namespace Business
 
             Save(player1Rank);
             Save(player2Rank);
+
+            MaintainRanks();
         }
     }
 }

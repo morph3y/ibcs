@@ -40,11 +40,11 @@ namespace Business
                 throw new Exception("Winner cannot have less points. 1:0 maybe?");
             }
 
+            _tournamentStageService.UpdateStages(game.TournamentStage.Tournament);
+
             _rankingService.UpdateRank(
                 game.Participant1.Id == game.Winner.Id ? game.Participant1 : game.Participant2,
                 game.Participant1.Id == game.Winner.Id ? game.Participant2 : game.Participant1);
-
-            _tournamentStageService.UpdateStages(game.TournamentStage.Tournament);
         }
     }
 }
