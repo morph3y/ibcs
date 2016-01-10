@@ -52,20 +52,33 @@ namespace Web.Areas.Admin.Controllers
                 return RedirectToAction("Index", "Tournament", new { area = "" });
             }
 
-            var tournament = new Tournament
+            var oldTournament = _tournamentService.Get(model.Id);
+            var tournamentToSave = oldTournament;
+            if (oldTournament == null)
             {
-                Id = model.Id,
-                IsRanked = model.IsRanked,
-                Name = model.Name,
-                PointsForTie = model.PointsForTie,
-                PointsForWin = model.PointsForWin,
-                Status = model.Status,
-                TournamentType = model.TournamentType,
-                IsTeamEvent = model.IsTeamEvent
-            };
-            _tournamentService.Save(tournament);
+                tournamentToSave = new Tournament
+                {
+                    Id = model.Id,
+                    IsRanked = model.IsRanked,
+                    Name = model.Name,
+                    PointsForTie = model.PointsForTie,
+                    PointsForWin = model.PointsForWin,
+                    Status = model.Status,
+                    TournamentType = model.TournamentType,
+                    IsTeamEvent = model.IsTeamEvent
+                };
+            }
+            else
+            {
+                tournamentToSave.Name = model.Name;
+                tournamentToSave.PointsForTie = model.PointsForTie;
+                tournamentToSave.PointsForWin = model.PointsForWin;
+                tournamentToSave.Status = model.Status;
+            }
 
-            return RedirectToAction("Edit", "Tournament", new { area = "Admin", id = tournament.Id });
+            _tournamentService.Save(tournamentToSave);
+
+            return RedirectToAction("Edit", "Tournament", new { area = "Admin", id = tournamentToSave.Id });
         }
 
         public ActionResult EditGames(int id)
