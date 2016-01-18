@@ -56,7 +56,6 @@
     <Compile Include="StageBuilders\StageBuilderTestBase.cs" />
     <Compile Include="TeamServiceTests.cs" />
     <Compile Include="TournamentServiceTests.cs" />
-    <Compile Include="TournamentStageServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -3,19 +3,18 @@ using System.Linq.Expressions;
 
 using Contracts.Business;
 using Contracts.Business.Dal;
-using Contracts.Business.Tournaments;
 using Entities;
 
 namespace Business
 {
     internal sealed class GameService : IGameService
     {
-        private readonly ITournamentStageService _tournamentStageService;
+        private readonly ITournamentService _tournamentService;
         private readonly IGameDataAdapter _gameDataAdapter;
         private readonly IRankingService _rankingService;
-        public GameService(ITournamentStageService tournamentStageService, IGameDataAdapter gameDataAdapter, IRankingService rankingService)
+        public GameService(ITournamentService tournamentService, IGameDataAdapter gameDataAdapter, IRankingService rankingService)
         {
-            _tournamentStageService = tournamentStageService;
+            _tournamentService = tournamentService;
             _gameDataAdapter = gameDataAdapter;
             _rankingService = rankingService;
         }
@@ -40,7 +39,7 @@ namespace Business
                 throw new Exception("Winner cannot have less points. 1:0 maybe?");
             }
 
-            _tournamentStageService.UpdateStages(game.TournamentStage.Tournament);
+            _tournamentService.UpdateStages(game.TournamentStage.Tournament);
 
             _rankingService.UpdateRank(
                 game.Participant1.Id == game.Winner.Id ? game.Participant1 : game.Participant2,

@@ -1,7 +1,6 @@
 ﻿using System;
 using Contracts.Business;
 using Contracts.Business.Dal;
-using Contracts.Business.Tournaments;
 using Contracts.Session;
 using Entities;
 using Moq;
@@ -13,14 +12,14 @@ namespace Business.Tests
     internal sealed class GameServiceTests : BusinessTestBase
     {
         private GameService _testSubject;
-        private Mock<ITournamentStageService> _fakeTournamentStageService;
+        private Mock<ITournamentService> _fakeTournamentStageService;
         private Mock<IGameDataAdapter> _fakeGameDataAdapter;
         private Mock<IRankingService> _fakeRankingService;
 
         [SetUp]
         public void Setup()
         {
-            _fakeTournamentStageService = new Mock<ITournamentStageService>();
+            _fakeTournamentStageService = new Mock<ITournamentService>();
             _fakeGameDataAdapter = new Mock<IGameDataAdapter>();
             _fakeRankingService = new Mock<IRankingService>();
 

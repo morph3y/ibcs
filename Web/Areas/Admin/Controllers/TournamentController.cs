@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using Contracts.Business;
-using Contracts.Business.Tournaments;
 using Entities;
 using Web.Areas.Admin.Models;
 using Web.Models.TournamentModels;

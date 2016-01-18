@@ -52,7 +52,6 @@
     <Compile Include="Tournaments\StageBuilders\IStageBuilder.cs" />
     <Compile Include="Tournaments\StageBuilders\IStageBuilderFactory.cs" />
     <Compile Include="Tournaments\TournamentService.cs" />
-    <Compile Include="Tournaments\TournamentStageService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Contracts\Contracts.csproj">

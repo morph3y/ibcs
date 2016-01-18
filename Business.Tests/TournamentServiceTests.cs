@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using Business.Tournaments;
+using Business.Tournaments.StageBuilders;
 using Contracts.Business;
 using Contracts.Business.Dal;
-using Contracts.Business.Tournaments;
 using Contracts.Session;
 using Entities;
 using Moq;
@@ -17,19 +17,23 @@ namespace Business.Tests
     {
         private TournamentService _testSubject;
         private Mock<ITournamentDataAdapter> _fakeTournamentDataAdapter;
-        private Mock<ITournamentStageService> _fakeTournamentStageService;
         private Mock<ISubjectService> _fakeSubjectService;
         private Mock<IRankingService> _fakeRankingService;
+        private Mock<IStageBuilderFactory> _fakeStageBuilderFactory;
+        private Mock<IStageBuilder> _fakeStageBuilder;
 
         [SetUp]
         public void Setup()
         {
             _fakeTournamentDataAdapter = new Mock<ITournamentDataAdapter>();
-            _fakeTournamentStageService = new Mock<ITournamentStageService>();
             _fakeSubjectService = new Mock<ISubjectService>();
             _fakeRankingService = new Mock<IRankingService>();
+            _fakeStageBuilderFactory = new Mock<IStageBuilderFactory>();
+            _fakeStageBuilder = new Mock<IStageBuilder>();
 
-            _testSubject = new TournamentService(_fakeTournamentDataAdapter.Object, _fakeTournamentStageService.Object, _fakeSubjectService.Object, _fakeRankingService.Object);
+            _fakeStageBuilderFactory.Setup(x => x.Create(It.IsAny<Tournament>())).Returns(_fakeStageBuilder.Object);
+
+            _testSubject = new TournamentService(_fakeTournamentDataAdapter.Object, _fakeSubjectService.Object, _fakeRankingService.Object, _fakeStageBuilderFactory.Object);
         }
 
         [TearDown]
@@ -43,14 +47,12 @@ namespace Business.Tests
         {
             // Arrange
             var tournamentToCreate = new Tournament { Status = TournamentStatus.Closed };
-            _fakeTournamentStageService.Setup(x => x.GenerateStages(tournamentToCreate));
 
             // Act
             _testSubject.Create(tournamentToCreate);
 
             // Assert
             Assert.AreEqual(TournamentStatus.Registration, tournamentToCreate.Status);
-            _fakeTournamentStageService.Verify(x => x.GenerateStages(tournamentToCreate), Times.Once);
         }
 
         [Test]
@@ -60,14 +62,12 @@ namespace Business.Tests
             var contestantToAdd = new Player();
             var tournament = new Tournament { Status = TournamentStatus.Registration, Contestants = new List<Subject>(), IsTeamEvent = false };
             _fakeSubjectService.Setup(x => x.Get(It.IsAny<Expression<Func<Subject, bool>>>())).Returns(contestantToAdd);
-            _fakeTournamentStageService.Setup(x => x.GenerateStages(tournament));
 
             // Act
             _testSubject.AddContestant(0, tournament);
 
             // Assert
             Assert.AreEqual(1, tournament.Contestants.Count);
-            _fakeTournamentStageService.Verify(x => x.GenerateStages(tournament), Times.Once);
         }
 
         [Test]
@@ -137,15 +137,14 @@ namespace Business.Tests
         {
             // Arrange
             var contestant = new Player { Id = 1 };
-            var tournament = new Tournament { Status = TournamentStatus.Registration, IsTeamEvent = false };
+            var tournament = new Tournament { Status = TournamentStatus.Registration, IsTeamEvent = false, Contestants = new List<Subject> { contestant }};
             _fakeSubjectService.Setup(x => x.Get(It.IsAny<Expression<Func<Subject, bool>>>())).Returns(contestant);
-            _fakeTournamentStageService.Setup(x => x.RemoveContestant(It.IsAny<Subject>(), It.IsAny<Tournament>()));
 
             // Act
             _testSubject.RemoveContestant(0, tournament);
 
             // Assert
-            _fakeTournamentStageService.Verify(x => x.RemoveContestant(It.IsAny<Subject>(), It.IsAny<Tournament>()), Times.Once);
+            Assert.AreEqual(0, tournament.Contestants.Count);
         }
 
         [Test]
@@ -196,6 +195,74 @@ namespace Business.Tests
 
             // Act / Assert
             Assert.Throws<Exception>(() => _testSubject.RemoveContestant(0, tournament));
+        }
+
+        [Test]
+        public void CanGenerateGames()
+        {
+            // Arrange / Act
+            _testSubject.GenerateStages(new Tournament());
+
+            // Assert
+            _fakeStageBuilderFactory.Verify(x => x.Create(It.IsAny<Tournament>()), Times.Once);
+            _fakeStageBuilder.Verify(x => x.Build(), Times.Once);
+        }
+
+        [Test]
+        public void CanUpdateStages()
+        {
+            // Arrange / Act
+            _testSubject.UpdateStages(new Tournament());
+
+            // Assert
+            _fakeStageBuilderFactory.Verify(x => x.Create(It.IsAny<Tournament>()), Times.Once);
+            _fakeStageBuilder.Verify(x => x.Update(), Times.Once);
+        }
+
+        [Test]
+        public void CanRemoveContestant()
+        {
+            // Arrange
+            var subjectToRemove = new Player();
+            var tournament = new Tournament
+            {
+                Contestants = new List<Subject>
+                {
+                    subjectToRemove
+                },
+                TournamentType = TournamentType.League,
+                Status = TournamentStatus.Registration
+            };
+
+            // Act
+            _testSubject.RemoveContestant(subjectToRemove, tournament);
+
+            // Assert
+            Assert.AreEqual(0, tournament.Contestants.Count);
+            _fakeTournamentDataAdapter.Verify(x => x.Save(tournament), Times.Once);
+        }
+
+        [Test]
+        public void CanNotRemoveContestantIfTournamentStarted()
+        {
+            // Arrange
+            var subjectToRemove = new Player();
+            var tournament = new Tournament
+            {
+                Contestants = new List<Subject>
+                {
+                    subjectToRemove
+                },
+                TournamentType = TournamentType.League,
+                Status = TournamentStatus.Active
+            };
+
+            // Act
+            _testSubject.RemoveContestant(subjectToRemove, tournament);
+
+            // Assert
+            Assert.AreEqual(1, tournament.Contestants.Count);
+            _fakeTournamentDataAdapter.Verify(x => x.Save(tournament), Times.Never);
         }
     }
 }
