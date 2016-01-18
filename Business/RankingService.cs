@@ -24,7 +24,7 @@ namespace Business
             var ranksToPunish = _rankingDataAdapter.GetRanksToPunish(AllowedMonths, StartingElo);
             foreach (var rank in ranksToPunish)
             {
-                // remove elo to punish but not less that starting
+                // remove elo to punish but not less than starting
                 rank.Elo -= PunishElo;
                 if (rank.Elo < StartingElo)
                 {
