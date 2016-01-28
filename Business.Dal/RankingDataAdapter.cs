@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Schema;
 using Contracts.Business.Dal;
 using Dal.Contracts;
 using Entities;
@@ -29,6 +28,26 @@ namespace Business.Dal
             return _dataAccessAdapter.GetCollection(ranksQuery);
         }
 
+        public IEnumerable<Rank> GetRanksToPunish(int allowedMonths, int punishLimit)
+        {
+            Rank rankAlias = null;
+            Tournament tournamentAlias = null;
+            Subject subjectAlias = null;
+
+            var allowedLastRankUpdate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day).AddMonths(-(allowedMonths));
+
+            var query = QueryOver.Of(() => rankAlias)
+                .JoinQueryOver(x => x.Subject, () => subjectAlias, JoinType.InnerJoin)
+                .JoinAlias(x => x.ContestantIn, () => tournamentAlias, JoinType.LeftOuterJoin)
+                .Where((Restrictions.IsNull(Projections.Property(() => tournamentAlias.Name)) |
+                       Restrictions.Not(Restrictions.Eq(Projections.Property(() => tournamentAlias.Status), TournamentStatus.Active))) &
+                       Restrictions.Gt(Projections.Property(() => rankAlias.Elo), punishLimit) &
+                       Restrictions.Lt(Projections.Property(() => rankAlias.DateModified), allowedLastRankUpdate));
+
+            // TODO: remove distinct from the client
+            return _dataAccessAdapter.GetCollection(query).Distinct();
+        }
+
         public Rank GetRank(Subject subject)
         {
             return _dataAccessAdapter.GetCollection<Rank>(x => x.Id == subject.Id).FirstOrDefault();
@@ -39,8 +58,8 @@ namespace Business.Dal
             Rank rankAlias = null;
             T subjectActual = null;
             var ranksQuery = QueryOver.Of(() => rankAlias)
-                .JoinAlias(x=>x.Subject, () => subjectActual)
-                .Where(y=> subjectActual.GetType() == typeof(T)).OrderBy(x => x.Elo).Desc;
+                .JoinAlias(x => x.Subject, () => subjectActual)
+                .Where(y => subjectActual.GetType() == typeof(T)).OrderBy(x => x.Elo).Desc;
             if (limit.HasValue)
             {
                 ranksQuery.Take(limit.Value);
@@ -51,32 +70,6 @@ namespace Business.Dal
         public void Save(Rank rank)
         {
             _dataAccessAdapter.Save(rank);
-        }
-
-        public Rank InitRank(Subject subject)
-        {
-            return InitRank(new List<Subject> { subject }).First();
-        }
-
-        public IEnumerable<Rank> InitRank(IEnumerable<Subject> subjects)
-        {
-            // TODO: WTF?
-            var toReturn = new List<Rank>();
-            foreach (var subject in subjects)
-            {
-                var newRank = new Rank
-                {
-                    DateModified = DateTime.Now,
-                    Elo = 2200,
-                    LastGame = null,
-                    Subject = subject
-                };
-
-                toReturn.Add(newRank);
-                _dataAccessAdapter.Save(newRank);
-            }
-
-            return toReturn;
         }
     }
 }

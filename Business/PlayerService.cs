@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 
 using Contracts.Business;
@@ -20,6 +21,16 @@ namespace Business
         {
             _playerDataAdapter.Save(player);
         }
+
+        public IEnumerable<Player> GetList()
+        {
+            return _playerDataAdapter.GetList();
+        }
+
+        public IEnumerable<Player> GetCollection(Expression<Func<Player, bool>> where)
+        {
+            return _playerDataAdapter.GetCollection(where);
+        } 
 
         public Player Get(Expression<Func<Player, bool>> where)
         {

@@ -2,7 +2,7 @@
 @model Web.Models.TournamentModels.TournamentBracketViewModel
 
 <div class="update-tournament">
-    @Html.ActionLink("Games", "EditGames", new { id = Model.Id })
+    @Html.ActionLink("Games", "EditGames", new { id = Model.Id }) | @Html.ActionLink("Contestants", "Contestants", new { controller = "Tournament", area = "Admin", id = Model.Id })
 
     @using (Html.BeginForm())
     {
@@ -35,5 +35,20 @@
         @Html.DropDownListFor(x => x.TournamentType, new SelectList(Enum.GetValues(typeof(TournamentType))))
 
         <input type="submit" value="Save" />
+    }
+
+    @if (Model.Status == TournamentStatus.Closed)
+    {
+        using (Html.BeginForm(new { action = "Convert", controller = "Tournament", area = "Admin" }))
+        {
+            @Html.Raw("Convert to: ")
+            @Html.DropDownList("targetType", new SelectList(Enum.GetValues(typeof(TournamentType))))
+            @Html.Raw(" with limit of: ")
+            @Html.DropDownList("playerLimit", new SelectList(new[] { 4, 8, 16, 32, 64 }))
+        
+            @Html.Hidden("id", Model.Id)
+
+            <input type="submit" value="Convert"/>
+        }
     }
 </div>

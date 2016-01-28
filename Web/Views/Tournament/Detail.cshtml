@@ -21,7 +21,7 @@
         }
     }
     @{
-        if (Model.Tournament.Status == TournamentStatus.Registration && User.Identity.IsAuthenticated)
+        if (Model.Tournament.Parent == null && Model.Tournament.Status == TournamentStatus.Registration && User.Identity.IsAuthenticated)
         {
             if (!inTournament)
             {

@@ -36,7 +36,7 @@ namespace Business.Dal
             _dataAccessAdapter.Save(entity);
         }
 
-        public IEnumerable<Team> GetCollection()
+        public IEnumerable<Team> GetList()
         {
             return _dataAccessAdapter.GetCollection<Team>();
         }

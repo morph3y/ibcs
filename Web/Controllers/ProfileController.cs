@@ -12,9 +12,11 @@ namespace Web.Controllers
     public class ProfileController : Controller
     {
         private readonly IPlayerService _playerService;
-        public ProfileController(IPlayerService playerService)
+        private readonly IRankingService _rankingService;
+        public ProfileController(IPlayerService playerService, IRankingService rankingService)
         {
             _playerService = playerService;
+            _rankingService = rankingService;
         }
 
         [AllowAnonymous]
@@ -47,7 +49,7 @@ namespace Web.Controllers
                 return View(model);
             }
 
-            _playerService.Save(new Player
+            var newPlayer = new Player
             {
                 FirstName = "",
                 LastName = "",
@@ -55,7 +57,10 @@ namespace Web.Controllers
                 Name = "",
                 Passsword = model.UserPassword,
                 UserName = model.UserEmail
-            });
+            };
+
+            _playerService.Save(newPlayer);
+            _rankingService.InitRank(newPlayer);
 
             return RedirectToAction("Logon");
         }

@@ -145,6 +145,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\TournamentController.cs" />
+    <Compile Include="Areas\Admin\Models\ContestantsListModel.cs" />
     <Compile Include="Areas\Admin\Models\UpdateGameViewModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
@@ -327,6 +328,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Ranking\RankingInventory.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Tournament\Contestants.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -16,6 +16,8 @@ namespace Dal.Mappings
             Map(x => x.IsRanked).Default("0");
             Map(x => x.IsTeamEvent).Default("0");
 
+            References(x => x.Parent).Nullable();
+
             HasMany(x => x.Stages).Cascade.AllDeleteOrphan();
             HasManyToMany(x => x.Contestants).Cascade.SaveUpdate();
         }

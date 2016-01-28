@@ -14,10 +14,12 @@ namespace Web.Controllers
     {
         private readonly ITeamService _teamService;
         private readonly IPlayerService _playerService;
-        public TeamController(ITeamService teamService, IPlayerService playerService)
+        private readonly IRankingService _rankingService;
+        public TeamController(ITeamService teamService, IPlayerService playerService, IRankingService rankingService)
         {
             _teamService = teamService;
             _playerService = playerService;
+            _rankingService = rankingService;
         }
 
         [AllowAnonymous]
@@ -36,7 +38,8 @@ namespace Web.Controllers
         public ActionResult Edit(TournamentTeamViewModel teamModel)
         {
             var team = _teamService.Get(x => x.Id == teamModel.Id);
-            if (team == null)
+            var isNew = team == null;
+            if (isNew)
             {
                 team = new Team
                 {
@@ -48,7 +51,12 @@ namespace Web.Controllers
             {
                 team.Name = teamModel.Name;
             }
+
             _teamService.Save(team);
+            if (isNew)
+            {
+                _rankingService.InitRank(team);
+            }
 
             return RedirectToAction("Edit", new { id = team.Id });
         }

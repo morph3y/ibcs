@@ -13,6 +13,7 @@ namespace Entities
 
         public virtual IList<Subject> Contestants { get; set; }
         public virtual IList<TournamentStage> Stages { get; set; }
+        public virtual Tournament Parent { get; set; }
 
         public virtual int PointsForWin { get; set; }
         public virtual int PointsForTie { get; set; }

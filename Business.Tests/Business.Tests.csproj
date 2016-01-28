@@ -51,12 +51,12 @@
     <Compile Include="GameServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RankingServiceTests.cs" />
+    <Compile Include="Ranking\RankingProvidersTests.cs" />
     <Compile Include="StageBuilders\LeagueBuilderTests.cs" />
     <Compile Include="StageBuilders\SingleEliminationBuilderTests.cs" />
     <Compile Include="StageBuilders\StageBuilderTestBase.cs" />
     <Compile Include="TeamServiceTests.cs" />
     <Compile Include="TournamentServiceTests.cs" />
-    <Compile Include="TournamentStageServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

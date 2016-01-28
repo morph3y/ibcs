@@ -9,9 +9,8 @@ namespace Contracts.Business.Dal
         Rank GetRank(Subject subject);
         IEnumerable<Rank> GetRanks<T>(int? limit = null) where T : Subject;
 
-        void Save(Rank rank);
+        IEnumerable<Rank> GetRanksToPunish(int allowedMonths, int punishLimit);
 
-        Rank InitRank(Subject subject);
-        IEnumerable<Rank> InitRank(IEnumerable<Subject> subjects);
+        void Save(Rank rank);
     }
 }

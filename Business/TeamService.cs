@@ -37,7 +37,7 @@ namespace Business
 
         public IEnumerable<Team> GetList()
         {
-            return _teamDataAdapter.GetCollection();
+            return _teamDataAdapter.GetList();
         }
 
         public IEnumerable<Player> GetAvailableMembers(int teamId)

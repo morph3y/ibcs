@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Business.Ranking;
+using Business.Tournaments.StageBuilders;
 using Contracts.Business;
 using Contracts.Business.Dal;
-using Contracts.Business.Tournaments;
 using Contracts.Session;
 using Entities;
 
@@ -12,18 +13,21 @@ namespace Business.Tournaments
     internal sealed class TournamentService : ITournamentService
     {
         private readonly ITournamentDataAdapter _tournamentDataAdapter;
-        private readonly ITournamentStageService _tournamentStageService;
         private readonly ISubjectService _subjectService;
-        private readonly IRankingService _rankingService;
+        private readonly IRankingDataAdapter _rankingDataAdapter;
+        private readonly IStageBuilderFactory _stageBuilderFactory;
+        private readonly IRankingProviderFactory _rankingProviderFactory;
         public TournamentService(ITournamentDataAdapter tournamentDataAdapter,
-            ITournamentStageService tournamentStageService,
             ISubjectService subjectService,
-            IRankingService rankingService)
+            IRankingDataAdapter rankingDataAdapter,
+            IStageBuilderFactory stageBuilderFactory = null,
+            IRankingProviderFactory rankingProviderFactory = null)
         {
             _tournamentDataAdapter = tournamentDataAdapter;
-            _tournamentStageService = tournamentStageService;
             _subjectService = subjectService;
-            _rankingService = rankingService;
+            _rankingDataAdapter = rankingDataAdapter;
+            _rankingProviderFactory = rankingProviderFactory ?? new RankingProviderFactory(rankingDataAdapter);
+            _stageBuilderFactory = stageBuilderFactory ?? new StageBuilderFactory();
         }
 
         public IEnumerable<Tournament> GetList()
@@ -36,11 +40,6 @@ namespace Business.Tournaments
             return _tournamentDataAdapter.Get(x => x.Id == id);
         }
 
-        public bool IsInTournament(int tournamentId, int memberId)
-        {
-            return _tournamentDataAdapter.IsInTournament(memberId, tournamentId);
-        }
-
         public void Save(Tournament tournament)
         {
             tournament.PointsForTie = tournament.PointsForTie < 0 ? 0 : tournament.PointsForTie;
@@ -49,10 +48,10 @@ namespace Business.Tournaments
             _tournamentDataAdapter.Save(tournament);
         }
 
-        public void Create(Tournament tournament)
+
+        public bool IsInTournament(int tournamentId, int memberId)
         {
-            tournament.Status = TournamentStatus.Registration;
-            _tournamentStageService.GenerateStages(tournament);
+            return _tournamentDataAdapter.IsInTournament(memberId, tournamentId);
         }
 
         public void AddContestant(int contestantId, Tournament tournament)
@@ -66,7 +65,9 @@ namespace Business.Tournaments
             ValidateContestant(contestant, tournament);
 
             tournament.Contestants.Add(contestant);
-            _tournamentStageService.GenerateStages(tournament);
+            RankContestants(tournament);
+
+            GenerateStages(tournament);
         }
 
         public void RemoveContestant(int contestantId, Tournament tournament)
@@ -74,8 +75,78 @@ namespace Business.Tournaments
             var contestant = _subjectService.Get(x => x.Id == contestantId);
             ValidateContestant(contestant, tournament);
 
-            _tournamentStageService.RemoveContestant(contestant, tournament);
+            RemoveContestant(contestant, tournament);
         }
+
+        public void RemoveContestant(Subject contestant, Tournament tournament)
+        {
+            if (tournament.Status == TournamentStatus.Closed
+                // temp until we figure out BYE player 
+                || tournament.Status == TournamentStatus.Active)
+            {
+                return;
+            }
+
+            ValidateContestant(contestant, tournament);
+
+            tournament.Contestants.Remove(contestant);
+            RankContestants(tournament);
+            GenerateStages(tournament);
+        }
+
+
+        public void Create(Tournament tournament)
+        {
+            tournament.Status = TournamentStatus.Registration;
+            RankContestants(tournament);
+
+            GenerateStages(tournament);
+        }
+
+        public Tournament Convert(Tournament source, TournamentType targetType, int playerLimit)
+        {
+            if (source.Status != TournamentStatus.Closed)
+            {
+                throw new Exception("can only convert closed tournaments");
+            }
+
+            if (targetType == TournamentType.SingleElimination && source.TournamentType == TournamentType.League) // refactor later if needed
+            {
+                var newTournament = new Tournament
+                {
+                    IsRanked = source.IsRanked,
+                    IsTeamEvent = source.IsTeamEvent,
+                    Name = source.Name + " (converted)",
+                    Parent = source,
+                    Contestants = source.Contestants.ToList(),
+                    PointsForTie = source.PointsForTie,
+                    PointsForWin = source.PointsForWin,
+                    Stages = new List<TournamentStage>(),
+                    Status = TournamentStatus.Registration,
+                    TournamentType = TournamentType.SingleElimination
+                };
+
+                RankContestants(newTournament);
+
+                newTournament.Contestants = newTournament.Contestants.Take(playerLimit).ToList();
+
+                _stageBuilderFactory.Create(newTournament).Build();
+
+                _tournamentDataAdapter.Save(newTournament);
+
+                return newTournament;
+            }
+            
+            throw new NotSupportedException("Tournament type converion not supported");
+        }
+
+        public void Update(Tournament tournament)
+        {
+            _stageBuilderFactory.Create(tournament).Update();
+            _tournamentDataAdapter.Save(tournament);
+        }
+
+        // TODO: Remove after deploy v2
 
         public void ResetRanks(Tournament tournament)
         {
@@ -86,8 +157,24 @@ namespace Business.Tournaments
                 var games = tournamentStage.Games.Where(x => x.Status == GameStatus.Finished && x.Winner != null && x.Participant1 != null && x.Participant2 != null);
                 foreach (var game in games)
                 {
-                    _rankingService.UpdateRank(game.Winner, game.Winner.Id == game.Participant1.Id ? game.Participant2 : game.Participant1);
+                    new RankingService(_rankingDataAdapter).UpdateRank(game.Winner, game.Winner.Id == game.Participant1.Id ? game.Participant2 : game.Participant1);
                 }
+            }
+        }
+
+        internal void GenerateStages(Tournament tournament)
+        {
+            _stageBuilderFactory.Create(tournament).Build();
+            _tournamentDataAdapter.Save(tournament);
+        }
+
+        private void RankContestants(Tournament tournament)
+        {
+            var rankedContestants = _rankingProviderFactory.GetProvider(tournament).Rank(tournament.Contestants.ToList());
+            tournament.Contestants.Clear();
+            foreach (var rankedContestant in rankedContestants)
+            {
+                tournament.Contestants.Add(rankedContestant);
             }
         }
 
@@ -103,7 +190,7 @@ namespace Business.Tournaments
 
             if (!Session.Current.IsAdmin && (
                 (tournament.IsTeamEvent && teamContestant.Captain.Id != Session.Current.Id)
-                    ||
+                ||
                 (!tournament.IsTeamEvent && playerContestant.Id != Session.Current.Id)))
             {
                 throw new Exception("You don't have rights to change this contestant");
