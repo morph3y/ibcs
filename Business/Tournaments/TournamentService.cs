@@ -84,7 +84,7 @@ namespace Business.Tournaments
                 // temp until we figure out BYE player 
                 || tournament.Status == TournamentStatus.Active)
             {
-                return;
+                throw new Exception("Can not remove contestant from an active or closed tournament");
             }
 
             ValidateContestant(contestant, tournament);

@@ -18,7 +18,7 @@ namespace Dal.Mappings
 
             References(x => x.Parent).Nullable();
 
-            HasMany(x => x.Stages).Cascade.AllDeleteOrphan();
+            HasMany(x => x.Stages).KeyColumn("Tournament_Id").Cascade.AllDeleteOrphan();
             HasManyToMany(x => x.Contestants).Cascade.SaveUpdate();
         }
     }
