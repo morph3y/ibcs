@@ -21,6 +21,11 @@ namespace Business.Dal
             _dataAccessAdapter = dataAccessAdapter;
         }
 
+        public IEnumerable<Tournament> GetList()
+        {
+            return _dataAccessAdapter.GetCollection<Tournament>();
+        }
+
         public IEnumerable<Tournament> GetCollection(Expression<Func<Tournament, bool>> where)
         {
             return _dataAccessAdapter.GetCollection(where);

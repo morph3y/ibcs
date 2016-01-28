@@ -1,0 +1,31 @@
+﻿@model Web.Areas.Admin.Models.ContestantsListModel
+
+<div class="contestants-list">
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var contestant in Model.Contestants)
+        {
+            <tr>
+                <td>@contestant.Name</td>
+                <td>@Html.ActionLink("Remove", "RemoveContestant", new {area = "Admin", controller = "Tournament", id = contestant.Id, tournamentId = Model.TournamentId})</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+    @using (Html.BeginForm(new {action = "AddContestant", controller = "Tournament", area = "Admin"}))
+    {
+        var options = new List<SelectListItem>();
+        Model.OtherSubjects.ForEach(x=> options.Add(new SelectListItem { Text = x.Name, Value = x.Id.ToString() }));
+        @Html.DropDownList("id", options)
+        
+        @Html.Hidden("tournamentId", Model.TournamentId)
+        <input type="submit" value="Add"/>
+    }
+</div>

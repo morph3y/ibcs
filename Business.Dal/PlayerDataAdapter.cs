@@ -24,6 +24,11 @@ namespace Business.Dal
             return _dataAccessAdapter.GetCollection(where).FirstOrDefault();
         }
 
+        public IEnumerable<Player> GetList()
+        {
+            return _dataAccessAdapter.GetCollection<Player>();
+        }
+
         public IEnumerable<Player> GetCollection(Expression<Func<Player, bool>> where)
         {
             return _dataAccessAdapter.GetCollection(where);

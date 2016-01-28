@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using Contracts.Business;
 using Entities;
@@ -14,16 +16,19 @@ namespace Web.Areas.Admin.Controllers
         private readonly IPlayerService _playerService;
         private readonly IGameService _gameService;
         private readonly ISubjectService _subjectService;
+        private readonly ITeamService _teamService;
         public TournamentController(
             ITournamentService tournamentService,
             IPlayerService playerService,
             IGameService gameService,
-            ISubjectService subjectService)
+            ISubjectService subjectService,
+            ITeamService teamService)
         {
             _tournamentService = tournamentService;
             _playerService = playerService;
             _gameService = gameService;
             _subjectService = subjectService;
+            _teamService = teamService;
         }
 
         public ActionResult Edit(int id)
@@ -57,7 +62,6 @@ namespace Web.Areas.Admin.Controllers
             {
                 tournamentToSave = new Tournament
                 {
-                    Id = model.Id,
                     IsRanked = model.IsRanked,
                     Name = model.Name,
                     PointsForTie = model.PointsForTie,
@@ -78,6 +82,58 @@ namespace Web.Areas.Admin.Controllers
             _tournamentService.Save(tournamentToSave);
 
             return RedirectToAction("Edit", "Tournament", new { area = "Admin", id = tournamentToSave.Id });
+        }
+
+        [HttpPost]
+        public ActionResult Convert(TournamentType targetType, int id, int playerLimit)
+        {
+            var tournamentToConvert = _tournamentService.Get(id);
+            if (tournamentToConvert == null)
+            {
+                throw new Exception("Tournament does not exist");
+            }
+
+            var newTournament = _tournamentService.Convert(tournamentToConvert, targetType, playerLimit);
+
+            return RedirectToAction("Edit", "Tournament", new { area = "Admin", id = newTournament.Id });
+        }
+
+        public ActionResult Contestants(int id)
+        {
+            var tournament = _tournamentService.Get(id);
+
+            var otherContestants = new List<Subject>();
+            if (tournament.IsTeamEvent)
+            {
+                var teams = _teamService.GetList().Where(x => !tournament.Contestants.Contains(x)).ToList();
+                otherContestants.AddRange(teams);
+            }
+            else
+            {
+                var players = _playerService.GetList().Where(x => !tournament.Contestants.Contains(x)).ToList();
+                otherContestants.AddRange(players);
+            }
+            return View(new ContestantsListModel
+            {
+                Contestants = tournament.Contestants.ToList(),
+                OtherSubjects = otherContestants,
+                TournamentId = id
+            });
+        }
+
+        public ActionResult RemoveContestant(int id, int tournamentId)
+        {
+            var tournament = _tournamentService.Get(tournamentId);
+            _tournamentService.RemoveContestant(id, tournament);
+            return RedirectToAction("Contestants", new { id = tournamentId });
+        }
+
+        public ActionResult AddContestant(int id, int tournamentId)
+        {
+            var tournament = _tournamentService.Get(tournamentId);
+            _tournamentService.AddContestant(id, tournament);
+            return RedirectToAction("Contestants", new { id = tournamentId });
+
         }
 
         public ActionResult EditGames(int id)

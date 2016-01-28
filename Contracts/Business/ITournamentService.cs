@@ -17,8 +17,8 @@ namespace Contracts.Business
 
         // Stages management
         void Create(Tournament tournament);
-        void GenerateStages(Tournament tournament);
-        void UpdateStages(Tournament tournament);
+        Tournament Convert(Tournament source, TournamentType targetType, int playerLimit);
+        void Update(Tournament tournament);
 
         void ResetRanks(Tournament tournament);
     }

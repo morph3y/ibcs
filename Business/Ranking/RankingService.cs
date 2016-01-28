@@ -5,7 +5,7 @@ using Contracts.Business;
 using Contracts.Business.Dal;
 using Entities;
 
-namespace Business
+namespace Business.Ranking
 {
     internal sealed class RankingService : IRankingService
     {
@@ -14,9 +14,11 @@ namespace Business
         public const int AllowedMonths = 1;
 
         private readonly IRankingDataAdapter _rankingDataAdapter;
-        public RankingService(IRankingDataAdapter rankingDataAdapter)
+        private readonly IRankingProvider _rankingProvider;
+        public RankingService(IRankingDataAdapter rankingDataAdapter, IRankingProvider rankingProvider = null)
         {
             _rankingDataAdapter = rankingDataAdapter;
+            _rankingProvider = rankingProvider ?? new GlobalRankingProvider(rankingDataAdapter);
         }
 
         public void MaintainRanks()
@@ -48,21 +50,21 @@ namespace Business
 
         public IEnumerable<Subject> Rank(IEnumerable<Subject> subjects)
         {
-            var rankInfo = _rankingDataAdapter.GetRanks(subjects);
+            var rankedSubjects = _rankingProvider.Rank(subjects);
 
             // Initialize if needed
-            if (rankInfo.Count() != subjects.Count())
+            if (rankedSubjects.Count() != subjects.Count())
             {
-                var toInitialize = subjects.Where(x => !rankInfo.Select(y => y.Subject).Contains(x));
+                var toInitialize = subjects.Where(x => !rankedSubjects.Contains(x));
                 var newRanks = InitRank(toInitialize);
 
-                var allRanks = new List<Rank>();
-                allRanks.AddRange(newRanks);
-                allRanks.AddRange(rankInfo);
-                rankInfo = allRanks;
+                var allRanks = new List<Subject>();
+                allRanks.AddRange(newRanks.Select(x=>x.Subject));
+                allRanks.AddRange(rankedSubjects);
+                rankedSubjects = allRanks;
             }
 
-            return rankInfo.OrderByDescending(x => x.Elo).Select(x => x.Subject);
+            return rankedSubjects;
         }
 
         public Rank InitRank(Subject subject)

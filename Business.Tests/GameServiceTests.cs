@@ -48,14 +48,14 @@ namespace Business.Tests
                 Participant2Score = 2,
                 Winner = new Player { Id = 2 }
             };
-            _fakeTournamentStageService.Setup(x => x.UpdateStages(It.IsAny<Tournament>()));
+            _fakeTournamentStageService.Setup(x => x.Update(It.IsAny<Tournament>()));
 
             // Act
             _testSubject.EndGame(game);
 
             // Assert
             Assert.AreEqual(GameStatus.Finished, game.Status);
-            _fakeTournamentStageService.Verify(x => x.UpdateStages(It.IsAny<Tournament>()), Times.Once);
+            _fakeTournamentStageService.Verify(x => x.Update(It.IsAny<Tournament>()), Times.Once);
         }
 
         [Test]
