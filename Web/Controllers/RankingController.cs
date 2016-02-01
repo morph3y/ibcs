@@ -33,7 +33,7 @@ namespace Web.Controllers
         {
             return View("ShowAllRanks", new RankingViewModel
             {
-                Ranks = _rankingService.Get<Player>(10).ToList(),
+                Ranks = _rankingService.Get<Player>().ToList(),
                 SubjectType = typeof(Player)
             });
         }
