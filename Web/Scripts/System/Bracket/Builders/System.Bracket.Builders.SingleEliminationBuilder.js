@@ -1,25 +1,24 @@
 ﻿registerNamespace("System.Bracket.Builders.SingleEliminationBuilder");
 
 System.Bracket.Builders.SingleEliminationBuilder = function (tournament) {
-    var self = this
-    template = $('<div class="se-wrapper"></div>');
+    var self = this,
+        template = $('<div class="se-wrapper"></div>');
 
-    // ctor
     self.tournament = tournament;
 
-    // private methods
-    function createModel(tournament) {
-        var resultModel = [],
-            contestantModel = [];
+    function createGracket(tournament) {
+        var result = [],
+            roundLabels = [];
         for (var i = 0, il = tournament.stages.length; i < il; i++) {
-            var stage = tournament.stages[i];
-            var stageModel = [];
+            var stage = tournament.stages[i],
+                stageModel = [],
+                sortedGames = [];
+            roundLabels.push(stage.name);
 
-            var sortedGames = [];
             for (var id in stage.games) {
                 sortedGames.push([id, stage.games[id]]);
             }
-            sortedGames.sort(function (a, b) {
+            sortedGames.sort(function(a, b) {
                 return a[1].order - b[1].order;
             });
 
@@ -27,63 +26,56 @@ System.Bracket.Builders.SingleEliminationBuilder = function (tournament) {
                 var index = j,
                     game = sortedGames[index][1],
                     gameModel = [],
-                    byeModel = { name: 'BYE', id: -1 };
+                    byeModel = { name: 'BYE', id: -1, seed: 0 },
+                    participant1IsBye = game.participant1 == null,
+                    participant2IsBye = game.participant2 == null;
 
-                if (game.participant1 == null) {
-                    game.participant1 = byeModel;
+                if (participant1IsBye) {
+                    gameModel.push(byeModel);
+                } else {
+                    gameModel.push({
+                        name: game.participant1.name == '' ? '(NO NAME)' : game.participant1.name || '(NO NAME)adsf asdf das fdas fdas fdas das fdas f asd',
+                        id: game.participant1.id, 
+                        seed: participant2IsBye ? 1 : game.participant1Score
+                    });
                 }
 
-                if (game.participant2 == null) {
-                    game.participant2 = byeModel;
+                if (participant2IsBye) {
+                    gameModel.push(byeModel);
+                } else {
+                    gameModel.push({
+                        name: game.participant2.name == '' ? '(NO NAME)' : game.participant2.name || '(NO NAME)sdf asdfdas fdasfdas fdasfdasfdasfdasfdasfasdfdas',
+                        id: game.participant2.id,
+                        seed: participant1IsBye ? 1 : game.participant2Score
+                    });
                 }
-
-                if (i == 0) {
-                    contestantModel.push([
-                        game.participant1.name == '' ? '(NO NAME)' : game.participant1.name || '(NO NAME)',
-                        game.participant2.name == '' ? '(NO NAME)' : game.participant2.name || '(NO NAME)']);
-                }
-
-                // WORKAROUND: PLUGIN DOESN'T SUPPORT WINNER BEING PERSON WITH LESS POINTS
-                if (game.winner != null &&
-                    ((game.participant1Score > game.participant2Score && game.winner.id != game.participant1.id)
-                     ||
-                     (game.participant1Score < game.participant2Score && game.winner.id != game.participant2.id)
-                     || (game.participant1Score == game.participant2Score))) {
-                    game.participant1Score = game.winner.id == game.participant1.id ? 1 : 0;
-                    game.participant2Score = game.winner.id == game.participant2.id ? 1 : 0;
-                }
-
-                gameModel.push(game.participant1Score);
-                gameModel.push(game.participant2Score);
-
                 if (game.order > index) {
                     while (index < game.order) {
-                        stageModel.push([]);
+                        stageModel.push([{name: 'TBD', id: -2}, {name: 'TBD', id: -2}]);
                         index++;
                     }
                 }
                 stageModel.push(gameModel);
             }
-            resultModel.push(stageModel);
+            result.push(stageModel);
         }
-
         return {
-            "teams": contestantModel,
-            "results": resultModel
+            src: result,
+            roundLabels: roundLabels,
+            cornerRadius: 15,
+            canvasLineGap: 15
         };
     };
 
     self.render = function (wrapper) {
-        var tournamentModel = createModel(self.tournament);
-        if (tournamentModel.teams.length == 0) {
+        var tournamentModel = createGracket(self.tournament);
+        if (tournamentModel.src.length == 0) {
             return;
         }
 
         wrapper.empty().append(template.empty());
 
-        template.bracket({
-            init: tournamentModel
-        });
+        template.gracket(tournamentModel);
     };
 
     return self;
