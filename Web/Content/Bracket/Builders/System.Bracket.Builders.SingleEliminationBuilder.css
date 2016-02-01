@@ -8,7 +8,7 @@
 }
 
     .g_gracket h3 {
-        width: 150px;  /* @note: this width determinds node size */
+        width: 165px;  /* @note: this width determinds node size */
         margin: 0; 
         padding: 6px 3px 3px; 
         font-size: 18px; 
@@ -35,6 +35,7 @@
 .g_team {
     color: #F2F2F2;
     background-color: #151D26;
+    cursor: pointer;
 }
 
 .g_team:first-child {
