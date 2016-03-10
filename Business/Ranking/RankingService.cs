@@ -112,7 +112,7 @@ namespace Business.Ranking
             var player1CurrentRank = (double)player1Rank.Elo;
             var player2CurrentRank = (double)player2Rank.Elo;
 
-            var e = 120 - Math.Round(1 / (1 + Math.Pow(10, ((player2CurrentRank - player1CurrentRank) / 90))) * 120);
+            var e = 30 - Math.Round(1 / (1 + Math.Pow(10, ((player2CurrentRank - player1CurrentRank) / 90))) * 30);
             player1Rank.Elo = (int)(player1CurrentRank + e);
             player2Rank.Elo = (int)(player2CurrentRank - e);
 

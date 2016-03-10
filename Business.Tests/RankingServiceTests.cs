@@ -129,5 +129,77 @@ namespace Business.Tests
             // Assert
             _fakeRankingAdapter.VerifyAll();
         }
+
+        [Test]
+        public void VerifyCanUpdateRanksForGameResult()
+        {
+            // Arrage
+            var participant1 = new Player { Id = 1, Name = "Bla" };
+            var participant2 = new Player { Id = 2, Name = "Bla2" };
+            var game = new Game { Participant1 = participant1, Participant2 = participant2, Participant1Score = 1, Participant2Score = 0, Winner = participant1};
+            var participant1Rank = new Rank { Elo = 2200, Subject = participant1 };
+            var participant2Rank = new Rank { Elo = 2200, Subject = participant2 };
+
+            _fakeRankingAdapter.Setup(x => x.GetRanksToPunish(It.IsAny<int>(), It.IsAny<int>())).Returns(new List<Rank>());
+            _fakeRankingAdapter.Setup(x => x.GetRanks(It.IsAny<IEnumerable<Subject>>())).Returns(new List<Rank> { participant1Rank, participant2Rank });
+
+            // Act
+            _testSubject.UpdateRank(game.Winner, game.Participant2);
+
+            // Assert
+            Assert.AreNotEqual(2200, participant1Rank.Elo);
+            Assert.AreNotEqual(2200, participant2Rank.Elo);
+            Assert.Greater(participant1Rank.Elo, participant2Rank.Elo);
+        }
+
+        [Test]
+        public void VerifyTheImpactOfTheLose()
+        {
+            // Arrage
+            var participant1 = new Player { Id = 1, Name = "Bla" };
+            var participant2 = new Player { Id = 2, Name = "Bla2" };
+            var game = new Game { Participant1 = participant1, Participant2 = participant2, Participant1Score = 1, Participant2Score = 0, Winner = participant1 };
+            var participant1Rank = new Rank { Elo = 2100, Subject = participant1 };
+            var participant2Rank = new Rank { Elo = 2200, Subject = participant2 };
+            var ranks = new List<Rank> {participant1Rank, participant2Rank};
+            var diff = participant2Rank.Elo - participant1Rank.Elo;
+
+            _fakeRankingAdapter.Setup(x => x.GetRanksToPunish(It.IsAny<int>(), It.IsAny<int>())).Returns(new List<Rank>());
+            _fakeRankingAdapter.Setup(x => x.GetRanks(It.IsAny<IEnumerable<Subject>>())).Returns(ranks);
+
+            // Act
+            _testSubject.UpdateRank(game.Winner, game.Participant2);
+
+            // Assert
+            Assert.Less(participant1Rank.Elo, 2150);
+            Assert.Greater(participant2Rank.Elo, 2150);
+            Assert.LessOrEqual(participant2Rank.Elo - participant1Rank.Elo, diff);
+
+            // re-arrange
+            participant1Rank = new Rank { Elo = 2200, Subject = participant1 };
+            participant2Rank = new Rank { Elo = 2200, Subject = participant2 };
+            ranks = new List<Rank> { participant1Rank, participant2Rank };
+            _fakeRankingAdapter.Setup(x => x.GetRanks(It.IsAny<IEnumerable<Subject>>())).Returns(ranks);
+
+            // re-act
+            _testSubject.UpdateRank(participant1, participant2);
+
+            // re-assert
+            //Assert.LessOrEqual(5, participant1Rank.Elo - participant2Rank.Elo);
+            //Assert.GreaterOrEqual(7, participant1Rank.Elo - participant2Rank.Elo);
+
+            // re-arrange
+            participant1Rank = new Rank { Elo = 2200, Subject = participant1 };
+            participant2Rank = new Rank { Elo = 2200, Subject = participant2 };
+            ranks = new List<Rank> { participant1Rank, participant2Rank };
+            _fakeRankingAdapter.Setup(x => x.GetRanks(It.IsAny<IEnumerable<Subject>>())).Returns(ranks);
+
+            // re-act
+            _testSubject.UpdateRank(participant1, participant2);
+
+            // re-assert
+            Assert.LessOrEqual(5, participant1Rank.Elo - participant2Rank.Elo);
+            Assert.GreaterOrEqual(7, participant1Rank.Elo - participant2Rank.Elo);
+        }
     }
 }

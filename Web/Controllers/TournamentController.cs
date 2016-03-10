@@ -82,9 +82,9 @@ namespace Web.Controllers
         {
             var trn = new Tournament
             {
-                Name = "IBCS 2015",
+                Name = "IBCS 2015 League",
                 Status = TournamentStatus.Registration,
-                TournamentType = TournamentType.SingleElimination
+                TournamentType = TournamentType.League
             };
 
             _tournamentService.Create(trn);
