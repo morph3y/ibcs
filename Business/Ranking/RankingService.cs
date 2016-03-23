@@ -10,7 +10,7 @@ namespace Business.Ranking
     internal sealed class RankingService : IRankingService
     {
         public const int StartingElo = 2200;
-        public const int PunishElo = 50;
+        public const int PunishElo = 20;
         public const int AllowedMonths = 1;
 
         private readonly IRankingDataAdapter _rankingDataAdapter;
