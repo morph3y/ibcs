@@ -8,6 +8,9 @@ System.Bracket.BuilderFactory = (function () {
         else if (tournament.type == 2) {
             return new System.Bracket.Builders.SingleEliminationBuilder(tournament);
         }
+        else if (tournament.type == 3) {
+            return new System.Bracket.Builders.Group.Builder(tournament);
+        }
         return null;
     };
 

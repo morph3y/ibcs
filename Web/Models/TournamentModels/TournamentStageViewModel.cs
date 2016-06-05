@@ -17,6 +17,9 @@ namespace Web.Models.TournamentModels
         [DataMember(Name = "games")]
         public virtual IList<GameViewModel> Games { get; set; }
 
+        [DataMember(Name = "groups")]
+        public virtual IList<TournamentGroupViewModel> Groups { get; set; } 
+
         public static TournamentStageViewModel Build(TournamentStage stage)
         {
             var viewModel = new TournamentStageViewModel
@@ -24,12 +27,18 @@ namespace Web.Models.TournamentModels
                 Id = stage.Id,
                 Name = stage.Name,
                 Order = stage.Order,
-                Games = new List<GameViewModel>()
+                Games = new List<GameViewModel>(),
+                Groups = new List<TournamentGroupViewModel>()
             };
 
             foreach (var game in stage.Games)
             {
                 viewModel.Games.Add(GameViewModel.Build(game));
+            }
+
+            foreach (var group in stage.Groups)
+            {
+                viewModel.Groups.Add(TournamentGroupViewModel.Build(group));
             }
 
             return viewModel;

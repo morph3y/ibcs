@@ -20,6 +20,6 @@ namespace Contracts.Business
         Tournament Convert(Tournament source, TournamentType targetType, int playerLimit);
         void Update(Tournament tournament);
 
-        void ResetRanks(Tournament tournament);
+        //void ResetRanks(Tournament tournament);
     }
 }

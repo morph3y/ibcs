@@ -174,10 +174,12 @@
     <Compile Include="Models\TournamentModels\GameViewModel.cs" />
     <Compile Include="Models\TournamentModels\SubjectModels\SubjectViewModel.cs" />
     <Compile Include="Models\TournamentModels\TournamentDetailViewModel.cs" />
+    <Compile Include="Models\TournamentModels\TournamentGroupViewModel.cs" />
     <Compile Include="Models\TournamentModels\TournamentStageViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Bracket\Builders\System.Bracket.Builders.GroupBuilder.css" />
     <Content Include="Content\Bracket\Builders\System.Bracket.Builders.LeagueBuilder.css" />
     <Content Include="Content\Bracket\Builders\System.Bracket.Builders.LeagueSummary.css" />
     <Content Include="Content\Bracket\Builders\System.Bracket.Builders.SingleEliminationBuilder.css" />
@@ -210,6 +212,9 @@
     <Content Include="Scripts\jquery-1.11.2.js" />
     <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
+    <Content Include="Scripts\System\Bracket\Builders\Group\System.Bracket.Builders.Group.Builder.js" />
+    <Content Include="Scripts\System\Bracket\Builders\Group\System.Bracket.Builders.Group.GamesList.js" />
+    <Content Include="Scripts\System\Bracket\Builders\Group\System.Bracket.Builders.Group.GroupItem.js" />
     <Content Include="Scripts\System\Bracket\Builders\System.Bracket.Builders.LeagueBuilder.js" />
     <Content Include="Scripts\System\Bracket\Builders\System.Bracket.Builders.LeagueSummary.js" />
     <Content Include="Scripts\System\Bracket\Builders\System.Bracket.Builders.SingleEliminationBuilder.js" />
@@ -331,6 +336,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Admin\Views\Tournament\Contestants.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Tournament\EditGroups.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

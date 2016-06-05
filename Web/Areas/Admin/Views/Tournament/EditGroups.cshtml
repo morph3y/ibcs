@@ -1,0 +1,58 @@
+﻿@model Entities.Tournament
+
+<div class="groupList">
+    <div class="header">
+        @using (Html.BeginForm(new { area = "Admin", controller = "Tournament", action = "AddNewGroup" }))
+        {
+            @Html.TextBox("groupName")
+            @Html.Hidden("tournamentId", Model.Id)
+            <input type="submit" value="Add new group" />
+        }
+    </div>
+    <div class="groups">
+        @{
+            if (Model.Stages.Count > 0)
+            {
+                foreach (var group in Model.Stages[0].Groups)
+                {
+                    <div class="group">
+                        <span class="header">@group.Name</span>
+                        @Html.ActionLink("X", "RemoveGroup", new { area = "Admin", controller = "Tournament", groupId = group.Id, tournamentId = Model.Id })
+                        <div class="contestants">
+                            @foreach (var subject in group.Contestants)
+                            {
+                                <span class="contestant">: @subject.Name</span>
+                                @Html.ActionLink("X", "RemoveGroupContestant", new {area = "Admin", controller = "Tournament", groupId = group.Id, contestantId = subject.Id, tournamentId = Model.Id})
+                            }
+                        </div>
+                    </div>
+                    <br/>
+                }
+            }
+        }
+
+    </div>
+    <br/>
+    All Contestants:
+    <div class="contenstantList">
+        @{
+            if (Model.Stages.Count > 0)
+            {
+                foreach (var subject in Model.Contestants)
+                {
+                    using (Html.BeginForm(new { area = "Admin", controller = "Tournament", action = "AddGroupContestant" }))
+                    {
+                        <span class="contestant">@subject.Name</span>
+                        var inGroup = Model.Stages[0].Groups.FirstOrDefault(x => x.Contestants.Contains(subject));
+                        @Html.DropDownList("groupId", Model.Stages[0].Groups.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString(), Selected = inGroup != null && x.Id == inGroup.Id }))
+                        @Html.Hidden("tournamentId", Model.Id)
+
+                        @Html.Hidden("contestantId", subject.Id)
+                        <input type="submit" value="Add to group" /> WriteLiteral(inGroup != null ? "&#10003;" : "");
+                    }
+
+                }
+            }
+}
+    </div>
+</div>

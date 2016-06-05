@@ -51,6 +51,9 @@
     <Compile Include="Ranking\RankingService.cs" />
     <Compile Include="SubjectService.cs" />
     <Compile Include="TeamService.cs" />
+    <Compile Include="Tournaments\StageBuilders\EliminationBuilderBase.cs" />
+    <Compile Include="Tournaments\StageBuilders\GroupStageBuilder.cs" />
+    <Compile Include="Tournaments\StageBuilders\LeagueBuilderBase.cs" />
     <Compile Include="Tournaments\StageBuilders\LeagueStageBuilder.cs" />
     <Compile Include="Tournaments\StageBuilders\SingleEliminationStageBuilder.cs" />
     <Compile Include="Tournaments\StageBuilders\StageBuilderFactory.cs" />

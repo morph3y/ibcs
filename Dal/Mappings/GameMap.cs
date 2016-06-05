@@ -17,6 +17,7 @@ namespace Dal.Mappings
             References(x => x.Participant1).Nullable().Column("Participant1_id");
             References(x => x.Participant2).Nullable().Column("Participant2_id");
             References(x => x.Winner).Nullable().Column("Winner_id");
+            References(x => x.Group).Nullable().Column("Group_Id");
         }
     }
 }

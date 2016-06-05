@@ -2,7 +2,8 @@
 @model Web.Models.TournamentModels.TournamentBracketViewModel
 
 <div class="update-tournament">
-    @Html.ActionLink("Games", "EditGames", new { id = Model.Id }) | @Html.ActionLink("Contestants", "Contestants", new { controller = "Tournament", area = "Admin", id = Model.Id })
+    @Html.ActionLink("Games", "EditGames", new { id = Model.Id, controller = "Tournament", area = "Admin" }) | @Html.ActionLink("Contestants", "Contestants", new { controller = "Tournament", area = "Admin", id = Model.Id })
+     | @Html.ActionLink("Edit Groups", "EditGroups", new { controller = "Tournament", area = "Admin", id = Model.Id })
 
     @using (Html.BeginForm())
     {

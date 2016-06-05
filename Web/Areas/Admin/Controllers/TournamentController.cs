@@ -6,6 +6,7 @@ using Contracts.Business;
 using Entities;
 using Web.Areas.Admin.Models;
 using Web.Models.TournamentModels;
+using WebGrease.Css.Extensions;
 
 namespace Web.Areas.Admin.Controllers
 {
@@ -157,12 +158,111 @@ namespace Web.Areas.Admin.Controllers
 
             return RedirectToAction("Edit", new { id = game.TournamentStage.Tournament.Id, area = "Admin" });
         }
-
+        /*
         public ActionResult ResetRank(int id)
         {
             _tournamentService.ResetRanks(_tournamentService.Get(id));
 
             return RedirectToAction("Edit", new { id = id, area = "Admin" });
+        }*/
+
+        public ActionResult EditGroups(int id)
+        {
+            return View("EditGroups", _tournamentService.Get(id));
+        }
+
+        public ActionResult AddNewGroup(string groupName, int tournamentId)
+        {
+            var tournament = _tournamentService.Get(tournamentId);
+            if (tournament != null)
+            {
+                if (tournament.Stages.Count == 0)
+                {
+                    tournament.Stages.Add(new TournamentStage
+                    {
+                        Name = "GroupStage",
+                        Tournament = tournament,
+                        Order = 0,
+                    });
+                }
+
+                if (tournament.Stages.Count == 1)
+                {
+                    tournament.Stages[0].Groups.Add(new TournamentGroup
+                    {
+                        Name = groupName,
+                        Stage = tournament.Stages[0]
+                    });
+                    _tournamentService.Save(tournament);
+                    return RedirectToAction("EditGroups", new { id = tournamentId });
+                }
+                throw new Exception("More than 1 stage");
+            }
+            throw new Exception("Tournament not found");
+        }
+
+        public ActionResult AddGroupContestant(int tournamentId, int groupId, int contestantId)
+        {
+            var tournament = _tournamentService.Get(tournamentId);
+            if (tournament.Stages.Count > 0)
+            {
+                var groupToAdd = tournament.Stages[0].Groups.FirstOrDefault(x => x.Id == groupId);
+                if (groupToAdd != null)
+                {
+                    var contenstant = tournament.Contestants.FirstOrDefault(x => x.Id == contestantId);
+                    if (contenstant != null)
+                    {
+                        groupToAdd.Contestants.Add(contenstant);
+                        _tournamentService.AddContestant(contenstant.Id, tournament);
+                        _tournamentService.Save(tournament);
+                        return RedirectToAction("EditGroups", new { id = tournamentId });
+                    }
+                    throw new Exception("Contestant is not in the tournament");
+                }
+                throw new Exception("Group not found");
+            }
+            throw new Exception("Has to have 1 stage");
+        }
+
+        public ActionResult RemoveGroupContestant(int tournamentId, int groupId, int contestantId)
+        {   
+            var tournament = _tournamentService.Get(tournamentId);
+            if (tournament.Stages.Count > 0)
+            {
+                var groupToAdd = tournament.Stages[0].Groups.FirstOrDefault(x => x.Id == groupId);
+                if (groupToAdd != null)
+                {
+                    var contenstant = groupToAdd.Contestants.FirstOrDefault(x => x.Id == contestantId);
+                    if (contenstant != null)
+                    {
+                        groupToAdd.Contestants.RemoveAt(groupToAdd.Contestants.IndexOf(contenstant));
+                        _tournamentService.RemoveContestant(contenstant.Id, tournament);
+                        _tournamentService.Save(tournament);
+                        return RedirectToAction("EditGroups", new { id = tournamentId });
+                    }
+                    throw new Exception("Contestant is not in the group");
+                }
+                throw new Exception("Group not found");
+            }
+            throw new Exception("Has to have 1 stage");
+        }
+
+        public ActionResult RemoveGroup(int tournamentId, int groupId)
+        {
+            var tournament = _tournamentService.Get(tournamentId);
+            if (tournament.Stages.Count > 0)
+            {
+                var groupToRemove = tournament.Stages[0].Groups.FirstOrDefault(x => x.Id == groupId);
+                if (groupToRemove != null)
+                {
+                    groupToRemove.Contestants.ForEach(tournament.Contestants.Add);
+                    tournament.Stages[0].Groups.RemoveAt(tournament.Stages[0].Groups.IndexOf(groupToRemove));
+                    _tournamentService.Save(tournament);
+                    return RedirectToAction("EditGroups", new { id = tournamentId });
+                }
+                throw new Exception("Group not found");
+            }
+            throw new Exception("Has to have 1 stage");
         }
     }
 }

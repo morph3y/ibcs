@@ -194,17 +194,6 @@ namespace Business.Tests
         }
 
         [Test]
-        public void CanGenerateGames()
-        {
-            // Arrange / Act
-            _testSubject.GenerateStages(new Tournament());
-
-            // Assert
-            _fakeStageBuilderFactory.Verify(x => x.Create(It.IsAny<Tournament>()), Times.Once);
-            _fakeStageBuilder.Verify(x => x.Build(), Times.Once);
-        }
-
-        [Test]
         public void CanUpdateStages()
         {
             // Arrange / Act
@@ -213,6 +202,19 @@ namespace Business.Tests
             // Assert
             _fakeStageBuilderFactory.Verify(x => x.Create(It.IsAny<Tournament>()), Times.Once);
             _fakeStageBuilder.Verify(x => x.Update(), Times.Once);
+        }
+
+        [Test]
+        public void VerifyCanFinishTournament()
+        {
+            // Arrange
+            var tournament = new Tournament { Status = TournamentStatus.Active, Stages = new List<TournamentStage> { new TournamentStage { Games = new List<Game> { new Game { Status = GameStatus.Finished } } } } };
+
+            // Act
+            _testSubject.Update(tournament);
+
+            // Assert
+            Assert.AreEqual(TournamentStatus.Closed, tournament.Status);
         }
 
         [Test]
@@ -254,7 +256,7 @@ namespace Business.Tests
             };
 
             // Act
-            _testSubject.RemoveContestant(subjectToRemove, tournament);
+            Assert.Throws<Exception>(() => _testSubject.RemoveContestant(subjectToRemove, tournament));
 
             // Assert
             Assert.AreEqual(1, tournament.Contestants.Count);

@@ -14,7 +14,6 @@ namespace Business.Tournaments
     {
         private readonly ITournamentDataAdapter _tournamentDataAdapter;
         private readonly ISubjectService _subjectService;
-        private readonly IRankingDataAdapter _rankingDataAdapter;
         private readonly IStageBuilderFactory _stageBuilderFactory;
         private readonly IRankingProviderFactory _rankingProviderFactory;
         public TournamentService(ITournamentDataAdapter tournamentDataAdapter,
@@ -25,7 +24,6 @@ namespace Business.Tournaments
         {
             _tournamentDataAdapter = tournamentDataAdapter;
             _subjectService = subjectService;
-            _rankingDataAdapter = rankingDataAdapter;
             _rankingProviderFactory = rankingProviderFactory ?? new RankingProviderFactory(rankingDataAdapter);
             _stageBuilderFactory = stageBuilderFactory ?? new StageBuilderFactory();
         }
@@ -48,7 +46,6 @@ namespace Business.Tournaments
             _tournamentDataAdapter.Save(tournament);
         }
 
-
         public bool IsInTournament(int tournamentId, int memberId)
         {
             return _tournamentDataAdapter.IsInTournament(memberId, tournamentId);
@@ -67,7 +64,8 @@ namespace Business.Tournaments
             tournament.Contestants.Add(contestant);
             RankContestants(tournament);
 
-            GenerateStages(tournament);
+            _stageBuilderFactory.Create(tournament).Build();
+            _tournamentDataAdapter.Save(tournament);
         }
 
         public void RemoveContestant(int contestantId, Tournament tournament)
@@ -91,7 +89,9 @@ namespace Business.Tournaments
 
             tournament.Contestants.Remove(contestant);
             RankContestants(tournament);
-            GenerateStages(tournament);
+
+            _stageBuilderFactory.Create(tournament).Build();
+            _tournamentDataAdapter.Save(tournament);
         }
 
 
@@ -100,7 +100,8 @@ namespace Business.Tournaments
             tournament.Status = TournamentStatus.Registration;
             RankContestants(tournament);
 
-            GenerateStages(tournament);
+            _stageBuilderFactory.Create(tournament).Build();
+            _tournamentDataAdapter.Save(tournament);
         }
 
         public Tournament Convert(Tournament source, TournamentType targetType, int playerLimit)
@@ -143,11 +144,18 @@ namespace Business.Tournaments
         public void Update(Tournament tournament)
         {
             _stageBuilderFactory.Create(tournament).Update();
+
+            // TODO: Remove SE and derivatives specific code from here
+            if (tournament.Stages.Count > 0 && tournament.Stages.Last().Games.Count == 1 && tournament.Stages.Last().Games.First().Status == GameStatus.Finished)
+            {
+                tournament.Status = TournamentStatus.Closed;
+            }
+
             _tournamentDataAdapter.Save(tournament);
         }
 
         // TODO: Remove after deploy v2
-
+        /*
         public void ResetRanks(Tournament tournament)
         {
             var stages = tournament.Stages.OrderBy(x => x.Order);
@@ -160,13 +168,7 @@ namespace Business.Tournaments
                     new RankingService(_rankingDataAdapter).UpdateRank(game.Winner, game.Winner.Id == game.Participant1.Id ? game.Participant2 : game.Participant1);
                 }
             }
-        }
-
-        internal void GenerateStages(Tournament tournament)
-        {
-            _stageBuilderFactory.Create(tournament).Build();
-            _tournamentDataAdapter.Save(tournament);
-        }
+        }*/
 
         private void RankContestants(Tournament tournament)
         {

@@ -1,0 +1,58 @@
+﻿.group-item-wrapper {
+    margin: 5px 0px;
+}
+
+    .group-item-wrapper > .group-item-title {
+        font-weight: bold;
+        padding: 4px 0px;
+    }
+
+    .group-item-wrapper > .group-item-table table thead th {
+        width: 40px;
+    }
+
+    .group-item-wrapper > .group-item-table table tbody > tr > td:first-child,
+    .group-item-wrapper > .group-item-table table tbody > tr > th:first-child {
+        width: 100px;
+    }
+
+    .group-item-wrapper > .group-item-table table tbody > tr > td:last-child {
+        text-align: right;
+    }
+
+.groups-summary {
+    margin: 10px 0px;
+}
+
+.group-wrapper > .groups-summary > .group-list-wrapper > .group-list-title {
+    cursor: pointer;
+    font-weight: bold;
+    font-size: larger;
+}
+
+.group-wrapper > .groups-summary > .group-list-wrapper > .group-list-container > .group-list-item > .group-list-item-header {
+    font-weight: bold;
+}
+
+.group-wrapper > .groups-summary > .group-list-wrapper > .group-list-container > .group-list-item > .group-list-item-body {
+    margin-left: 10px;
+}
+
+    .group-wrapper > .groups-summary > .group-list-wrapper > .group-list-container > .group-list-item > .group-list-item-body > .game-item-container {
+        margin: 4px 0px;
+    }
+
+        .group-wrapper > .groups-summary > .group-list-wrapper > .group-list-container > .group-list-item > .group-list-item-body > .game-item-container .player1,
+        .group-wrapper > .groups-summary > .group-list-wrapper > .group-list-container > .group-list-item > .group-list-item-body > .game-item-container .player2 {
+            font-weight: bold;
+        }
+
+        .group-wrapper > .groups-summary > .group-list-wrapper > .group-list-container > .group-list-item > .group-list-item-body > .game-item-container > .player1-score,
+        .group-wrapper > .groups-summary > .group-list-wrapper > .group-list-container > .group-list-item > .group-list-item-body > .game-item-container > .player2-score {
+            color: red;
+        }
+
+        .group-wrapper > .groups-summary > .group-list-wrapper > .group-list-container > .group-list-item > .group-list-item-body > .game-item-container > .player1-score.winner,
+        .group-wrapper > .groups-summary > .group-list-wrapper > .group-list-container > .group-list-item > .group-list-item-body > .game-item-container > .player2-score.winner {
+            color: green;
+        }

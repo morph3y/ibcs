@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Business.Ranking;
 using Contracts.Business;
@@ -153,7 +154,7 @@ namespace Business.Tests
         }
 
         [Test]
-        public void VerifyTheImpactOfTheLose()
+        public void VerifyTheImpactOfTheLoseWith100EloDiff()
         {
             // Arrage
             var participant1 = new Player { Id = 1, Name = "Bla" };
@@ -172,34 +173,31 @@ namespace Business.Tests
 
             // Assert
             Assert.Less(participant1Rank.Elo, 2150);
+
             Assert.Greater(participant2Rank.Elo, 2150);
             Assert.LessOrEqual(participant2Rank.Elo - participant1Rank.Elo, diff);
+            Assert.Greater(participant2Rank.Elo - participant1Rank.Elo, 0);
+        }
 
-            // re-arrange
-            participant1Rank = new Rank { Elo = 2200, Subject = participant1 };
-            participant2Rank = new Rank { Elo = 2200, Subject = participant2 };
-            ranks = new List<Rank> { participant1Rank, participant2Rank };
+        [Test]
+        public void VerifyImpactOfTheLoseWithRanksEqual()
+        {
+            // Arrange
+            var participant1 = new Player { Id = 1, Name = "Bla" };
+            var participant2 = new Player { Id = 2, Name = "Bla2" };
+            var participant1Rank = new Rank { Elo = 2200, Subject = participant1 };
+            var participant2Rank = new Rank { Elo = 2200, Subject = participant2 };
+            var ranks = new List<Rank> { participant1Rank, participant2Rank };
             _fakeRankingAdapter.Setup(x => x.GetRanks(It.IsAny<IEnumerable<Subject>>())).Returns(ranks);
 
-            // re-act
+            // Act
             _testSubject.UpdateRank(participant1, participant2);
 
-            // re-assert
-            //Assert.LessOrEqual(5, participant1Rank.Elo - participant2Rank.Elo);
-            //Assert.GreaterOrEqual(7, participant1Rank.Elo - participant2Rank.Elo);
-
-            // re-arrange
-            participant1Rank = new Rank { Elo = 2200, Subject = participant1 };
-            participant2Rank = new Rank { Elo = 2200, Subject = participant2 };
-            ranks = new List<Rank> { participant1Rank, participant2Rank };
-            _fakeRankingAdapter.Setup(x => x.GetRanks(It.IsAny<IEnumerable<Subject>>())).Returns(ranks);
-
-            // re-act
-            _testSubject.UpdateRank(participant1, participant2);
-
-            // re-assert
-            Assert.LessOrEqual(5, participant1Rank.Elo - participant2Rank.Elo);
-            Assert.GreaterOrEqual(7, participant1Rank.Elo - participant2Rank.Elo);
+            // Assert
+            Assert.GreaterOrEqual(participant1Rank.Elo, 2214);
+            Assert.LessOrEqual(participant1Rank.Elo, 2216);
+            Assert.GreaterOrEqual(participant2Rank.Elo, 2184);
+            Assert.LessOrEqual(participant2Rank.Elo, 2186);
         }
     }
 }
