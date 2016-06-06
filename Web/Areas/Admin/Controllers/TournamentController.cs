@@ -78,6 +78,8 @@ namespace Web.Areas.Admin.Controllers
                 tournamentToSave.PointsForTie = model.PointsForTie;
                 tournamentToSave.PointsForWin = model.PointsForWin;
                 tournamentToSave.Status = model.Status;
+                tournamentToSave.IsRanked = model.IsRanked;
+                tournamentToSave.IsTeamEvent = model.IsTeamEvent;
             }
 
             _tournamentService.Save(tournamentToSave);

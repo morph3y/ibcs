@@ -82,7 +82,7 @@ namespace Web.Controllers
         {
             var trn = new Tournament
             {
-                Name = "IBCS 2015 League",
+                Name = "IBCS 2016 - Doubles",
                 Status = TournamentStatus.Registration,
                 TournamentType = TournamentType.Group
             };

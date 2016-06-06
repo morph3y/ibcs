@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using Entities;
 
 namespace Business.Tournaments.StageBuilders
@@ -15,6 +17,17 @@ namespace Business.Tournaments.StageBuilders
 
         public override void Build()
         {
+            if (_tournament.Stages.Count < 1)
+            {
+                _tournament.Stages.Add(new TournamentStage
+                {
+                    Games = new List<Game>(), 
+                    Groups = new List<TournamentGroup>(),
+                    Name = "Group Stage",
+                    Tournament = _tournament
+                });
+            }
+
             foreach (var group in _tournament.Stages[0].Groups)
             {
                 var games = CreateGames(group.Contestants).ToList();
