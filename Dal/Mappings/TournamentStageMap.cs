@@ -13,6 +13,7 @@ namespace Dal.Mappings
 
             References(x => x.Tournament).Nullable();
             HasMany(x => x.Games).Cascade.AllDeleteOrphan();
+            HasMany(x => x.Groups).Cascade.AllDeleteOrphan();
         }
     }
 }

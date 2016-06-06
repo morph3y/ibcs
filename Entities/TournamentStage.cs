@@ -10,10 +10,12 @@ namespace Entities
 
         public virtual Tournament Tournament { get; set; }
         public virtual IList<Game> Games { get; set; }
+        public virtual IList<TournamentGroup> Groups { get; set; } 
 
         public TournamentStage()
         {
             Games = new List<Game>();
+            Groups = new List<TournamentGroup>();
         }
 
         public override int GetHashCode()

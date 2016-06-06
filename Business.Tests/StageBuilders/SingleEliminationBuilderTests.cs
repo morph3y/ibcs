@@ -1,10 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Business.Tournaments.StageBuilders;
-using Contracts.Business;
-using Contracts.Business.Dal;
 using Entities;
-using Moq;
 using NUnit.Framework;
 
 namespace Business.Tests.StageBuilders
@@ -12,17 +9,6 @@ namespace Business.Tests.StageBuilders
     [TestFixture]
     internal sealed class SingleEliminationBuilderTests : StageBuilderTestBase
     {
-        private Mock<IRankingService> _fakeRankingService;
-        private Mock<IRankingDataAdapter> _fakeRankingAdapter;
-
-        [SetUp]
-        public void Setup()
-        {
-            _fakeRankingService = new Mock<IRankingService>();
-            _fakeRankingAdapter = new Mock<IRankingDataAdapter>();
-            _fakeRankingService.Setup(x => x.Rank(It.IsAny<List<Subject>>())).Returns((IEnumerable<Subject> list) => list);
-        }
-
         [Test]
         public void VerifyCanNotCreateWithOneOrZeroPlayers()
         {
@@ -323,7 +309,7 @@ namespace Business.Tests.StageBuilders
         }
 
         [Test]
-        public void VerifyCanFinishTournament()
+        public void VerifyDoesNotImpactTournamentStatus()
         {
             // Arrange
             var tournament = new Tournament
@@ -344,7 +330,7 @@ namespace Business.Tests.StageBuilders
 
             // Assert
             Assert.AreEqual(1, tournament.Stages.Count);
-            Assert.AreEqual(TournamentStatus.Closed, tournament.Status);
+            Assert.AreNotEqual(TournamentStatus.Closed, tournament.Status);
         }
     }
 }

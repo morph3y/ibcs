@@ -1,10 +1,13 @@
-﻿namespace Entities
+﻿using System;
+
+namespace Entities
 {
     public class Game
     {
         public virtual int Id { get; set; }
 
         public virtual TournamentStage TournamentStage { get; set; }
+        public virtual TournamentGroup Group { get; set; }
         public virtual int Order { get; set; }
         public virtual GameStatus Status { get; set; }
 
@@ -32,12 +35,26 @@
                 return false;
             }
 
-            return ((Participant1.Equals(item.Participant1) && Participant2.Equals(item.Participant2))
-                    ||
-                    (Participant1.Equals(item.Participant2) && Participant2.Equals(item.Participant1)))
+            return ParticipantsEqual(item)
                     && (TournamentStage != null ? TournamentStage.Equals(item.TournamentStage) : item.TournamentStage == null) && Status.Equals(item.Status) 
                     && (Winner != null ? Winner.Equals(item.Winner) : item.Winner == null) 
                    && Participant1Score.Equals(item.Participant1Score) && item.Participant2Score.Equals(item.Participant2Score);
+        }
+
+        private bool ParticipantsEqual(Game item)
+        {
+            if (Participant1 == null)
+            {
+                return (Participant2.Equals(item.Participant2) && item.Participant1 == null) || (Participant2.Equals(item.Participant1) && item.Participant2 == null) ;
+            }
+            else if (Participant2 == null)
+            {
+                return (Participant1.Equals(item.Participant1) && item.Participant2 == null) ||
+                       (Participant1.Equals(item.Participant2) && item.Participant1 == null);
+            }
+
+            return (Participant1.Equals(item.Participant1) || Participant2.Equals(item.Participant1)) &&
+                   (Participant2.Equals(item.Participant2) || Participant1.Equals(item.Participant2));
         }
     }
 

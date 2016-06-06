@@ -3,7 +3,7 @@ using Entities;
 
 namespace Business.Tournaments.StageBuilders
 {
-    internal sealed class LeagueStageBuilder : IStageBuilder
+    internal class LeagueStageBuilder : LeagueBuilderBase
     {
         private readonly Tournament _tournament;
         public LeagueStageBuilder(Tournament tournament)
@@ -11,42 +11,17 @@ namespace Business.Tournaments.StageBuilders
             _tournament = tournament;
         }
 
-        public void Build()
+        public override void Build()
         {
             if (_tournament.Contestants.Count < 2)
             {
                 _tournament.Stages.Clear();
             }
 
-            var games = new List<Game>();
-            foreach (var contestant1 in _tournament.Contestants)
-            {
-                foreach (var contestant2 in _tournament.Contestants)
-                {
-                    if (contestant1.Equals(contestant2))
-                    {
-                        continue;
-                    }
-
-                    var game = new Game
-                    {
-                        Participant1 = contestant1,
-                        Participant2 = contestant2,
-                        Status = GameStatus.NotStarted,
-                        TournamentStage = null,
-                        Winner = null,
-                        Order = 0
-                    };
-
-                    if (!games.Contains(game))
-                    {
-                        games.Add(game);
-                    }
-                }
-            }
-
+            var games = CreateGames(_tournament.Contestants);
             var stages = new List<TournamentStage>();
             var stageToSubject = new Dictionary<TournamentStage, HashSet<Subject>>();
+
             foreach (var game in games)
             {
                 var added = false;
@@ -95,7 +70,7 @@ namespace Business.Tournaments.StageBuilders
             }
         }
 
-        public void Update()
+        public override void Update()
         {
             // League goes on until all games are done
             return;

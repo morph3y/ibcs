@@ -52,7 +52,9 @@ namespace Entities
         [Description("League")]
         League = 1,
         [Description("Single Elimination")]
-        SingleElimination = 2
+        SingleElimination = 2,
+        [Description("Group stage")]
+        Group = 3
     }
 
     public enum TournamentStatus

@@ -9,7 +9,8 @@ namespace Business.Tournaments.StageBuilders
         private readonly IDictionary<TournamentType, Func<Tournament, IStageBuilder>> _map = new Dictionary<TournamentType, Func<Tournament, IStageBuilder>>
         {
             { TournamentType.League, trn => new LeagueStageBuilder(trn) },
-            { TournamentType.SingleElimination, trn => new SingleEliminationStageBuilder(trn) }
+            { TournamentType.SingleElimination, trn => new SingleEliminationStageBuilder(trn) },
+            { TournamentType.Group, trn => new GroupStageBuilder(trn) }
         }; 
 
         public IStageBuilder Create(Tournament tournament)
