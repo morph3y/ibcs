@@ -119,7 +119,7 @@ namespace Business.Ranking
             Save(player1Rank);
             Save(player2Rank);
 
-            MaintainRanks();
+            //MaintainRanks();
         }
     }
 }
