@@ -40,6 +40,26 @@ namespace Business.Tests.Ranking
         }
 
         [Test]
+        public void VerifyCanRankPlayersWithoutRank()
+        {
+            // Arrange
+            var listOfSubjects = new List<Subject> { new Team { Name = "Team1" }, new Team { Name = "Team2" } };
+            _testSubject = new GlobalRankingProvider(_fakeRankingDataAdapter.Object);
+
+            _fakeRankingDataAdapter.Setup(x => x.GetRanks(listOfSubjects)).Returns(new List<Rank>
+            {
+                new Rank { Subject = listOfSubjects[0], Elo = 1}
+            });
+
+            // Act
+            var result = _testSubject.Rank(listOfSubjects);
+
+            // Assert
+            Assert.AreEqual("Team1", result.First().Name);
+            Assert.AreEqual("Team2", result.Skip(1).First().Name);
+        }
+
+        [Test]
         public void VerifyCanCorrectlyRankChildTournament()
         {
             // Arrange

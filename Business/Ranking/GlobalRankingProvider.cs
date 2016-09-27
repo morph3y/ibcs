@@ -15,7 +15,8 @@ namespace Business.Ranking
 
         public IEnumerable<Subject> Rank(IEnumerable<Subject> subjects)
         {
-            return _dataAdapter.GetRanks(subjects).OrderByDescending(x=>x.Elo).Select(x=>x.Subject);
+            var rankableSubjects = _dataAdapter.GetRanks(subjects).OrderByDescending(x=>x.Elo).Select(x=>x.Subject);
+            return rankableSubjects.Union(subjects.Except(rankableSubjects));
         }
     }
 }
