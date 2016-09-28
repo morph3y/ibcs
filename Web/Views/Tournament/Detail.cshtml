@@ -14,7 +14,7 @@
 
     @{
         var inTournament = Model.UserInTournament;
-        if (User.Identity.IsAuthenticated)
+        if (User.Identity.IsAuthenticated && Model.Tournament.Status != TournamentStatus.Closed)
         {
             @Html.Raw((Model.Tournament.IsTeamEvent ? "Your team is " : "You are ") + ((inTournament) ? "" : "not") + " registered.");
         <br />

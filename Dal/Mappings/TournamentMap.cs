@@ -15,6 +15,7 @@ namespace Dal.Mappings
             Map(x => x.PointsForWin).Default("1");
             Map(x => x.IsRanked).Default("0");
             Map(x => x.IsTeamEvent).Default("0");
+            Map(x => x.IsVisible).Not.Nullable().Default("1");
 
             References(x => x.Parent).Nullable();
 

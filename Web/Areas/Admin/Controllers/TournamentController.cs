@@ -39,6 +39,7 @@ namespace Web.Areas.Admin.Controllers
             {
                 Id = trn.Id,
                 IsRanked = trn.IsRanked,
+                IsVisible = trn.IsVisible,
                 IsTeamEvent = trn.IsTeamEvent,
                 Name = trn.Name,
                 PointsForTie = trn.PointsForTie,
@@ -64,6 +65,7 @@ namespace Web.Areas.Admin.Controllers
                 tournamentToSave = new Tournament
                 {
                     IsRanked = model.IsRanked,
+                    IsVisible = model.IsVisible,
                     Name = model.Name,
                     PointsForTie = model.PointsForTie,
                     PointsForWin = model.PointsForWin,
@@ -79,6 +81,7 @@ namespace Web.Areas.Admin.Controllers
                 tournamentToSave.PointsForWin = model.PointsForWin;
                 tournamentToSave.Status = model.Status;
                 tournamentToSave.IsRanked = model.IsRanked;
+                tournamentToSave.IsVisible = model.IsVisible;
                 tournamentToSave.IsTeamEvent = model.IsTeamEvent;
             }
 

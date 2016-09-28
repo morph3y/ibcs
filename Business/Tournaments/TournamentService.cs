@@ -30,7 +30,12 @@ namespace Business.Tournaments
 
         public IEnumerable<Tournament> GetList()
         {
-            return _tournamentDataAdapter.GetCollection(x => x.Status != TournamentStatus.Closed);
+            return _tournamentDataAdapter.GetCollection(x => x.Status != TournamentStatus.Closed && x.IsVisible);
+        }
+
+        public IEnumerable<Tournament> GetOldTournaments()
+        {
+            return _tournamentDataAdapter.GetCollection(x => x.Status == TournamentStatus.Closed && x.IsVisible);
         }
 
         public Tournament Get(int id)

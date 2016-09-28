@@ -55,8 +55,9 @@
                     <div class="top">
                     </div>
                     <div class="item">
+                        Current Tournaments:
                         @{
-                            Html.RenderAction("List", new {controller = "Tournament", area = ""});
+                            Html.RenderAction("CurrentList", new {controller = "Tournament", area = ""});
                         }
                     </div>
                     <div class="bottom">

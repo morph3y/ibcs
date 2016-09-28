@@ -3,7 +3,7 @@
 
 <div class="update-tournament">
     @Html.ActionLink("Games", "EditGames", new { id = Model.Id, controller = "Tournament", area = "Admin" }) | @Html.ActionLink("Contestants", "Contestants", new { controller = "Tournament", area = "Admin", id = Model.Id })
-     | @Html.ActionLink("Edit Groups", "EditGroups", new { controller = "Tournament", area = "Admin", id = Model.Id })
+    | @Html.ActionLink("Edit Groups", "EditGroups", new { controller = "Tournament", area = "Admin", id = Model.Id })
 
     @using (Html.BeginForm())
     {
@@ -22,6 +22,10 @@
         @Html.LabelFor(x => x.IsRanked)
         <br />
         @Html.CheckBoxFor(x => x.IsRanked)
+        <br />
+        @Html.LabelFor(x => x.IsVisible)
+        <br />
+        @Html.CheckBoxFor(x => x.IsVisible)
         <br />
         @Html.LabelFor(x => x.IsTeamEvent)
         <br />
@@ -46,10 +50,10 @@
             @Html.DropDownList("targetType", new SelectList(Enum.GetValues(typeof(TournamentType))))
             @Html.Raw(" with limit of: ")
             @Html.DropDownList("playerLimit", new SelectList(new[] { 4, 8, 16, 32, 64 }))
-        
+
             @Html.Hidden("id", Model.Id)
 
-            <input type="submit" value="Convert"/>
+            <input type="submit" value="Convert" />
         }
     }
 </div>

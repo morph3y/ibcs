@@ -17,6 +17,8 @@ namespace Web.Models.TournamentModels
         public virtual TournamentType TournamentType { get; set; }
         [DataMember(Name = "isRanked")]
         public virtual bool IsRanked { get; set; }
+        [DataMember(Name = "isVisible")]
+        public virtual bool IsVisible { get; set; }
 
         [DataMember(Name = "stages")]
         public virtual IList<TournamentStageViewModel> Stages { get; set; }
@@ -39,6 +41,8 @@ namespace Web.Models.TournamentModels
                 TournamentType = tournament.TournamentType,
                 Stages = new List<TournamentStageViewModel>(),
                 IsRanked = tournament.IsRanked,
+                IsVisible = tournament.IsVisible,
+
                 PointsForTie = tournament.PointsForTie,
                 PointsForWin = tournament.PointsForWin
             };

@@ -1,3 +1,10 @@
 ﻿@model IEnumerable<Entities.Tournament>
 
+Current Tournaments:
 @Html.Partial("TournamentList", Model)
+
+<br/><br />
+Past tournaments:<br/>
+@{
+    Html.RenderAction("VisibleAndClosedList", new {controller = "Tournament", area = ""});
+}

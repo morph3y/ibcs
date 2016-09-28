@@ -29,6 +29,16 @@ namespace Web.Controllers
             return PartialView(_tournamentService.GetList());
         }
 
+        public ActionResult CurrentList()
+        {
+            return PartialView("TournamentList", _tournamentService.GetList());
+        }
+
+        public ActionResult VisibleAndClosedList()
+        {
+            return PartialView("TournamentList", _tournamentService.GetOldTournaments());
+        }
+
         public ActionResult Detail(int id)
         {
             var tournament = _tournamentService.Get(id);
