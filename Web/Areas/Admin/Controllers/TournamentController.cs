@@ -83,6 +83,10 @@ namespace Web.Areas.Admin.Controllers
                 tournamentToSave.IsRanked = model.IsRanked;
                 tournamentToSave.IsVisible = model.IsVisible;
                 tournamentToSave.IsTeamEvent = model.IsTeamEvent;
+                if (tournamentToSave.Contestants.Count == 0)
+                {
+                    tournamentToSave.TournamentType = model.TournamentType;
+                }
             }
 
             _tournamentService.Save(tournamentToSave);
