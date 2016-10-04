@@ -1,5 +1,9 @@
 ﻿@model Web.Models.RankingViewModel
 
+@Html.ActionLink("Player Ranking", "AllPlayerRanks", new { area = "", controller = "Ranking" })
+|
+@Html.ActionLink("Team Ranking", "AllTeamRanks", new { area = "", controller = "Ranking" })
+<br /><br />
 <table class="rank-table fancy">
     <thead>
         <tr>

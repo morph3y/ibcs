@@ -332,9 +332,6 @@
     <Content Include="Views\Ranking\ShowAllRanks.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Ranking\RankingInventory.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Areas\Admin\Views\Tournament\Contestants.cshtml" />
   </ItemGroup>
   <ItemGroup>

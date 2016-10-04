@@ -17,7 +17,7 @@ namespace Web.Controllers
 
         public ActionResult List()
         {
-            return View("RankingInventory");
+            return RedirectToAction("AllPlayerRanks");
         }
 
         public ActionResult Top10Players()

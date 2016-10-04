@@ -15,42 +15,15 @@ namespace Business.Tests
     {
         private IRankingService _testSubject;
         private Mock<IRankingDataAdapter> _fakeRankingAdapter;
+        private Mock<IRankingProvider> _fakeRankingProvider;
 
         [SetUp]
         public void Setup()
         {
             _fakeRankingAdapter = new Mock<IRankingDataAdapter>();
+            _fakeRankingProvider = new Mock<IRankingProvider>();
 
-            _testSubject = new RankingService(_fakeRankingAdapter.Object);
-        }
-
-        [Test]
-        public void VerifyCanRankPlayers()
-        {
-            // Arrange
-            var subjectsToRank = new List<Subject>
-            {
-                new Player {Name = "Player 1"},
-                new Player {Name = "Player 2"},
-                new Player {Name = "Player 3"}
-            };
-
-            var resultRanks = new List<Rank>
-            {
-                new Rank { Elo = 2100, Subject = subjectsToRank[0] },
-                new Rank { Elo = 2005, Subject = subjectsToRank[1] },
-                new Rank { Elo = 2090, Subject = subjectsToRank[2] }
-            };
-            _fakeRankingAdapter.Setup(x => x.GetRanks(It.IsAny<IEnumerable<Subject>>())).Returns(resultRanks);
-
-            // Act
-            var rankingResult = _testSubject.Rank(subjectsToRank);
-
-            // Assert
-            Assert.AreEqual(3, rankingResult.Count());
-            Assert.AreEqual("Player 1", rankingResult.Skip(0).Take(1).First().Name);
-            Assert.AreEqual("Player 3", rankingResult.Skip(1).Take(1).First().Name);
-            Assert.AreEqual("Player 2", rankingResult.Skip(2).Take(1).First().Name);
+            _testSubject = new RankingService(_fakeRankingAdapter.Object, _fakeRankingProvider.Object);
         }
 
         [Test]
@@ -63,17 +36,10 @@ namespace Business.Tests
                 new Player {Name = "Player 2"},
                 new Player {Name = "Player 3"}
             };
-            _fakeRankingAdapter.Setup(x => x.GetRanks(It.IsAny<IEnumerable<Subject>>())).Returns(new List<Rank>
-            {
-                new Rank { Elo = 2500, Subject = subjectsToInitialize[0] }
-            });
 
-            _fakeRankingAdapter.Setup(x => x.Save(It.IsAny<Rank>())).Callback((Rank r) =>
+            _fakeRankingProvider.Setup(x => x.Rank(It.IsAny<IEnumerable<Subject>>())).Returns(new List<Subject>
             {
-                if (r.Elo != RankingService.StartingElo)
-                {
-                    Assert.Fail("failed to initialize rank to starting");
-                }
+                subjectsToInitialize[0]
             });
 
             // Act
