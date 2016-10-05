@@ -1,4 +1,6 @@
-﻿using Contracts.Business.Dal;
+﻿using System;
+
+using Contracts.Business.Dal;
 using Entities;
 
 namespace Business.Ranking
@@ -15,7 +17,15 @@ namespace Business.Ranking
         {
             if (tournament.Parent != null)
             {
-                return  new ParentTournamentRankingProvider(tournament);
+                if (tournament.Parent.TournamentType == TournamentType.League)
+                {
+                    return new LeagueParentTournamentRankingProvider(tournament);
+                }
+                if (tournament.Parent.TournamentType == TournamentType.Group)
+                {
+                    return new GroupParentTournamentRankingProvider(tournament);
+                }
+                throw new Exception("Parent tournament type is not rankable");
             }
             return new GlobalRankingProvider(_rankingDataAdapter);
         }

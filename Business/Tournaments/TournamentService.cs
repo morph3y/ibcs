@@ -73,6 +73,11 @@ namespace Business.Tournaments
             _tournamentDataAdapter.Save(tournament);
         }
 
+        public void DeleteQualifiedContestant(int id)
+        {
+            _tournamentDataAdapter.DeleteQualifiedContestant(id);
+        }
+
         public void RemoveContestant(int contestantId, Tournament tournament)
         {
             var contestant = _subjectService.Get(x => x.Id == contestantId);
@@ -116,7 +121,9 @@ namespace Business.Tournaments
                 throw new Exception("can only convert closed tournaments");
             }
 
-            if (targetType == TournamentType.SingleElimination && source.TournamentType == TournamentType.League) // refactor later if needed
+            if ((targetType == TournamentType.SingleElimination && source.TournamentType == TournamentType.League)
+                ||
+                (targetType == TournamentType.SingleElimination && source.TournamentType == TournamentType.Group)) // refactor later if needed
             {
                 var newTournament = new Tournament
                 {
@@ -134,7 +141,10 @@ namespace Business.Tournaments
 
                 RankContestants(newTournament);
 
-                newTournament.Contestants = newTournament.Contestants.Take(playerLimit).ToList();
+                if (targetType == TournamentType.SingleElimination && source.TournamentType == TournamentType.League)
+                {
+                    newTournament.Contestants = newTournament.Contestants.Take(playerLimit).ToList();
+                }
 
                 _stageBuilderFactory.Create(newTournament).Build();
 

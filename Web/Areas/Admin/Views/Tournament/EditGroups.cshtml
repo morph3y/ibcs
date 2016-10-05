@@ -25,6 +25,14 @@
                                 @Html.ActionLink("X", "RemoveGroupContestant", new {area = "Admin", controller = "Tournament", groupId = group.Id, contestantId = subject.Id, tournamentId = Model.Id})
                             }
                         </div>
+                        Qualified:
+                        <div class="qualified-contestants">
+                            @foreach (var qualified in group.QualifiedContestants.OrderBy(x=>x.Order))
+                            {
+                                <span class="contestant">! @qualified.Contestant.Name</span>
+                                @Html.ActionLink("X", "RemoveQualifiedContestant", new { area = "Admin", controller = "Tournament", groupId = group.Id, contestantId = qualified.Contestant.Id, tournamentId = Model.Id })
+                            }
+                        </div>
                     </div>
                     <br/>
                 }
@@ -40,17 +48,22 @@
             {
                 foreach (var subject in Model.Contestants)
                 {
+                    var inGroup = Model.Stages[0].Groups.FirstOrDefault(x => x.Contestants.Contains(subject));
+                    
                     using (Html.BeginForm(new { area = "Admin", controller = "Tournament", action = "AddGroupContestant" }))
                     {
                         <span class="contestant">@subject.Name</span>
-                        var inGroup = Model.Stages[0].Groups.FirstOrDefault(x => x.Contestants.Contains(subject));
                         @Html.DropDownList("groupId", Model.Stages[0].Groups.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString(), Selected = inGroup != null && x.Id == inGroup.Id }))
                         @Html.Hidden("tournamentId", Model.Id)
 
                         @Html.Hidden("contestantId", subject.Id)
                         <input type="submit" value="Add to group" /> WriteLiteral(inGroup != null ? "&#10003;" : "");
                     }
-
+                    var qualified = inGroup != null && inGroup.QualifiedContestants.Any(x => x.Contestant.Id == subject.Id);
+                    if (!qualified && inGroup != null)
+                    {
+                        @Html.ActionLink("Qualified", "QualifyContestant", new { area = "Admin", controller = "Tournament", contestantId = subject.Id, groupId = inGroup.Id, tournamentId = Model.Id } )
+                    }
                 }
             }
 }

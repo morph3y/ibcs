@@ -15,6 +15,7 @@ namespace Contracts.Business
         void AddContestant(int contestantId, Tournament tournament);
         void RemoveContestant(int contestantId, Tournament tournament);
         void RemoveContestant(Subject contestant, Tournament tournament);
+        void DeleteQualifiedContestant(int id);
 
         // Stages management
         void Create(Tournament tournament);

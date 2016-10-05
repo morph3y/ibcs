@@ -233,8 +233,66 @@ namespace Web.Areas.Admin.Controllers
             throw new Exception("Has to have 1 stage");
         }
 
+        public ActionResult QualifyContestant(int tournamentId, int groupId, int contestantId)
+        {
+            var tournament = _tournamentService.Get(tournamentId);
+            if (tournament != null && tournament.Stages.Count > 0)
+            {
+                var stage = tournament.Stages[0];
+                if (stage.Groups.Count > 0)
+                {
+                    var group = stage.Groups.FirstOrDefault(x => x.Id == groupId);
+                    if (group != null)
+                    {
+                        var contestant = _subjectService.Get(x => x.Id == contestantId);
+                        var highestOrder = group.QualifiedContestants.OrderByDescending(x => x.Order).FirstOrDefault();
+
+                        group.QualifiedContestants.Add(new TournamentGroupQualifiedContestant
+                        {
+                            Order = highestOrder == null ? 0 : (highestOrder.Order + 1),
+                            Contestant = contestant,
+                            Group = group
+                        });
+                        _tournamentService.Save(tournament);
+                        return RedirectToAction("EditGroups", new { id = tournamentId });
+                    }
+                    throw new Exception("There is no group with id: " + groupId);
+                }
+                throw new Exception("There is no groups in the first stage");
+            }
+            throw new Exception("Tournament was not found or has 0 stages");
+        }
+
+        public ActionResult RemoveQualifiedContestant(int tournamentId, int groupId, int contestantId)
+        {
+            var tournament = _tournamentService.Get(tournamentId);
+            if (tournament != null && tournament.Stages.Count > 0)
+            {
+                var stage = tournament.Stages[0];
+                if (stage.Groups.Count > 0)
+                {
+                    var group = stage.Groups.FirstOrDefault(x => x.Id == groupId);
+                    if (group != null)
+                    {
+                        var contestant = group.QualifiedContestants.FirstOrDefault(x => x.Contestant.Id == contestantId);
+                        if (contestant != null)
+                        {
+                            group.QualifiedContestants.RemoveAt(group.QualifiedContestants.IndexOf(contestant));
+                            _tournamentService.DeleteQualifiedContestant(contestant.Id);
+                            _tournamentService.Save(tournament);
+                            return RedirectToAction("EditGroups", new { id = tournamentId });
+                        }
+                        throw new Exception("Can't find qualified contestant");
+                    }
+                    throw new Exception("There is no group with id: " + groupId);
+                }
+                throw new Exception("There is no groups in the first stage");
+            }
+            throw new Exception("Tournament was not found or has 0 stages");
+        }
+
         public ActionResult RemoveGroupContestant(int tournamentId, int groupId, int contestantId)
-        {   
+        {
             var tournament = _tournamentService.Get(tournamentId);
             if (tournament.Stages.Count > 0)
             {

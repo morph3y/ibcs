@@ -41,6 +41,15 @@ namespace Business.Dal
             _dataAccessAdapter.Save(tournament);
         }
 
+        public void DeleteQualifiedContestant(int id)
+        {
+            var qualifiedContestant = _dataAccessAdapter.GetCollection<TournamentGroupQualifiedContestant>(x => x.Id == id);
+            if (qualifiedContestant.Count() == 1)
+            {
+                _dataAccessAdapter.Delete(qualifiedContestant.First());
+            }
+        }
+
         public bool IsInTournament(int memberId, int tournamentId)
         {
             Player captain1 = null;

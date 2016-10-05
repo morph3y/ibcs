@@ -1,26 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
+
 using Entities;
 
 namespace Business.Tournaments.StageBuilders
 {
     internal sealed class StageBuilderFactory : IStageBuilderFactory
     {
-        private readonly IDictionary<TournamentType, Func<Tournament, IStageBuilder>> _map = new Dictionary<TournamentType, Func<Tournament, IStageBuilder>>
-        {
-            { TournamentType.League, trn => new LeagueStageBuilder(trn) },
-            { TournamentType.SingleElimination, trn => new SingleEliminationStageBuilder(trn) },
-            { TournamentType.Group, trn => new GroupStageBuilder(trn) }
-        }; 
-
         public IStageBuilder Create(Tournament tournament)
         {
-            Func<Tournament, IStageBuilder> toReturn;
-            if (_map.TryGetValue(tournament.TournamentType, out toReturn))
+            if (tournament.Parent != null)
             {
-                return toReturn(tournament);
+                if (tournament.Parent.TournamentType == TournamentType.Group)
+                {
+                    return new GroupToSingleElimintaionStageBuilder(tournament);
+                }
             }
-            throw new Exception("Tournament type is unknown");
+
+            if (tournament.TournamentType == TournamentType.SingleElimination)
+            {
+                return new SingleEliminationStageBuilder(tournament);
+            }
+            if (tournament.TournamentType == TournamentType.League)
+            {
+                return new LeagueStageBuilder(tournament);
+            }
+            if (tournament.TournamentType == TournamentType.Group)
+            {
+                return new GroupStageBuilder(tournament);
+            }
+            throw new Exception("Tournament type is not supported!");
         }
     }
 }

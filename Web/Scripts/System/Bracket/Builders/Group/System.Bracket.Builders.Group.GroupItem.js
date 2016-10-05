@@ -14,6 +14,15 @@ System.Bracket.Builders.Group.GroupItem = function (group, options) {
         pointsForTie: 1
     }, options);
 
+    function isContestantQualified(group, contestantId) {
+        for (var p = 0, pl = group.qualifiedContestants.length; p < pl; p++) {
+            if (group.qualifiedContestants[p].contestant.id == contestantId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     function getPlayerToGamesMap(group) {
         var result = {};
 
@@ -90,7 +99,10 @@ System.Bracket.Builders.Group.GroupItem = function (group, options) {
             }
 
             body.append($('<tr>' +
-                '<td>' + group.contestants[i].name + '</td>' +
+                '<td>' + 
+                (isContestantQualified(group, group.contestants[i].id) 
+                    ? '<b>'+group.contestants[i].name+'</b>' 
+                    : group.contestants[i].name) + '</td>' +
                 generateGameCells(group.contestants[i].id) +
                 '<td>' + wins + ' - ' + losses + ' - ' + ties + '</td>' +
                 '<td>' + wins * self.options.pointsForWin + '</td>' +

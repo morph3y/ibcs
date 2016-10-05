@@ -8,11 +8,14 @@ namespace Entities
         public virtual string Name { get; set; }
         public virtual TournamentStage Stage { get; set; }
         public virtual IList<Game> Games { get; set; }
-        public virtual IList<Subject> Contestants { get; set; } 
+        public virtual IList<Subject> Contestants { get; set; }
+        public virtual IList<TournamentGroupQualifiedContestant> QualifiedContestants { get; set; } 
 
         public TournamentGroup()
         {
             Games = new List<Game>();
+            Contestants = new List<Subject>();
+            QualifiedContestants = new List<TournamentGroupQualifiedContestant>();
         }
 
         public override int GetHashCode()

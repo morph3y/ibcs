@@ -157,7 +157,7 @@ namespace Business.Tests.Ranking
                 TournamentType = TournamentType.SingleElimination
             };
 
-            _testSubject = new ParentTournamentRankingProvider(tournamentToRank);
+            _testSubject = new LeagueParentTournamentRankingProvider(tournamentToRank);
 
             // Act
             var rankedSubjects = _testSubject.Rank(contestants).ToList();

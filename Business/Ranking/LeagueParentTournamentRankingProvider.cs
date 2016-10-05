@@ -4,17 +4,17 @@ using Entities;
 
 namespace Business.Ranking
 {
-    internal sealed class ParentTournamentRankingProvider : IRankingProvider
+    internal sealed class LeagueParentTournamentRankingProvider : IRankingProvider
     {
-        private readonly Tournament _parentTournament;
-        public ParentTournamentRankingProvider(Tournament parentTournament)
+        private readonly Tournament _tournament;
+        public LeagueParentTournamentRankingProvider(Tournament tournament)
         {
-            _parentTournament = parentTournament;
+            _tournament = tournament;
         }
 
         public IEnumerable<Subject> Rank(IEnumerable<Subject> subjects)
         {
-            var standings = GetStandings(_parentTournament)
+            var standings = GetStandings(_tournament)
                         .OrderByDescending(x => x.Wins)
                         .ThenByDescending(x => x.Ties)
                         .ThenBy(x => x.Losses).ToList();

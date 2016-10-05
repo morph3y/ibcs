@@ -18,7 +18,10 @@ namespace Web.Models.TournamentModels
         public virtual IList<GameViewModel> Games { get; set; }
 
         [DataMember(Name = "contestants")]
-        public virtual IList<SubjectViewModel> Contestants { get; set; } 
+        public virtual IList<SubjectViewModel> Contestants { get; set; }
+
+        [DataMember(Name = "qualifiedContestants")]
+        public virtual IList<TournamentGroupQualifiedContestantViewModel> QualifiedContestants { get; set; } 
 
         public static TournamentGroupViewModel Build(TournamentGroup group)
         {
@@ -26,6 +29,7 @@ namespace Web.Models.TournamentModels
             {
                 Games = new List<GameViewModel>(),
                 Contestants = new List<SubjectViewModel>(),
+                QualifiedContestants = new List<TournamentGroupQualifiedContestantViewModel>(),
                 Id = group.Id,
                 Name = group.Name
             };
@@ -38,6 +42,11 @@ namespace Web.Models.TournamentModels
             foreach (var contenstant in group.Contestants)
             {
                 model.Contestants.Add(SubjectViewModel.Build(contenstant));
+            }
+
+            foreach (var qualifiedContestant in group.QualifiedContestants)
+            {
+                model.QualifiedContestants.Add(TournamentGroupQualifiedContestantViewModel.Build(qualifiedContestant));
             }
 
             return model;

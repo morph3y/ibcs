@@ -3,5 +3,6 @@
     public interface ITournamentDataAdapter : IDataAdapter<Entities.Tournament>
     {
         bool IsInTournament(int memberId, int tournamentId);
+        void DeleteQualifiedContestant(int id);
     }
 }
