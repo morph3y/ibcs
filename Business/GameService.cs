@@ -41,9 +41,12 @@ namespace Business
 
             _tournamentService.Update(game.TournamentStage.Tournament);
 
-            _rankingService.UpdateRank(
+            if (game.TournamentStage.Tournament.IsRanked)
+            {
+                _rankingService.UpdateRank(
                 game.Participant1.Id == game.Winner.Id ? game.Participant1 : game.Participant2,
                 game.Participant1.Id == game.Winner.Id ? game.Participant2 : game.Participant1);
+            }
         }
     }
 }
